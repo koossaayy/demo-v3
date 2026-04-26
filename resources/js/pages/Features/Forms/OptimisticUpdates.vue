@@ -2,6 +2,7 @@
 import { Form, Head, router, useForm } from '@inertiajs/vue3';
 import { Heart } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -10,6 +11,8 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import type { App } from '@/wayfinder/types';
 
+const { t } = useI18n();
+
 interface PageProps {
     contacts: App.Models.Contact[];
 }
@@ -17,8 +20,8 @@ interface PageProps {
 const props = defineProps<PageProps>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
-    { title: 'Optimistic Updates' },
+    { title: t('Forms') },
+    { title: t('Optimistic Updates') },
 ];
 
 const simulateError = ref(false);
@@ -88,19 +91,15 @@ function toggleFavoriteUseForm(
 </script>
 
 <template>
-    <Head title="Optimistic Updates" />
+    <Head :title="$t('Optimistic Updates')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Optimistic Updates"
+                :title="$t('Optimistic Updates')"
                 docs="the-basics/optimistic-updates"
                 controller="app/Http/Controllers/Feature/FormController.php#L81"
-            >
-                Instant UI feedback with automatic rollback on error. Toggle a
-                favorite and notice how the heart fills immediately while the
-                request is still in flight.
-            </FeatureHeader>
+            > {{ $t('Instant UI feedback with automatic rollback on error. Toggle a favorite and notice how the heart fills immediately while the request is still in flight.') }} </FeatureHeader>
 
             <!-- Approach Switcher -->
             <div class="flex flex-wrap gap-2">
@@ -108,13 +107,13 @@ function toggleFavoriteUseForm(
                     :variant="activeTab === 'router' ? 'default' : 'outline'"
                     size="sm"
                     @click="activeTab = 'router'"
-                    >router.optimistic()</Button
+                    >{{ $t('router.optimistic()') }}</Button
                 >
                 <Button
                     :variant="activeTab === 'useForm' ? 'default' : 'outline'"
                     size="sm"
                     @click="activeTab = 'useForm'"
-                    >useForm.optimistic()</Button
+                    >{{ $t('useForm.optimistic()') }}</Button
                 >
                 <Button
                     :variant="
@@ -122,28 +121,25 @@ function toggleFavoriteUseForm(
                     "
                     size="sm"
                     @click="activeTab = 'formComponent'"
-                    >Form :optimistic</Button
+                    >{{ $t('Form :optimistic') }}</Button
                 >
             </div>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Contact List -->
-                <FeatureCard title="Contacts">
+                <FeatureCard :title="$t('Contacts')">
                     <template #description>
                         <template v-if="activeTab === 'router'"
-                            ><code class="text-xs">router.optimistic()</code>.
-                            Declarative prop updates with automatic
-                            rollback.</template
+                            ><code class="text-xs">{{ $t('router.optimistic()') }}</code>{{ $t('. Declarative prop updates with automatic rollback.') }}</template
                         >
                         <template v-else-if="activeTab === 'useForm'"
-                            ><code class="text-xs">useForm().optimistic()</code
-                            >. Chained on the form helper.</template
+                            ><code class="text-xs">{{ $t('useForm().optimistic()') }}</code
+                            >{{ $t('. Chained on the form helper.') }}</template
                         >
                         <template v-else
                             ><code class="text-xs"
-                                >&lt;Form :optimistic&gt;</code
-                            >. Optimistic updates on the Form
-                            component.</template
+                                >{{ $t('<Form :optimistic>') }}</code
+                            >{{ $t('. Optimistic updates on the Form component.') }}</template
                         >
                     </template>
 
@@ -157,9 +153,7 @@ function toggleFavoriteUseForm(
                             v-model="simulateError"
                             class="size-4 rounded border"
                         />
-                        <label for="simulate-error" class="text-sm">
-                            Simulate error (to see rollback)
-                        </label>
+                        <label for="simulate-error" class="text-sm"> {{ $t('Simulate error (to see rollback)') }} </label>
                     </div>
 
                     <!-- Manual / router.optimistic / useForm.optimistic -->
@@ -279,14 +273,12 @@ function toggleFavoriteUseForm(
                     <p
                         v-if="!props.contacts.length"
                         class="py-4 text-center text-sm text-muted-foreground"
-                    >
-                        No contacts found. Seed the database first.
-                    </p>
+                    > {{ $t('No contacts found. Seed the database first.') }} </p>
                 </FeatureCard>
 
                 <!-- Event Log + How It Works -->
                 <div class="space-y-6">
-                    <FeatureCard info-card title="Approach Comparison">
+                    <FeatureCard info-card :title="$t('Approach Comparison')">
                         <div class="space-y-3">
                             <div
                                 class="rounded-md p-3 text-xs"
@@ -297,7 +289,7 @@ function toggleFavoriteUseForm(
                                 "
                             >
                                 <CodeBlock
-                                    title="router.optimistic()"
+                                    :title="$t('router.optimistic()')"
                                     code="router.optimistic((props) => ({
   contacts: /* updated */
 })).post(url, data)"
@@ -312,7 +304,7 @@ function toggleFavoriteUseForm(
                                 "
                             >
                                 <CodeBlock
-                                    title="useForm.optimistic()"
+                                    :title="$t('useForm.optimistic()')"
                                     code="form.optimistic((props) => ({
   contacts: /* updated */
 })).post(url)"
@@ -326,7 +318,7 @@ function toggleFavoriteUseForm(
                                         : 'bg-muted'
                                 "
                             >
-                                <CodeBlock title="<Form :optimistic>">
+                                <CodeBlock :title="$t('<Form :optimistic>')">
                                     <textarea>
 <Form :optimistic="(props, data) => ({
   contacts: /* updated */
@@ -337,13 +329,13 @@ function toggleFavoriteUseForm(
                         </div>
                     </FeatureCard>
 
-                    <FeatureCard info-card title="Event Log">
+                    <FeatureCard info-card :title="$t('Event Log')">
                         <template #header-action>
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 @click="eventLog = []"
-                                >Clear</Button
+                                >{{ $t('Clear') }}</Button
                             >
                         </template>
 
@@ -362,9 +354,7 @@ function toggleFavoriteUseForm(
                                 {{ entry }}
                             </div>
                         </div>
-                        <p v-else class="text-sm text-muted-foreground">
-                            Toggle a favorite to see events here.
-                        </p>
+                        <p v-else class="text-sm text-muted-foreground"> {{ $t('Toggle a favorite to see events here.') }} </p>
                     </FeatureCard>
                 </div>
             </div>

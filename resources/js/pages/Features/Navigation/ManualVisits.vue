@@ -55,30 +55,27 @@ function pushWithPropCallback() {
 </script>
 
 <template>
-    <Head title="Client-Side Visits" />
+    <Head :title="$t('Client-Side Visits')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Client-Side Visits"
+                :title="$t('Client-Side Visits')"
                 docs="the-basics/manual-visits"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L103"
-            >
-                Client-side navigation using router.push() and router.replace().
-                Update the URL and props without a server request.
-            </FeatureHeader>
+            > {{ $t('Client-side navigation using router.push() and router.replace(). Update the URL and props without a server request.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Current State -->
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="Current State"
+                    :title="$t('Current State')"
                 >
                     <div class="flex flex-wrap items-center gap-4">
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-muted-foreground"
-                                >URL:</span
+                                >{{ $t('URL:') }}</span
                             >
                             <Badge
                                 variant="outline"
@@ -88,13 +85,13 @@ function pushWithPropCallback() {
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-muted-foreground"
-                                >Timestamp:</span
+                                >{{ $t('Timestamp:') }}</span
                             >
                             <Badge variant="outline">{{ timestamp }}</Badge>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-muted-foreground"
-                                >Counter:</span
+                                >{{ $t('Counter:') }}</span
                             >
                             <Badge
                                 variant="outline"
@@ -107,83 +104,56 @@ function pushWithPropCallback() {
 
                 <!-- URL Replacement -->
                 <FeatureCard
-                    title="URL Replacement"
-                    description="Change the browser URL without making a server request."
+                    :title="$t('URL Replacement')"
+                    :description="$t('Change the browser URL without making a server request.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">router.push()</h4>
+                            <h4 class="text-sm font-semibold">{{ $t('router.push()') }}</h4>
                             <Button
                                 variant="outline"
                                 class="w-full"
                                 @click="pushUrl()"
-                            >
-                                Push new URL
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                Adds a new history entry. Press Back to return
-                                to the previous URL.
-                            </p>
+                            > {{ $t('Push new URL') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Adds a new history entry. Press Back to return to the previous URL.') }} </p>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                router.replace()
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('router.replace()') }} </h4>
                             <Button
                                 variant="outline"
                                 class="w-full"
                                 @click="replaceUrl()"
-                            >
-                                Replace current URL
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                Overwrites the current history entry. Back skips
-                                this URL.
-                            </p>
+                            > {{ $t('Replace current URL') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Overwrites the current history entry. Back skips this URL.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>
 
                 <!-- Prop Replacement -->
                 <FeatureCard
-                    title="Prop Replacement"
-                    description="Update page props client-side. Use the callback form to spread existing props and override specific ones."
+                    :title="$t('Prop Replacement')"
+                    :description="$t('Update page props client-side. Use the callback form to spread existing props and override specific ones.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                Increment a single prop
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('Increment a single prop') }} </h4>
                             <Button
                                 variant="outline"
                                 class="w-full"
                                 @click="pushWithProps()"
-                            >
-                                Increment counter
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                Spreads current props and overrides counter.
-                                Other props stay unchanged.
-                            </p>
+                            > {{ $t('Increment counter') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Spreads current props and overrides counter. Other props stay unchanged.') }} </p>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                Props callback
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('Props callback') }} </h4>
                             <Button
                                 variant="outline"
                                 class="w-full"
                                 @click="pushWithPropCallback()"
-                            >
-                                Transform props + URL
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                Receives current props as an argument.
-                                Multiplies the counter by 10 and overrides the
-                                timestamp.
-                            </p>
+                            > {{ $t('Transform props + URL') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Receives current props as an argument. Multiplies the counter by 10 and overrides the timestamp.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>

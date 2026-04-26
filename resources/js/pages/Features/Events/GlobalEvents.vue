@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -9,9 +10,11 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Events & Lifecycle' },
-    { title: 'Global Events' },
+    { title: t('Events & Lifecycle') },
+    { title: t('Global Events') },
 ];
 
 const eventLog = ref<string[]>([]);
@@ -59,30 +62,24 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Head title="Global Events" />
+    <Head :title="$t('Global Events')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Global Events"
+                :title="$t('Global Events')"
                 docs="advanced/events#registering-listeners"
                 controller="app/Http/Controllers/Feature/EventController.php#L12"
-            >
-                Router event system with
-                <code class="text-xs">router.on()</code>. Fires on every Inertia
-                request.
-            </FeatureHeader>
+            > {{ $t('Router event system with') }} <code class="text-xs">{{ $t('router.on()') }}</code>{{ $t('. Fires on every Inertia request.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
-                    title="Trigger Events"
-                    description="Perform actions and watch the event log update in real time."
+                    :title="$t('Trigger Events')"
+                    :description="$t('Perform actions and watch the event log update in real time.')"
                 >
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
-                            <Button size="sm" @click="router.reload()">
-                                Reload Page
-                            </Button>
+                            <Button size="sm" @click="router.reload()"> {{ $t('Reload Page') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -93,24 +90,16 @@ onUnmounted(() => {
                                         { preserveScroll: true },
                                     )
                                 "
-                            >
-                                POST Action
-                            </Button>
+                            > {{ $t('POST Action') }} </Button>
                             <Link
                                 href="/features/events/visit-callbacks"
                                 class="inline-flex items-center rounded-md border border-black/10 bg-background px-3 py-1.5 text-sm hover:bg-accent dark:border-white/10"
-                            >
-                                Navigate Away
-                            </Link>
+                            > {{ $t('Navigate Away') }} </Link>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Each action triggers a sequence of events: before →
-                            start → success/error → finish → navigate. The
-                            progress event only fires during file uploads.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Each action triggers a sequence of events: before → start → success/error → finish → navigate. The progress event only fires during file uploads.') }} </p>
 
                         <CodeBlock
-                            title="Cleanup:"
+                            :title="$t('Cleanup:')"
                             code="
                                 const remove = router.on('before', (e) => {
                                   console.log(e.detail.visit.url)
@@ -125,58 +114,56 @@ onUnmounted(() => {
 
                 <FeatureCard
                     info-card
-                    title="Available Events"
-                    description="All events fired by the Inertia router."
+                    :title="$t('Available Events')"
+                    :description="$t('All events fired by the Inertia router.')"
                 >
                     <div class="grid grid-cols-2 gap-2">
                         <Badge variant="outline" class="justify-center"
-                            >before</Badge
+                            >{{ $t('before') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >start</Badge
+                            >{{ $t('start') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >progress</Badge
+                            >{{ $t('progress') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >success</Badge
+                            >{{ $t('success') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >error</Badge
+                            >{{ $t('error') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >finish</Badge
+                            >{{ $t('finish') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >navigate</Badge
+                            >{{ $t('navigate') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >flash</Badge
+                            >{{ $t('flash') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >httpException</Badge
+                            >{{ $t('httpException') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >networkError</Badge
+                            >{{ $t('networkError') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >prefetching</Badge
+                            >{{ $t('prefetching') }}</Badge
                         >
                         <Badge variant="outline" class="justify-center"
-                            >prefetched</Badge
+                            >{{ $t('prefetched') }}</Badge
                         >
                     </div>
                 </FeatureCard>
 
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #description
-                        >Events captured by
-                        <code class="text-xs">router.on()</code> listeners
-                        registered on this page.</template
+                        >{{ $t('Events captured by') }} <code class="text-xs">{{ $t('router.on()') }}</code> {{ $t('listeners registered on this page.') }}</template
                     >
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div
@@ -191,9 +178,7 @@ onUnmounted(() => {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Trigger an action to see events.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Trigger an action to see events.') }} </p>
                 </FeatureCard>
             </div>
         </div>

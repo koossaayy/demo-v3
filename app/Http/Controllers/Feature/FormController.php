@@ -75,7 +75,7 @@ class FormController
 
     public function storeAccount(PrecognitionRequest $request): RedirectResponse
     {
-        return Inertia::flash('message', 'Account created for '.$request->validated('username').'!')->back();
+        return Inertia::flash('message', __('Account created for :validated!', ['validated' => $request->validated('username')]))->back();
     }
 
     public function optimisticUpdates(Request $request): Response
@@ -101,7 +101,7 @@ class FormController
     {
         $data = $request->validated();
 
-        return Inertia::flash('message', 'Form submitted successfully!')
+        return Inertia::flash('message', __('Form submitted successfully!'))
             ->flash('parsedData', $data)
             ->back();
     }
@@ -119,12 +119,12 @@ class FormController
 
         if ($request->boolean('simulate_error')) {
             throw ValidationException::withMessages([
-                'contact' => 'Simulated validation error for optimistic update rollback demo.',
+                'contact' => __('Simulated validation error for optimistic update rollback demo.'),
             ]);
         }
 
         $contact->update(['is_favorite' => ! $contact->is_favorite]);
 
-        return Inertia::flash('message', $contact->is_favorite ? 'Added to favorites.' : 'Removed from favorites.')->back();
+        return Inertia::flash('message', $contact->is_favorite ? __('Added to favorites.') : __('Removed from favorites.'))->back();
     }
 }

@@ -24,23 +24,20 @@ const items = Array.from({ length: 30 }, (_, i) => ({
 </script>
 
 <template>
-    <Head title="Preserve Scroll" />
+    <Head :title="$t('Preserve Scroll')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Preserve Scroll"
+                :title="$t('Preserve Scroll')"
                 docs="advanced/scroll-management#scroll-preservation"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L33"
-            >
-                Scroll position management. Scroll down, then click a reload
-                button to see the difference.
-            </FeatureHeader>
+            > {{ $t('Scroll position management. Scroll down, then click a reload button to see the difference.') }} </FeatureHeader>
 
             <!-- Controls -->
             <FeatureCard
-                title="Reload Options"
-                description="Scroll down the list below, then click a button to reload. Compare scroll behavior."
+                :title="$t('Reload Options')"
+                :description="$t('Scroll down the list below, then click a button to reload. Compare scroll behavior.')"
             >
                 <div class="flex flex-wrap gap-3">
                     <div class="space-y-1">
@@ -51,12 +48,8 @@ const items = Array.from({ length: 30 }, (_, i) => ({
                                     '/features/navigation/preserve-scroll',
                                 )
                             "
-                        >
-                            Default (scroll to top)
-                        </Button>
-                        <p class="text-xs text-muted-foreground">
-                            Page scrolls back to top.
-                        </p>
+                        > {{ $t('Default (scroll to top)') }} </Button>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Page scrolls back to top.') }} </p>
                     </div>
                     <div class="space-y-1">
                         <Button
@@ -66,38 +59,27 @@ const items = Array.from({ length: 30 }, (_, i) => ({
                                     { preserveScroll: true },
                                 )
                             "
-                        >
-                            preserveScroll: true
-                        </Button>
-                        <p class="text-xs text-muted-foreground">
-                            Scroll position maintained.
-                        </p>
+                        > {{ $t('preserveScroll: true') }} </Button>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Scroll position maintained.') }} </p>
                     </div>
                     <div class="space-y-1">
-                        <Button variant="secondary" @click="router.reload()">
-                            router.reload()
-                        </Button>
-                        <p class="text-xs text-muted-foreground">
-                            Reload preserves scroll by default.
-                        </p>
+                        <Button variant="secondary" @click="router.reload()"> {{ $t('router.reload()') }} </Button>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Reload preserves scroll by default.') }} </p>
                     </div>
                 </div>
                 <div class="mt-3 flex items-center gap-2">
                     <span class="text-sm text-muted-foreground"
-                        >Server timestamp:</span
+                        >{{ $t('Server timestamp:') }}</span
                     >
                     <Badge variant="outline">{{ timestamp }}</Badge>
                 </div>
             </FeatureCard>
 
             <!-- Scroll Region Demo -->
-            <FeatureCard title="Scroll Region">
-                <template #description>
-                    This container has
-                    <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                        >scroll-region</code
-                    >. Inertia tracks its scroll position separately.
-                </template>
+            <FeatureCard :title="$t('Scroll Region')">
+                <template #description> {{ $t('This container has') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                        >{{ $t('scroll-region') }}</code
+                    >{{ $t('. Inertia tracks its scroll position separately.') }} </template>
                 <div
                     class="h-64 overflow-y-auto rounded-md border border-black/10 dark:border-white/10"
                     scroll-region

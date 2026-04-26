@@ -48,11 +48,11 @@ watch(search, (value) => {
 </script>
 
 <template>
-    <Head title="Organizations" />
+    <Head :title="$t('Organizations')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-1 flex-col gap-4 p-4">
-            <h1 class="text-2xl font-semibold tracking-tight">Organizations</h1>
+            <h1 class="text-2xl font-semibold tracking-tight">{{ $t('Organizations') }}</h1>
 
             <!-- Search -->
             <div class="relative max-w-sm">
@@ -61,7 +61,7 @@ watch(search, (value) => {
                 />
                 <Input
                     v-model="search"
-                    placeholder="Search organizations..."
+                    :placeholder="$t('Search organizations...')"
                     class="pl-9"
                 />
             </div>
@@ -84,7 +84,7 @@ watch(search, (value) => {
                     </div>
                     <Badge variant="outline">
                         {{ org.contacts_count }}
-                        {{ org.contacts_count === 1 ? 'contact' : 'contacts' }}
+                        {{ org.contacts_count === 1 ? $t('contact') : $t('contacts') }}
                     </Badge>
                 </Link>
             </div>
@@ -93,7 +93,7 @@ watch(search, (value) => {
                 v-if="props.organizations.data.length === 0"
                 class="flex flex-col items-center justify-center py-12 text-center"
             >
-                <p class="text-muted-foreground">No organizations found.</p>
+                <p class="text-muted-foreground">{{ $t('No organizations found.') }}</p>
             </div>
 
             <!-- Pagination Links -->

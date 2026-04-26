@@ -35,29 +35,27 @@ function visitReplace() {
 </script>
 
 <template>
-    <Head title="History Management" />
+    <Head :title="$t('History Management')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="History Management"
+                :title="$t('History Management')"
                 docs="the-basics/manual-visits#browser-history"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L45"
-            >
-                Control how visits affect the browser history stack.
-            </FeatureHeader>
+            > {{ $t('Control how visits affect the browser history stack.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Current State -->
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="Current State"
+                    :title="$t('Current State')"
                 >
                     <div class="flex flex-wrap items-center gap-4">
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-muted-foreground"
-                                >Visit #</span
+                                >{{ $t('Visit #') }}</span
                             >
                             <Badge
                                 variant="secondary"
@@ -67,7 +65,7 @@ function visitReplace() {
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-muted-foreground"
-                                >URL:</span
+                                >{{ $t('URL:') }}</span
                             >
                             <Badge
                                 variant="outline"
@@ -77,7 +75,7 @@ function visitReplace() {
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-muted-foreground"
-                                >Timestamp:</span
+                                >{{ $t('Timestamp:') }}</span
                             >
                             <Badge variant="outline" class="text-xs">{{
                                 timestamp
@@ -88,8 +86,8 @@ function visitReplace() {
 
                 <!-- Push vs Replace -->
                 <FeatureCard
-                    title="replace: true vs push"
-                    description="Push adds a new history entry. Replace overwrites the current one. Click each a few times, then use the browser Back button to see the difference."
+                    :title="$t('replace: true vs push')"
+                    :description="$t('Push adds a new history entry. Replace overwrites the current one. Click each a few times, then use the browser Back button to see the difference.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
@@ -97,31 +95,21 @@ function visitReplace() {
                                 variant="outline"
                                 class="w-full"
                                 @click="visitPush()"
-                            >
-                                Push (default)
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                Each click adds a history entry. Back returns to
-                                the previous visit.
-                            </p>
+                            > {{ $t('Push (default)') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Each click adds a history entry. Back returns to the previous visit.') }} </p>
                         </div>
 
                         <div class="space-y-2">
-                            <Button class="w-full" @click="visitReplace()">
-                                Replace
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                Each click overwrites the current entry. Back
-                                skips replaced visits entirely.
-                            </p>
+                            <Button class="w-full" @click="visitReplace()"> {{ $t('Replace') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Each click overwrites the current entry. Back skips replaced visits entirely.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>
 
                 <!-- preserveUrl -->
                 <FeatureCard
-                    title="preserveUrl: true"
-                    description="Makes a server request but keeps the browser URL unchanged. First use the Push button a few times to increase the visit number, then try these."
+                    :title="$t('preserveUrl: true')"
+                    :description="$t('Makes a server request but keeps the browser URL unchanged. First use the Push button a few times to increase the visit number, then try these.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
@@ -137,13 +125,8 @@ function visitReplace() {
                                         },
                                     )
                                 "
-                            >
-                                POST (preserveUrl)
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                The timestamp updates but the URL stays the
-                                same.
-                            </p>
+                            > {{ $t('POST (preserveUrl)') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('The timestamp updates but the URL stays the same.') }} </p>
                         </div>
 
                         <div class="space-y-2">
@@ -159,12 +142,8 @@ function visitReplace() {
                                         },
                                     )
                                 "
-                            >
-                                POST (default)
-                            </Button>
-                            <p class="text-xs text-muted-foreground">
-                                For comparison. The URL may update.
-                            </p>
+                            > {{ $t('POST (default)') }} </Button>
+                            <p class="text-xs text-muted-foreground"> {{ $t('For comparison. The URL may update.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>

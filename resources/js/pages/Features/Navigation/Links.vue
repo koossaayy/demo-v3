@@ -49,12 +49,12 @@ function manualVisit(method: string) {
 </script>
 
 <template>
-    <Head title="Links & Methods" />
+    <Head :title="$t('Links & Methods')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Links & Methods"
+                :title="$t('Links & Methods')"
                 docs="the-basics/links"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L13"
             >
@@ -66,11 +66,11 @@ function manualVisit(method: string) {
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="Server Response"
+                    :title="$t('Server Response')"
                 >
                     <div class="flex items-center gap-2">
                         <span class="text-sm text-muted-foreground"
-                            >Server timestamp:</span
+                            >{{ $t('Server timestamp:') }}</span
                         >
                         <Badge variant="outline">{{ timestamp }}</Badge>
                     </div>
@@ -78,14 +78,12 @@ function manualVisit(method: string) {
 
                 <!-- Link Component -->
                 <FeatureCard
-                    title="<Link> Component"
-                    description="Client-side navigation that avoids full page reloads."
+                    :title="$t('<Link> Component')"
+                    :description="$t('Client-side navigation that avoids full page reloads.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                GET Link (default)
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('GET Link (default)') }} </h4>
                             <Link
                                 href="/features/navigation/links"
                                 class="text-sm text-primary underline underline-offset-2"
@@ -95,52 +93,40 @@ function manualVisit(method: string) {
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                POST as button
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('POST as button') }} </h4>
                             <Link
                                 href="/features/navigation/links"
                                 method="post"
                                 as="button"
                                 preserve-scroll
                                 class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90"
-                            >
-                                POST Request
-                            </Link>
+                            > {{ $t('POST Request') }} </Link>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">PUT as button</h4>
+                            <h4 class="text-sm font-semibold">{{ $t('PUT as button') }}</h4>
                             <Link
                                 href="/features/navigation/links"
                                 method="put"
                                 as="button"
                                 preserve-scroll
                                 class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90"
-                            >
-                                PUT Request
-                            </Link>
+                            > {{ $t('PUT Request') }} </Link>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                DELETE as button
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('DELETE as button') }} </h4>
                             <Link
                                 href="/features/navigation/links"
                                 method="delete"
                                 as="button"
                                 preserve-scroll
                                 class="inline-flex items-center rounded-md bg-destructive px-3 py-1.5 text-sm text-destructive-foreground hover:bg-destructive/90"
-                            >
-                                DELETE Request
-                            </Link>
+                            > {{ $t('DELETE Request') }} </Link>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                Link with data
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('Link with data') }} </h4>
                             <Link
                                 href="/features/navigation/links"
                                 method="post"
@@ -148,30 +134,24 @@ function manualVisit(method: string) {
                                 :data="{ name: 'Inertia' }"
                                 preserve-scroll
                                 class="inline-flex items-center rounded-md border border-black/10 bg-background px-3 py-1.5 text-sm hover:bg-accent dark:border-white/10"
-                            >
-                                POST with payload
-                            </Link>
+                            > {{ $t('POST with payload') }} </Link>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                Link with custom headers
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('Link with custom headers') }} </h4>
                             <Link
                                 href="/features/navigation/links"
                                 :headers="{ 'X-Custom-Header': 'demo' }"
                                 class="text-sm text-primary underline underline-offset-2"
-                            >
-                                GET with custom header
-                            </Link>
+                            > {{ $t('GET with custom header') }} </Link>
                         </div>
                     </div>
                 </FeatureCard>
 
                 <!-- Manual Visits -->
                 <FeatureCard
-                    title="Programmatic Visits"
-                    description="Navigate using router.get(), router.post(), etc."
+                    :title="$t('Programmatic Visits')"
+                    :description="$t('Navigate using router.get(), router.post(), etc.')"
                 >
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
@@ -179,38 +159,36 @@ function manualVisit(method: string) {
                                 variant="outline"
                                 size="sm"
                                 @click="manualVisit('get')"
-                                >router.get()</Button
+                                >{{ $t('router.get()') }}</Button
                             >
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="manualVisit('post')"
-                                >router.post()</Button
+                                >{{ $t('router.post()') }}</Button
                             >
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="manualVisit('put')"
-                                >router.put()</Button
+                                >{{ $t('router.put()') }}</Button
                             >
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="manualVisit('patch')"
-                                >router.patch()</Button
+                                >{{ $t('router.patch()') }}</Button
                             >
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="manualVisit('delete')"
-                                >router.delete()</Button
+                                >{{ $t('router.delete()') }}</Button
                             >
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                router.reload()
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('router.reload()') }} </h4>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -229,12 +207,12 @@ function manualVisit(method: string) {
                             class="mt-4 rounded-md border border-black/10 p-3 dark:border-white/10"
                         >
                             <div class="mb-2 flex items-center justify-between">
-                                <h4 class="text-sm font-semibold">Event Log</h4>
+                                <h4 class="text-sm font-semibold">{{ $t('Event Log') }}</h4>
                                 <Button
                                     variant="ghost"
                                     size="sm"
                                     @click="eventLog = []"
-                                    >Clear</Button
+                                    >{{ $t('Clear') }}</Button
                                 >
                             </div>
                             <div v-if="eventLog.length" class="space-y-1">
@@ -246,9 +224,7 @@ function manualVisit(method: string) {
                                     {{ entry }}
                                 </div>
                             </div>
-                            <p v-else class="text-xs text-muted-foreground">
-                                Click a button to see events.
-                            </p>
+                            <p v-else class="text-xs text-muted-foreground"> {{ $t('Click a button to see events.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>

@@ -17,7 +17,7 @@ class HttpController
     public function useHttpApi(Request $request): JsonResponse
     {
         return response()->json([
-            'message' => 'Hello, '.$request->string('name', 'World').'!',
+            'message' => __('Hello, :string!', ['string' => $request->string('name', __('World'))]),
             'timestamp' => now()->toISOString(),
         ]);
     }
