@@ -19,33 +19,21 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
-    <Head title="When Visible" />
+    <Head :title="$t('When Visible')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="When Visible"
+                :title="$t('When Visible')"
                 docs="data-props/load-when-visible"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L70"
-            >
-                Viewport-triggered data loading using
-                <code class="text-xs">Inertia::optional()</code> +
+            > {{ $t('Viewport-triggered data loading using') }} <code class="text-xs">{{ $t('Inertia::optional()') }}</code> +
                 <code class="text-xs">&lt;WhenVisible&gt;</code>.
             </FeatureHeader>
 
-            <FeatureCard title="How It Works">
-                <template #description>
-                    Each section below uses
-                    <code class="text-xs">Inertia::optional()</code> on the
-                    server and
-                    <code class="text-xs">&lt;WhenVisible&gt;</code> on the
-                    client. Data is only fetched when the component scrolls into
-                    the viewport.
-                </template>
-                <p class="text-sm text-muted-foreground">
-                    Scroll down to trigger each section. Each has a simulated
-                    server delay.
-                </p>
+            <FeatureCard :title="$t('How It Works')">
+                <template #description> {{ $t('Each section below uses') }} <code class="text-xs">{{ $t('Inertia::optional()') }}</code> {{ $t('on the server and') }} <code class="text-xs">&lt;WhenVisible&gt;</code> {{ $t('on the client. Data is only fetched when the component scrolls into the viewport.') }} </template>
+                <p class="text-sm text-muted-foreground"> {{ $t('Scroll down to trigger each section. Each has a simulated server delay.') }} </p>
             </FeatureCard>
 
             <!-- Spacer to force scrolling -->
@@ -58,7 +46,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
 
             <!-- Section 1: Contact list (~500ms) -->
-            <FeatureCard title="Recent Contacts">
+            <FeatureCard :title="$t('Recent Contacts')">
                 <WhenVisible data="section1">
                     <template #fallback>
                         <div class="space-y-2">
@@ -95,11 +83,8 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
 
             <!-- Section 2: Stats (~800ms) -->
-            <FeatureCard title="Statistics">
-                <template #description>
-                    Loaded with <code class="text-xs">:buffer="200"</code>.
-                    Starts loading 200px before visible.
-                </template>
+            <FeatureCard :title="$t('Statistics')">
+                <template #description> {{ $t('Loaded with') }} <code class="text-xs">{{ $t(':buffer="200"') }}</code>{{ $t('. Starts loading 200px before visible.') }} </template>
                 <WhenVisible data="section2" :buffer="200">
                     <template #fallback>
                         <div class="flex gap-4">
@@ -134,7 +119,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
 
             <!-- Section 3: Favorites (~600ms) -->
-            <FeatureCard title="Favorite Contacts">
+            <FeatureCard :title="$t('Favorite Contacts')">
                 <WhenVisible data="section3">
                     <template #fallback>
                         <div class="space-y-2">
@@ -156,9 +141,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <span class="text-yellow-500">&#9733;</span>
                         </div>
                     </div>
-                    <p v-else class="text-sm text-muted-foreground">
-                        No favorite contacts found.
-                    </p>
+                    <p v-else class="text-sm text-muted-foreground"> {{ $t('No favorite contacts found.') }} </p>
                 </WhenVisible>
             </FeatureCard>
         </div>

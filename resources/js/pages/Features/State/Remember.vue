@@ -27,36 +27,34 @@ const counter = useRemember({ count: 0 }, 'remember-counter');
 </script>
 
 <template>
-    <Head title="Remember" />
+    <Head :title="$t('Remember')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Remember"
+                :title="$t('Remember')"
                 docs="data-props/remembering-state"
                 controller="app/Http/Controllers/Feature/StateController.php#L11"
-            >
-                State persistence across browser history navigation with
-                <code class="text-xs">useRemember()</code>.
+            > {{ $t('State persistence across browser history navigation with') }} <code class="text-xs">{{ $t('useRemember()') }}</code>.
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Form state -->
                 <FeatureCard
-                    title="Remembered Form State"
-                    description="Fill in fields, navigate away, then press the browser back button. The form state is restored."
+                    :title="$t('Remembered Form State')"
+                    :description="$t('Fill in fields, navigate away, then press the browser back button. The form state is restored.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
-                            <Label for="name">Name</Label>
+                            <Label for="name">{{ $t('Name') }}</Label>
                             <Input
                                 id="name"
                                 v-model="form.name"
-                                placeholder="John Doe"
+                                :placeholder="$t('John Doe')"
                             />
                         </div>
                         <div class="space-y-2">
-                            <Label for="email">Email</Label>
+                            <Label for="email">{{ $t('Email') }}</Label>
                             <Input
                                 id="email"
                                 type="text"
@@ -65,13 +63,13 @@ const counter = useRemember({ count: 0 }, 'remember-counter');
                             />
                         </div>
                         <div class="space-y-2">
-                            <Label for="notes">Notes</Label>
+                            <Label for="notes">{{ $t('Notes') }}</Label>
                             <textarea
                                 id="notes"
                                 v-model="form.notes"
                                 rows="3"
                                 class="flex w-full rounded-md border border-input/60 bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-                                placeholder="Some notes..."
+                                :placeholder="$t('Some notes...')"
                             />
                         </div>
 
@@ -79,9 +77,7 @@ const counter = useRemember({ count: 0 }, 'remember-counter');
                             <Link
                                 href="/contacts"
                                 class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                            >
-                                Navigate Away
-                            </Link>
+                            > {{ $t('Navigate Away') }} </Link>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -90,24 +86,15 @@ const counter = useRemember({ count: 0 }, 'remember-counter');
                                     form.email = '';
                                     form.notes = '';
                                 "
-                            >
-                                Clear Fields
-                            </Button>
+                            > {{ $t('Clear Fields') }} </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Fill fields, click "Navigate Away", then press
-                            browser Back. Fields will be restored.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Fill fields, click "Navigate Away", then press browser Back. Fields will be restored.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Counter state -->
-                <FeatureCard info-card title="Remembered Counter">
-                    <template #description>
-                        A separate
-                        <code class="text-xs">useRemember()</code> instance with
-                        its own key.
-                    </template>
+                <FeatureCard info-card :title="$t('Remembered Counter')">
+                    <template #description> {{ $t('A separate') }} <code class="text-xs">{{ $t('useRemember()') }}</code> {{ $t('instance with its own key.') }} </template>
                     <div class="space-y-4">
                         <div class="flex items-center gap-4">
                             <Button
@@ -131,26 +118,17 @@ const counter = useRemember({ count: 0 }, 'remember-counter');
                         <Link
                             href="/contacts"
                             class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                        >
-                            Navigate Away
-                        </Link>
-                        <p class="text-xs text-muted-foreground">
-                            Increment the counter, click "Navigate Away", then
-                            press browser Back. The counter value is restored.
-                        </p>
+                        > {{ $t('Navigate Away') }} </Link>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Increment the counter, click "Navigate Away", then press browser Back. The counter value is restored.') }} </p>
 
                         <div
                             class="rounded-lg border border-black/5 bg-neutral-50/80 p-3 font-mono text-xs dark:border-white/5 dark:bg-neutral-900/80"
                         >
-                            <p><strong>Manual API:</strong></p>
+                            <p><strong>{{ $t('Manual API:') }}</strong></p>
                             <p class="mt-1">
-                                <code>router.remember(data, 'key')</code>. Save
-                                state
-                            </p>
+                                <code>{{ $t('router.remember(data, \'key\')') }}</code>{{ $t('. Save state') }} </p>
                             <p>
-                                <code>router.restore('key')</code>. Restore
-                                state
-                            </p>
+                                <code>{{ $t('router.restore(\'key\')') }}</code>{{ $t('. Restore state') }} </p>
                         </div>
                     </div>
                 </FeatureCard>

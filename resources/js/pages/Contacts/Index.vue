@@ -73,18 +73,16 @@ function toggleFavoriteFilter() {
 </script>
 
 <template>
-    <Head title="Contacts" />
+    <Head :title="$t('Contacts')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 p-4">
             <!-- Header -->
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-semibold tracking-tight">Contacts</h1>
+                <h1 class="text-2xl font-semibold tracking-tight">{{ $t('Contacts') }}</h1>
                 <Button as-child>
                     <Link :href="contactRoutes.create().url">
-                        <Plus class="size-4" />
-                        Add Contact
-                    </Link>
+                        <Plus class="size-4" /> {{ $t('Add Contact') }} </Link>
                 </Button>
             </div>
 
@@ -96,7 +94,7 @@ function toggleFavoriteFilter() {
                     />
                     <Input
                         v-model="search"
-                        placeholder="Search contacts..."
+                        :placeholder="$t('Search contacts...')"
                         class="pl-9"
                     />
                 </div>
@@ -109,9 +107,7 @@ function toggleFavoriteFilter() {
                     <Heart
                         class="size-4"
                         :class="{ 'fill-current text-red-500': favoriteFilter }"
-                    />
-                    Favorites
-                </Button>
+                    /> {{ $t('Favorites') }} </Button>
             </div>
 
             <!-- Contact List -->
@@ -155,9 +151,7 @@ function toggleFavoriteFilter() {
 
                 <template #loading>
                     <div class="flex justify-center py-4">
-                        <div class="text-sm text-muted-foreground">
-                            Loading more contacts...
-                        </div>
+                        <div class="text-sm text-muted-foreground"> {{ $t('Loading more contacts...') }} </div>
                     </div>
                 </template>
             </InfiniteScroll>
@@ -166,7 +160,7 @@ function toggleFavoriteFilter() {
                 v-if="props.contacts.data.length === 0"
                 class="flex flex-col items-center justify-center py-12 text-center"
             >
-                <p class="text-muted-foreground">No contacts found.</p>
+                <p class="text-muted-foreground">{{ $t('No contacts found.') }}</p>
             </div>
         </div>
     </AppLayout>

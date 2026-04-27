@@ -43,34 +43,31 @@ function submitWithTransform() {
 </script>
 
 <template>
-    <Head title="useForm" />
+    <Head :title="$t('useForm')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="useForm"
+                :title="$t('useForm')"
                 docs="the-basics/forms#form-helper"
                 controller="app/Http/Controllers/Feature/FormController.php#L22"
-            >
-                Complete useForm API demonstration with all reactive state and
-                methods.
-            </FeatureHeader>
+            > {{ $t('Complete useForm API demonstration with all reactive state and methods.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Form -->
                 <FeatureCard
-                    title="Demo Form"
-                    description="Fill out the form to see reactive state changes in real time."
+                    :title="$t('Demo Form')"
+                    :description="$t('Fill out the form to see reactive state changes in real time.')"
                 >
                     <form class="space-y-4" @submit.prevent="submit">
                         <div class="space-y-2">
-                            <Label for="name">Name</Label>
+                            <Label for="name">{{ $t('Name') }}</Label>
                             <Input id="name" v-model="form.name" />
                             <InputError :message="form.errors.name" />
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="email">Email</Label>
+                            <Label for="email">{{ $t('Email') }}</Label>
                             <Input
                                 id="email"
                                 type="text"
@@ -80,28 +77,28 @@ function submitWithTransform() {
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="bio">Bio</Label>
+                            <Label for="bio">{{ $t('Bio') }}</Label>
                             <textarea
                                 id="bio"
                                 v-model="form.bio"
                                 rows="3"
                                 class="flex w-full rounded-md border border-input/60 bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-                                placeholder="Tell us about yourself..."
+                                :placeholder="$t('Tell us about yourself...')"
                             />
                             <InputError :message="form.errors.bio" />
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="role">Role</Label>
+                            <Label for="role">{{ $t('Role') }}</Label>
                             <select
                                 id="role"
                                 v-model="form.role"
                                 class="flex h-9 w-full rounded-md border border-input/60 bg-background px-3 py-1 text-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                             >
-                                <option value="developer">Developer</option>
-                                <option value="designer">Designer</option>
-                                <option value="manager">Manager</option>
-                                <option value="other">Other</option>
+                                <option value="developer">{{ $t('Developer') }}</option>
+                                <option value="designer">{{ $t('Designer') }}</option>
+                                <option value="manager">{{ $t('Manager') }}</option>
+                                <option value="other">{{ $t('Other') }}</option>
                             </select>
                             <InputError :message="form.errors.role" />
                         </div>
@@ -114,7 +111,7 @@ function submitWithTransform() {
                                 class="size-4 rounded border"
                             />
                             <Label for="subscribe"
-                                >Subscribe to newsletter</Label
+                                >{{ $t('Subscribe to newsletter') }}</Label
                             >
                         </div>
 
@@ -135,16 +132,14 @@ function submitWithTransform() {
                         <div class="flex flex-wrap items-center gap-2 pt-2">
                             <Button type="submit" :disabled="form.processing">
                                 {{
-                                    form.processing ? 'Submitting...' : 'Submit'
+                                    form.processing ? $t('Submitting...') : $t('Submit')
                                 }}
                             </Button>
                             <Button
                                 type="button"
                                 variant="secondary"
                                 @click="submitWithTransform"
-                            >
-                                Submit with Transform
-                            </Button>
+                            > {{ $t('Submit with Transform') }} </Button>
                         </div>
                     </form>
                 </FeatureCard>
@@ -153,13 +148,13 @@ function submitWithTransform() {
                 <div class="space-y-6">
                     <FeatureCard
                         info-card
-                        title="Reactive State"
-                        description="These values update in real time as you interact with the form."
+                        :title="$t('Reactive State')"
+                        :description="$t('These values update in real time as you interact with the form.')"
                     >
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >processing</span
+                                    >{{ $t('processing') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -171,7 +166,7 @@ function submitWithTransform() {
                                 >
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium">isDirty</span>
+                                <span class="text-sm font-medium">{{ $t('isDirty') }}</span>
                                 <Badge
                                     :variant="
                                         form.isDirty ? 'default' : 'secondary'
@@ -181,7 +176,7 @@ function submitWithTransform() {
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >hasErrors</span
+                                    >{{ $t('hasErrors') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -194,7 +189,7 @@ function submitWithTransform() {
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >wasSuccessful</span
+                                    >{{ $t('wasSuccessful') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -207,7 +202,7 @@ function submitWithTransform() {
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >recentlySuccessful</span
+                                    >{{ $t('recentlySuccessful') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -220,7 +215,7 @@ function submitWithTransform() {
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >progress</span
+                                    >{{ $t('progress') }}</span
                                 >
                                 <Badge variant="secondary">{{
                                     form.progress?.percentage ?? 'null'
@@ -232,8 +227,8 @@ function submitWithTransform() {
                     <!-- Form Data -->
                     <FeatureCard
                         info-card
-                        title="Form Data"
-                        description="Current form values that will be submitted."
+                        :title="$t('Form Data')"
+                        :description="$t('Current form values that will be submitted.')"
                     >
                         <CodeBlock
                             :code="JSON.stringify(form.data(), null, 2)"
@@ -241,7 +236,7 @@ function submitWithTransform() {
                     </FeatureCard>
 
                     <!-- Errors -->
-                    <FeatureCard info-card v-if="form.hasErrors" title="Errors">
+                    <FeatureCard info-card v-if="form.hasErrors" :title="$t('Errors')">
                         <CodeBlock
                             :code="JSON.stringify(form.errors, null, 2)"
                         />
@@ -250,38 +245,30 @@ function submitWithTransform() {
                     <!-- Actions -->
                     <FeatureCard
                         info-card
-                        title="Actions"
-                        description="Methods available on the useForm instance."
+                        :title="$t('Actions')"
+                        :description="$t('Methods available on the useForm instance.')"
                     >
                         <div class="flex flex-wrap gap-2">
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="form.reset()"
-                            >
-                                reset()
-                            </Button>
+                            > {{ $t('reset()') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="form.clearErrors()"
-                            >
-                                clearErrors()
-                            </Button>
+                            > {{ $t('clearErrors()') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="form.cancel()"
-                            >
-                                cancel()
-                            </Button>
+                            > {{ $t('cancel()') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="form.defaults()"
-                            >
-                                defaults()
-                            </Button>
+                            > {{ $t('defaults()') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -291,9 +278,7 @@ function submitWithTransform() {
                                         'This is a manual error',
                                     )
                                 "
-                            >
-                                setError('name', ...)
-                            </Button>
+                            > {{ $t('setError(\'name\', ...)') }} </Button>
                         </div>
                     </FeatureCard>
                 </div>

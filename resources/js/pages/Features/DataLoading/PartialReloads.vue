@@ -29,29 +29,26 @@ function log(message: string) {
 </script>
 
 <template>
-    <Head title="Partial Reloads" />
+    <Head :title="$t('Partial Reloads')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Partial Reloads"
+                :title="$t('Partial Reloads')"
                 docs="data-props/partial-reloads"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L39"
-            >
-                Selectively reload specific props using
-                <code class="text-xs">only</code> and
-                <code class="text-xs">except</code>.
+            > {{ $t('Selectively reload specific props using') }} <code class="text-xs">{{ $t('only') }}</code> {{ $t('and') }} <code class="text-xs">{{ $t('except') }}</code>.
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Current Props -->
                 <FeatureCard
-                    title="Current Props"
-                    description="Each prop updates independently when reloaded."
+                    :title="$t('Current Props')"
+                    :description="$t('Each prop updates independently when reloaded.')"
                 >
                     <div class="space-y-4">
                         <div>
-                            <h4 class="mb-1 text-sm font-semibold">Users</h4>
+                            <h4 class="mb-1 text-sm font-semibold">{{ $t('Users') }}</h4>
                             <div class="space-y-1">
                                 <div
                                     v-for="user in users"
@@ -67,7 +64,7 @@ function log(message: string) {
                         </div>
 
                         <div>
-                            <h4 class="mb-1 text-sm font-semibold">Stats</h4>
+                            <h4 class="mb-1 text-sm font-semibold">{{ $t('Stats') }}</h4>
                             <div class="flex gap-3">
                                 <Badge variant="secondary"
                                     >Total: {{ stats.total }}</Badge
@@ -81,13 +78,13 @@ function log(message: string) {
                         <div class="flex items-center gap-4">
                             <div>
                                 <span class="text-xs text-muted-foreground"
-                                    >Timestamp</span
+                                    >{{ $t('Timestamp') }}</span
                                 >
                                 <p class="font-mono text-sm">{{ timestamp }}</p>
                             </div>
                             <div>
                                 <span class="text-xs text-muted-foreground"
-                                    >Random</span
+                                    >{{ $t('Random') }}</span
                                 >
                                 <p class="font-mono text-sm">
                                     {{ randomNumber }}
@@ -98,17 +95,11 @@ function log(message: string) {
                 </FeatureCard>
 
                 <!-- Reload Controls -->
-                <FeatureCard title="Reload Controls">
-                    <template #description>
-                        Use <code class="text-xs">only</code> and
-                        <code class="text-xs">except</code> to target specific
-                        props.
-                    </template>
+                <FeatureCard :title="$t('Reload Controls')">
+                    <template #description> {{ $t('Use') }} <code class="text-xs">{{ $t('only') }}</code> {{ $t('and') }} <code class="text-xs">{{ $t('except') }}</code> {{ $t('to target specific props.') }} </template>
                     <div class="space-y-4">
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                router.reload({ only: [...] })
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('router.reload({ only: [...] })') }} </h4>
                             <div class="flex flex-wrap gap-2">
                                 <Button
                                     variant="outline"
@@ -155,9 +146,7 @@ function log(message: string) {
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                router.reload({ except: [...] })
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('router.reload({ except: [...] })') }} </h4>
                             <div class="flex flex-wrap gap-2">
                                 <Button
                                     variant="outline"
@@ -193,7 +182,7 @@ function log(message: string) {
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">Full Reload</h4>
+                            <h4 class="text-sm font-semibold">{{ $t('Full Reload') }}</h4>
                             <Button
                                 @click="
                                     router.reload({
@@ -208,10 +197,10 @@ function log(message: string) {
                 </FeatureCard>
 
                 <!-- Event Log -->
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div v-if="eventLog.length" class="space-y-1">
@@ -223,9 +212,7 @@ function log(message: string) {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Click buttons above to see reload events.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Click buttons above to see reload events.') }} </p>
                 </FeatureCard>
             </div>
         </div>

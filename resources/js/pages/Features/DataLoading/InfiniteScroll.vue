@@ -43,63 +43,52 @@ function applyFilter() {
 </script>
 
 <template>
-    <Head title="Infinite Scroll" />
+    <Head :title="$t('Infinite Scroll')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Infinite Scroll"
+                :title="$t('Infinite Scroll')"
                 docs="data-props/infinite-scroll"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L56"
-            >
-                Auto, manual, and manual-after modes using
-                <code class="text-xs">Inertia::scroll()</code> with pagination.
-            </FeatureHeader>
+            > {{ $t('Auto, manual, and manual-after modes using') }} <code class="text-xs">{{ $t('Inertia::scroll()') }}</code> {{ $t('with pagination.') }} </FeatureHeader>
 
             <!-- Mode selector -->
             <FeatureCard
-                title="Scroll Mode"
-                description="Switch between InfiniteScroll modes. The list below updates accordingly."
+                :title="$t('Scroll Mode')"
+                :description="$t('Switch between InfiniteScroll modes. The list below updates accordingly.')"
             >
                 <div class="flex flex-wrap gap-2">
                     <Button
                         :variant="mode === 'auto' ? 'default' : 'outline'"
                         size="sm"
                         @click="mode = 'auto'"
-                    >
-                        Auto (default)
-                    </Button>
+                    > {{ $t('Auto (default)') }} </Button>
                     <Button
                         :variant="mode === 'manual' ? 'default' : 'outline'"
                         size="sm"
                         @click="mode = 'manual'"
-                    >
-                        Manual
-                    </Button>
+                    > {{ $t('Manual') }} </Button>
                     <Button
                         :variant="
                             mode === 'manual-after' ? 'default' : 'outline'
                         "
                         size="sm"
                         @click="mode = 'manual-after'"
-                    >
-                        Manual After 2 Pages
-                    </Button>
+                    > {{ $t('Manual After 2 Pages') }} </Button>
                     <Button
                         :variant="mode === 'reset' ? 'default' : 'outline'"
                         size="sm"
                         @click="mode = 'reset'"
-                    >
-                        Reset on Filter
-                    </Button>
+                    > {{ $t('Reset on Filter') }} </Button>
                 </div>
             </FeatureCard>
 
             <!-- Auto mode -->
             <FeatureCard
                 v-if="mode === 'auto'"
-                title="Auto Mode"
-                description="Loads more items automatically as you scroll near the bottom. The buffer (200px) triggers loading before you reach the end for a smoother experience."
+                :title="$t('Auto Mode')"
+                :description="$t('Loads more items automatically as you scroll near the bottom. The buffer (200px) triggers loading before you reach the end for a smoother experience.')"
             >
                 <InfiniteScroll
                     data="contacts"
@@ -123,7 +112,7 @@ function applyFilter() {
                         <div class="flex items-center gap-2">
                             <Badge
                                 v-if="contact.organization"
-                                variant="outline"
+                                :variant="$t('outline')"
                                 class="text-xs"
                                 >{{ contact.organization.name }}</Badge
                             >
@@ -138,9 +127,7 @@ function applyFilter() {
                     <template #loading>
                         <div
                             class="py-3 text-center text-sm text-muted-foreground"
-                        >
-                            Loading more contacts...
-                        </div>
+                        > {{ $t('Loading more contacts...') }} </div>
                     </template>
                 </InfiniteScroll>
             </FeatureCard>
@@ -148,8 +135,8 @@ function applyFilter() {
             <!-- Manual mode -->
             <FeatureCard
                 v-if="mode === 'manual'"
-                title="Manual Mode"
-                description="Click the button to load more items. No automatic loading."
+                :title="$t('Manual Mode')"
+                :description="$t('Click the button to load more items. No automatic loading.')"
             >
                 <InfiniteScroll
                     ref="infiniteScrollRef"
@@ -174,7 +161,7 @@ function applyFilter() {
                         <div class="flex items-center gap-2">
                             <Badge
                                 v-if="contact.organization"
-                                variant="outline"
+                                :variant="$t('outline')"
                                 class="text-xs"
                                 >{{ contact.organization.name }}</Badge
                             >
@@ -189,19 +176,17 @@ function applyFilter() {
                     <template #next="{ loading, fetch, hasMore }">
                         <div v-if="hasMore" class="pt-3 text-center">
                             <Button
-                                variant="outline"
+                                :variant="$t('outline')"
                                 :disabled="loading"
                                 @click="fetch"
                             >
-                                {{ loading ? 'Loading...' : 'Load More' }}
+                                {{ loading ? $t('Loading...') : $t('Load More') }}
                             </Button>
                         </div>
                         <p
                             v-else
                             class="pt-3 text-center text-sm text-muted-foreground"
-                        >
-                            No more contacts.
-                        </p>
+                        > {{ $t('No more contacts.') }} </p>
                     </template>
                 </InfiniteScroll>
             </FeatureCard>
@@ -209,8 +194,8 @@ function applyFilter() {
             <!-- Manual-after mode -->
             <FeatureCard
                 v-if="mode === 'manual-after'"
-                title="Manual After 2 Pages"
-                description="Auto-loads for the first 2 pages, then switches to a manual button."
+                :title="$t('Manual After 2 Pages')"
+                :description="$t('Auto-loads for the first 2 pages, then switches to a manual button.')"
             >
                 <InfiniteScroll
                     data="contacts"
@@ -234,7 +219,7 @@ function applyFilter() {
                         <div class="flex items-center gap-2">
                             <Badge
                                 v-if="contact.organization"
-                                variant="outline"
+                                :variant="$t('outline')"
                                 class="text-xs"
                                 >{{ contact.organization.name }}</Badge
                             >
@@ -249,9 +234,7 @@ function applyFilter() {
                     <template #loading>
                         <div
                             class="py-3 text-center text-sm text-muted-foreground"
-                        >
-                            Loading more contacts...
-                        </div>
+                        > {{ $t('Loading more contacts...') }} </div>
                     </template>
 
                     <template #next="{ loading, fetch, hasMore, manualMode }">
@@ -260,11 +243,11 @@ function applyFilter() {
                             class="pt-3 text-center"
                         >
                             <Button
-                                variant="outline"
+                                :variant="$t('outline')"
                                 :disabled="loading"
                                 @click="fetch"
                             >
-                                {{ loading ? 'Loading...' : 'Load More' }}
+                                {{ loading ? $t('Loading...') : $t('Load More') }}
                             </Button>
                         </div>
                     </template>
@@ -272,11 +255,8 @@ function applyFilter() {
             </FeatureCard>
 
             <!-- Reset mode -->
-            <FeatureCard v-if="mode === 'reset'" title="Reset on Filter Change">
-                <template #description>
-                    Use <code class="text-xs">reset: ['contacts']</code> to
-                    clear loaded pages when filters change.
-                </template>
+            <FeatureCard v-if="mode === 'reset'" :title="$t('Reset on Filter Change')">
+                <template #description> {{ $t('Use') }} <code class="text-xs">{{ $t('reset: [\'contacts\']') }}</code> {{ $t('to clear loaded pages when filters change.') }} </template>
                 <div
                     class="mb-4 flex items-center gap-2 rounded-md bg-muted p-3"
                 >
@@ -287,9 +267,7 @@ function applyFilter() {
                         @change="applyFilter"
                         class="size-4 rounded border"
                     />
-                    <label for="favorites-filter" class="text-sm">
-                        Show favorites only
-                    </label>
+                    <label for="favorites-filter" class="text-sm"> {{ $t('Show favorites only') }} </label>
                 </div>
 
                 <InfiniteScroll data="contacts" class="space-y-2" preserve-url>
@@ -309,7 +287,7 @@ function applyFilter() {
                         <div class="flex items-center gap-2">
                             <Badge
                                 v-if="contact.organization"
-                                variant="outline"
+                                :variant="$t('outline')"
                                 class="text-xs"
                                 >{{ contact.organization.name }}</Badge
                             >
@@ -324,25 +302,20 @@ function applyFilter() {
                     <template #loading>
                         <div
                             class="py-3 text-center text-sm text-muted-foreground"
-                        >
-                            Loading more contacts...
-                        </div>
+                        > {{ $t('Loading more contacts...') }} </div>
                     </template>
                 </InfiniteScroll>
 
                 <div class="mt-4 space-y-2">
                     <CodeBlock
-                        title="Code"
+                        :title="$t('Code')"
                         code="router.reload({
   data: { favorites: '1' },
   only: ['contacts'],
   reset: ['contacts'], // Clears loaded pages
 })"
                     />
-                    <p class="text-sm text-muted-foreground">
-                        Without <code>reset</code>, new filtered results would
-                        merge with stale pages.
-                    </p>
+                    <p class="text-sm text-muted-foreground"> {{ $t('Without') }} <code>{{ $t('reset') }}</code>{{ $t(', new filtered results would merge with stale pages.') }} </p>
                 </div>
             </FeatureCard>
         </div>
