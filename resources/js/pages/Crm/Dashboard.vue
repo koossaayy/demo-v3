@@ -13,6 +13,9 @@ import { type BreadcrumbItem } from '@/types';
 import { dashboard } from '@/wayfinder/routes';
 import contacts from '@/wayfinder/routes/contacts';
 import type { Inertia } from '@/wayfinder/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<
     Omit<
@@ -26,14 +29,14 @@ defineProps<
 >();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: dashboard().url },
+    { title: t('Dashboard'), href: dashboard().url },
 ];
 
 usePoll(30000, { only: ['recentActivity'] });
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="$t('Dashboard')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
@@ -42,7 +45,7 @@ usePoll(30000, { only: ['recentActivity'] });
                 <Card>
                     <CardHeader>
                         <CardTitle class="text-sm font-medium"
-                            >Total Contacts</CardTitle
+                            >{{ $t('Total Contacts') }}</CardTitle
                         >
                     </CardHeader>
                     <CardContent>
@@ -60,7 +63,7 @@ usePoll(30000, { only: ['recentActivity'] });
                 <Card>
                     <CardHeader>
                         <CardTitle class="text-sm font-medium"
-                            >Organizations</CardTitle
+                            >{{ $t('Organizations') }}</CardTitle
                         >
                     </CardHeader>
                     <CardContent>
@@ -78,7 +81,7 @@ usePoll(30000, { only: ['recentActivity'] });
                 <Card>
                     <CardHeader>
                         <CardTitle class="text-sm font-medium"
-                            >Notes This Week</CardTitle
+                            >{{ $t('Notes This Week') }}</CardTitle
                         >
                     </CardHeader>
                     <CardContent>
@@ -97,18 +100,16 @@ usePoll(30000, { only: ['recentActivity'] });
             <!-- Recent Activity -->
             <Card>
                 <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
+                    <CardTitle>{{ $t('Recent Activity') }}</CardTitle>
                     <CardDescription
-                        >Latest notes added across all contacts</CardDescription
+                        >{{ $t('Latest notes added across all contacts') }}</CardDescription
                     >
                 </CardHeader>
                 <CardContent>
                     <div
                         v-if="recentActivity.length === 0"
                         class="py-4 text-center text-sm text-muted-foreground"
-                    >
-                        No recent activity.
-                    </div>
+                    > {{ $t('No recent activity.') }} </div>
                     <div v-else class="space-y-2">
                         <div
                             v-for="note in recentActivity"
@@ -121,7 +122,7 @@ usePoll(30000, { only: ['recentActivity'] });
                                         note.user?.name
                                     }}</span>
                                     <span class="text-xs text-muted-foreground"
-                                        >added a note on</span
+                                        >{{ $t('added a note on') }}</span
                                     >
                                     <Link
                                         v-if="note.contact"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -8,9 +9,11 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Events & Lifecycle' },
-    { title: 'Visit Callbacks' },
+    { title: t('Events & Lifecycle') },
+    { title: t('Visit Callbacks') },
 ];
 
 const eventLog = ref<string[]>([]);
@@ -96,124 +99,113 @@ function triggerWithCancelToken() {
 </script>
 
 <template>
-    <Head title="Visit Callbacks" />
+    <Head :title="$t('Visit Callbacks')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Visit Callbacks"
+                :title="$t('Visit Callbacks')"
                 docs="advanced/events#event-callbacks"
                 controller="app/Http/Controllers/Feature/EventController.php#L22"
-            >
-                Per-visit event hooks passed as options to
-                <code class="text-xs">router.visit()</code>,
-                <code class="text-xs">router.post()</code>, etc.
-            </FeatureHeader>
+            > {{ $t('Per-visit event hooks passed as options to') }} <code class="text-xs">{{ $t('router.visit()') }}</code>,
+                <code class="text-xs">{{ $t('router.post()') }}</code>{{ $t(', etc.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
-                    title="Trigger Callbacks"
-                    description="Each button demonstrates different visit callback behaviors."
+                    :title="$t('Trigger Callbacks')"
+                    :description="$t('Each button demonstrates different visit callback behaviors.')"
                 >
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
-                            <Button size="sm" @click="triggerWithCallbacks">
-                                Full Lifecycle
-                            </Button>
+                            <Button size="sm" @click="triggerWithCallbacks"> {{ $t('Full Lifecycle') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="triggerWithCancel"
-                            >
-                                Cancel via onBefore
-                            </Button>
+                            > {{ $t('Cancel via onBefore') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 @click="triggerWithCancelToken"
-                            >
-                                Cancel via Token
-                            </Button>
+                            > {{ $t('Cancel via Token') }} </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Watch the event log to see the callback sequence.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Watch the event log to see the callback sequence.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <FeatureCard
                     info-card
-                    title="Available Callbacks"
-                    description="All per-visit event hooks."
+                    :title="$t('Available Callbacks')"
+                    :description="$t('All per-visit event hooks.')"
                 >
                     <div class="space-y-2 text-xs">
                         <div class="flex justify-between">
-                            <code>onBefore</code>
+                            <code>{{ $t('onBefore') }}</code>
                             <span class="text-muted-foreground"
-                                >Return false to cancel</span
+                                >{{ $t('Return false to cancel') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onCancelToken</code>
+                            <code>{{ $t('onCancelToken') }}</code>
                             <span class="text-muted-foreground"
-                                >Receive cancel token</span
+                                >{{ $t('Receive cancel token') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onStart</code>
+                            <code>{{ $t('onStart') }}</code>
                             <span class="text-muted-foreground"
-                                >Request started</span
+                                >{{ $t('Request started') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onProgress</code>
+                            <code>{{ $t('onProgress') }}</code>
                             <span class="text-muted-foreground"
-                                >Upload progress</span
+                                >{{ $t('Upload progress') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onSuccess</code>
+                            <code>{{ $t('onSuccess') }}</code>
                             <span class="text-muted-foreground"
-                                >2xx response</span
+                                >{{ $t('2xx response') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onError</code>
+                            <code>{{ $t('onError') }}</code>
                             <span class="text-muted-foreground"
-                                >422 validation errors</span
+                                >{{ $t('422 validation errors') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onHttpException</code>
+                            <code>{{ $t('onHttpException') }}</code>
                             <span class="text-muted-foreground"
-                                >Non-Inertia responses</span
+                                >{{ $t('Non-Inertia responses') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onNetworkError</code>
+                            <code>{{ $t('onNetworkError') }}</code>
                             <span class="text-muted-foreground"
-                                >Network failures</span
+                                >{{ $t('Network failures') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onCancel</code>
+                            <code>{{ $t('onCancel') }}</code>
                             <span class="text-muted-foreground"
-                                >Visit was cancelled</span
+                                >{{ $t('Visit was cancelled') }}</span
                             >
                         </div>
                         <div class="flex justify-between">
-                            <code>onFinish</code>
+                            <code>{{ $t('onFinish') }}</code>
                             <span class="text-muted-foreground"
-                                >Always runs last</span
+                                >{{ $t('Always runs last') }}</span
                             >
                         </div>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div
@@ -228,15 +220,13 @@ function triggerWithCancelToken() {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Click a button to see visit callbacks.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Click a button to see visit callbacks.') }} </p>
                 </FeatureCard>
 
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="Code Example"
+                    :title="$t('Code Example')"
                 >
                     <CodeBlock
                         code="

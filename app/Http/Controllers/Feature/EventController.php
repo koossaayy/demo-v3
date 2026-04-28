@@ -16,7 +16,7 @@ class EventController
 
     public function globalEventsAction(): RedirectResponse
     {
-        return Inertia::flash('message', 'Action completed successfully!')->back();
+        return Inertia::flash('message', __('Action completed successfully!'))->back();
     }
 
     public function visitCallbacks(): Response
@@ -26,7 +26,7 @@ class EventController
 
     public function visitCallbacksAction(): RedirectResponse
     {
-        return Inertia::flash('message', 'Visit callback action completed!')->back();
+        return Inertia::flash('message', __('Visit callback action completed!'))->back();
     }
 
     public function progress(): Response

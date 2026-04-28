@@ -19,7 +19,7 @@ class NavigationController
 
     public function linksAction(Request $request): RedirectResponse
     {
-        return Inertia::flash('message', strtoupper($request->method()).' request received at '.now()->toTimeString())->back();
+        return Inertia::flash('message', __(':strtoupper request received at :toTimeString', ['strtoupper' => strtoupper($request->method()), 'toTimeString' => now()->toTimeString()]))->back();
     }
 
     public function preserveState(): Response
@@ -80,7 +80,7 @@ class NavigationController
     {
         return Inertia::render('Features/Navigation/InstantVisits', [
             'sourceTimestamp' => now()->toDateTimeString(),
-            'message' => 'This is the source page.',
+            'message' => __('This is the source page.'),
         ]);
     }
 
@@ -90,12 +90,12 @@ class NavigationController
         Sleep::for(min($delay, 5))->seconds();
 
         return Inertia::render('Features/Navigation/InstantVisitTarget', [
-            'greeting' => 'Hello from the server!',
+            'greeting' => __('Hello from the server!'),
             'serverTimestamp' => now()->toDateTimeString(),
             'items' => [
-                ['id' => 1, 'name' => 'Server Item A'],
-                ['id' => 2, 'name' => 'Server Item B'],
-                ['id' => 3, 'name' => 'Server Item C'],
+                ['id' => 1, 'name' => __('Server Item A')],
+                ['id' => 2, 'name' => __('Server Item B')],
+                ['id' => 3, 'name' => __('Server Item C')],
             ],
         ]);
     }
@@ -117,12 +117,12 @@ class NavigationController
 
     public function redirectStandard(): RedirectResponse
     {
-        return Inertia::flash('message', 'Redirected back via redirect()->back()')->back();
+        return Inertia::flash('message', __('Redirected back via redirect()->back()'))->back();
     }
 
     public function redirectToRoute(): RedirectResponse
     {
-        Inertia::flash('message', 'Redirected via to_route()');
+        Inertia::flash('message', __('Redirected via to_route()'));
 
         return to_route('features.navigation.redirects');
     }
@@ -138,7 +138,7 @@ class NavigationController
             'timestamp' => now()->toDateTimeString(),
             'items' => collect(range(1, 50))->map(fn (int $i) => [
                 'id' => $i,
-                'title' => "Item #{$i}",
+                'title' => __('Item #:i', ['i' => $i]),
                 'description' => fake()->sentence(),
             ])->all(),
         ]);
@@ -165,7 +165,7 @@ class NavigationController
     {
         return Inertia::render('Features/Navigation/UrlFragments', [
             'timestamp' => now()->toDateTimeString(),
-            'redirectedFrom' => 'preserveFragment redirect',
+            'redirectedFrom' => __('preserveFragment redirect'),
         ]);
     }
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -9,6 +10,8 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import {
+
+const { t } = useI18n();
     httpException403,
     httpException404,
     httpException500,
@@ -16,8 +19,8 @@ import {
 } from '@/wayfinder/App/Http/Controllers/Feature/NetworkErrorController';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Error Handling' },
-    { title: 'HTTP Exceptions' },
+    { title: t('Error Handling') },
+    { title: t('HTTP Exceptions') },
 ];
 
 const eventLog = ref<string[]>([]);
@@ -34,7 +37,7 @@ function toggleIntercept() {
         removeListener?.();
         removeListener = null;
         interceptEnabled.value = false;
-        log('Global httpException listener removed');
+        log(t('Global httpException listener removed'));
     } else {
         removeListener = router.on('httpException', (event) => {
             event.preventDefault();
@@ -43,7 +46,7 @@ function toggleIntercept() {
             );
         });
         interceptEnabled.value = true;
-        log('Global httpException listener registered');
+        log(t('Global httpException listener registered'));
     }
 }
 
@@ -70,48 +73,38 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Head title="HTTP Exceptions" />
+    <Head :title="$t('HTTP Exceptions')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="HTTP Exceptions"
+                :title="$t('HTTP Exceptions')"
                 docs="advanced/error-handling"
                 controller="app/Http/Controllers/Feature/NetworkErrorController.php#L10"
-            >
-                Errors handled by
-                <code class="text-xs">handleExceptionsUsing()</code> render as
-                full Inertia pages. Unhandled errors can be intercepted
-                client-side with <code class="text-xs">onHttpException</code>.
+            > {{ $t('Errors handled by') }} <code class="text-xs">{{ $t('handleExceptionsUsing()') }}</code> {{ $t('render as full Inertia pages. Unhandled errors can be intercepted client-side with') }} <code class="text-xs">{{ $t('onHttpException') }}</code>.
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
-                    title="Server-Handled Errors"
+                    :title="$t('Server-Handled Errors')"
                     description="These status codes are handled by handleExceptionsUsing() and render the ErrorPage component. Use your browser's back button to return."
                 >
                     <div class="flex flex-wrap gap-2">
                         <Button as-child variant="outline" size="sm">
-                            <Link :href="httpException403.url()">
-                                403 Forbidden
-                            </Link>
+                            <Link :href="httpException403.url()"> {{ $t('403 Forbidden') }} </Link>
                         </Button>
                         <Button as-child variant="outline" size="sm">
-                            <Link :href="httpException404.url()">
-                                404 Not Found
-                            </Link>
+                            <Link :href="httpException404.url()"> {{ $t('404 Not Found') }} </Link>
                         </Button>
                         <Button as-child variant="destructive" size="sm">
-                            <Link :href="httpException500.url()">
-                                500 Server Error
-                            </Link>
+                            <Link :href="httpException500.url()"> {{ $t('500 Server Error') }} </Link>
                         </Button>
                     </div>
                 </FeatureCard>
 
                 <FeatureCard
-                    title="Client-Side Interception"
-                    description="Errors NOT handled server-side trigger the httpException event. Enable interception to suppress the default error modal and stay on this page."
+                    :title="$t('Client-Side Interception')"
+                    :description="$t('Errors NOT handled server-side trigger the httpException event. Enable interception to suppress the default error modal and stay on this page.')"
                 >
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
@@ -122,7 +115,7 @@ onUnmounted(() => {
                                 size="sm"
                                 @click="toggleIntercept"
                             >
-                                {{ interceptEnabled ? 'Disable' : 'Enable' }}
+                                {{ interceptEnabled ? $t('Disable') : $t('Enable') }}
                                 Interception
                             </Button>
                             <Badge
@@ -130,28 +123,22 @@ onUnmounted(() => {
                                     interceptEnabled ? 'default' : 'secondary'
                                 "
                             >
-                                {{ interceptEnabled ? 'Active' : 'Inactive' }}
+                                {{ interceptEnabled ? $t('Active') : $t('Inactive') }}
                             </Badge>
                         </div>
                         <Button
                             variant="outline"
                             size="sm"
                             @click="triggerUnhandledError"
-                        >
-                            418 I'm a Teapot
-                        </Button>
-                        <p class="text-xs text-muted-foreground">
-                            Without interception, this shows the default error
-                            modal. With interception enabled,
-                            <code>event.preventDefault()</code> suppresses it.
-                        </p>
+                        > {{ $t('418 I\'m a Teapot') }} </Button>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Without interception, this shows the default error modal. With interception enabled,') }} <code>{{ $t('event.preventDefault()') }}</code> {{ $t('suppresses it.') }} </p>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div
@@ -166,19 +153,17 @@ onUnmounted(() => {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Enable interception and trigger an error to see events.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Enable interception and trigger an error to see events.') }} </p>
                 </FeatureCard>
 
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="API Reference"
+                    :title="$t('API Reference')"
                 >
                     <div class="grid gap-3 sm:grid-cols-2">
                         <CodeBlock
-                            title="Server-side (handled):"
+                            :title="$t('Server-side (handled):')"
                             code="Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
   if (in_array($response->statusCode(), [403, 404, 419, 429, 500, 503])) {
     return $response->render('ErrorPage', [
@@ -188,7 +173,7 @@ onUnmounted(() => {
 });"
                         />
                         <CodeBlock
-                            title="Client-side (intercepted):"
+                            :title="$t('Client-side (intercepted):')"
                             code="router.on('httpException', (event) => {
   console.log(event.detail.response)
   event.preventDefault()
