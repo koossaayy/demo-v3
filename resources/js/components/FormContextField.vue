@@ -21,7 +21,7 @@ const form = useFormContext();
             <span
                 v-if="form?.touched(name)"
                 class="text-xs text-muted-foreground"
-                >touched</span
+                >{{ $t('touched') }}</span
             >
         </div>
         <Input

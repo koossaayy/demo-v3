@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, resetLayoutProps, setLayoutProps } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -9,13 +10,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 
+const { t } = useI18n();
+
 defineOptions({
     layout: [
         AppLayout,
         {
             breadcrumbs: [
-                { title: 'Layouts & Head' },
-                { title: 'Layout Props' },
+                { title: t('Layouts & Head') },
+                { title: t('Layout Props') },
             ],
         },
     ],
@@ -36,35 +39,31 @@ function reset() {
 </script>
 
 <template>
-    <Head title="Layout Props" />
+    <Head :title="$t('Layout Props')" />
 
     <div class="flex h-full flex-1 flex-col gap-6 p-4">
         <FeatureHeader
-            title="Layout Props"
+            :title="$t('Layout Props')"
             docs="the-basics/layouts#layout-props"
             controller="app/Http/Controllers/Feature/LayoutController.php#L30"
-        >
-            Pass data from pages to layouts with
-            <code class="text-xs">setLayoutProps()</code> and regular component
-            props.
-        </FeatureHeader>
+        > {{ $t('Pass data from pages to layouts with') }} <code class="text-xs">{{ $t('setLayoutProps()') }}</code> {{ $t('and regular component props.') }} </FeatureHeader>
 
         <div class="grid gap-6 lg:grid-cols-2">
             <FeatureCard
-                title="setLayoutProps()"
-                description="Type a subtitle and click Apply. A banner appears below the breadcrumbs."
+                :title="$t('setLayoutProps()')"
+                :description="$t('Type a subtitle and click Apply. A banner appears below the breadcrumbs.')"
             >
                 <div class="space-y-4">
                     <div class="space-y-2">
-                        <Label for="subtitle">Subtitle</Label>
+                        <Label :for="$t('subtitle')">{{ $t('Subtitle') }}</Label>
                         <div class="flex gap-2">
                             <Input
-                                id="subtitle"
+                                :id="$t('subtitle')"
                                 v-model="subtitle"
-                                placeholder="Enter a subtitle..."
+                                :placeholder="$t('Enter a subtitle...')"
                                 @keyup.enter="apply"
                             />
-                            <Button @click="apply">Apply</Button>
+                            <Button @click="apply">{{ $t('Apply') }}</Button>
                         </div>
                     </div>
 
@@ -76,9 +75,7 @@ function reset() {
                                 subtitle = 'Welcome back!';
                                 apply();
                             "
-                        >
-                            "Welcome back!"
-                        </Button>
+                        > {{ $t('"Welcome back!"') }} </Button>
                         <Button
                             variant="outline"
                             size="sm"
@@ -86,33 +83,24 @@ function reset() {
                                 subtitle = 'Maintenance scheduled tonight';
                                 apply();
                             "
-                        >
-                            "Maintenance..."
-                        </Button>
-                        <Button variant="outline" size="sm" @click="reset">
-                            Reset
-                        </Button>
+                        > {{ $t('"Maintenance..."') }} </Button>
+                        <Button variant="outline" size="sm" @click="reset"> {{ $t('Reset') }} </Button>
                     </div>
 
-                    <p class="text-xs text-muted-foreground">
-                        The layout declares a <code>subtitle</code> prop with a
-                        default value. Pages override it with
-                        <code>setLayoutProps()</code>. Dynamic props auto-reset
-                        on navigation.
-                    </p>
+                    <p class="text-xs text-muted-foreground"> {{ $t('The layout declares a') }} <code>{{ $t('subtitle') }}</code> {{ $t('prop with a default value. Pages override it with') }} <code>{{ $t('setLayoutProps()') }}</code>{{ $t('. Dynamic props auto-reset on navigation.') }} </p>
                 </div>
             </FeatureCard>
 
             <!-- API Reference -->
             <FeatureCard
                 info-card
-                title="API Reference"
-                description="The complete layout props API."
+                :title="$t('API Reference')"
+                :description="$t('The complete layout props API.')"
             >
                 <div class="space-y-3">
                     <div class="space-y-2">
                         <CodeBlock
-                            title="In Layout:"
+                            :title="$t('In Layout:')"
                             code="defineProps({
   subtitle: {
     type: String,
@@ -121,12 +109,12 @@ function reset() {
 })"
                         />
                         <CodeBlock
-                            title="In Page:"
+                            :title="$t('In Page:')"
                             code="setLayoutProps({
   subtitle: 'Custom subtitle',
 })"
                         />
-                        <CodeBlock title="Reset:" code="resetLayoutProps()" />
+                        <CodeBlock :title="$t('Reset:')" code="resetLayoutProps()" />
                     </div>
                 </div>
             </FeatureCard>

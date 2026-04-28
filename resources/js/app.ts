@@ -1,6 +1,7 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import '../css/app.css';
 import { initializeTheme } from './composables/useAppearance';
+import './i18n-setup';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Inertia Kitchen Sink';
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, useHttp } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -12,7 +13,9 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { useHttpApi } from '@/wayfinder/App/Http/Controllers/Feature/HttpController';
 
-const breadcrumbs: BreadcrumbItem[] = [{ title: 'HTTP' }, { title: 'useHttp' }];
+const { t } = useI18n();
+
+const breadcrumbs: BreadcrumbItem[] = [{ title: t('HTTP') }, { title: 'useHttp' }];
 
 interface ApiResponse {
     message: string;
@@ -39,34 +42,29 @@ function cancelRequest() {
 </script>
 
 <template>
-    <Head title="useHttp" />
+    <Head :title="$t('useHttp')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="useHttp"
+                :title="$t('useHttp')"
                 docs="the-basics/http-requests"
                 controller="app/Http/Controllers/Feature/HttpController.php#L12"
-            >
-                Non-Inertia HTTP requests with
-                <code class="text-xs">useHttp()</code>. Like
-                <code class="text-xs">useForm()</code> but returns JSON, no page
-                visit.
-            </FeatureHeader>
+            > {{ $t('Non-Inertia HTTP requests with') }} <code class="text-xs">{{ $t('useHttp()') }}</code>{{ $t('. Like') }} <code class="text-xs">{{ $t('useForm()') }}</code> {{ $t('but returns JSON, no page visit.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Demo form -->
                 <FeatureCard
-                    title="API Request Demo"
-                    description="Send a POST request to a JSON endpoint. No page navigation occurs."
+                    :title="$t('API Request Demo')"
+                    :description="$t('Send a POST request to a JSON endpoint. No page navigation occurs.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
-                            <Label for="name">Your Name</Label>
+                            <Label for="name">{{ $t('Your Name') }}</Label>
                             <Input
                                 id="name"
                                 v-model="http.name"
-                                placeholder="Enter your name..."
+                                :placeholder="$t('Enter your name...')"
                             />
                         </div>
                         <div class="flex items-center gap-2">
@@ -77,8 +75,8 @@ function cancelRequest() {
                             >
                                 {{
                                     http.processing
-                                        ? 'Sending...'
-                                        : 'Send Request'
+                                        ? $t('Sending...')
+                                        : $t('Send Request')
                                 }}
                             </Button>
                             <Button
@@ -86,27 +84,23 @@ function cancelRequest() {
                                 variant="destructive"
                                 size="sm"
                                 @click="cancelRequest"
-                            >
-                                Cancel
-                            </Button>
+                            > {{ $t('Cancel') }} </Button>
                             <span
                                 v-if="cancelled"
                                 class="text-sm text-muted-foreground"
-                                >Request cancelled</span
+                                >{{ $t('Request cancelled') }}</span
                             >
                         </div>
                     </div>
                 </FeatureCard>
 
                 <!-- Reactive state -->
-                <FeatureCard info-card title="Reactive State">
-                    <template #description>
-                        All the state properties from
-                        <code class="text-xs">useHttp()</code>.
+                <FeatureCard info-card :title="$t('Reactive State')">
+                    <template #description> {{ $t('All the state properties from') }} <code class="text-xs">{{ $t('useHttp()') }}</code>.
                     </template>
                     <div class="space-y-2 text-sm">
                         <div class="flex items-center justify-between">
-                            <span>processing</span>
+                            <span>{{ $t('processing') }}</span>
                             <Badge
                                 :variant="
                                     http.processing ? 'default' : 'secondary'
@@ -115,7 +109,7 @@ function cancelRequest() {
                             >
                         </div>
                         <div class="flex items-center justify-between">
-                            <span>isDirty</span>
+                            <span>{{ $t('isDirty') }}</span>
                             <Badge
                                 :variant="
                                     http.isDirty ? 'default' : 'secondary'
@@ -124,7 +118,7 @@ function cancelRequest() {
                             >
                         </div>
                         <div class="flex items-center justify-between">
-                            <span>wasSuccessful</span>
+                            <span>{{ $t('wasSuccessful') }}</span>
                             <Badge
                                 :variant="
                                     http.wasSuccessful ? 'default' : 'secondary'
@@ -133,7 +127,7 @@ function cancelRequest() {
                             >
                         </div>
                         <div class="flex items-center justify-between">
-                            <span>recentlySuccessful</span>
+                            <span>{{ $t('recentlySuccessful') }}</span>
                             <Badge
                                 :variant="
                                     http.recentlySuccessful
@@ -144,7 +138,7 @@ function cancelRequest() {
                             >
                         </div>
                         <div class="flex items-center justify-between">
-                            <span>hasErrors</span>
+                            <span>{{ $t('hasErrors') }}</span>
                             <Badge
                                 :variant="
                                     http.hasErrors ? 'destructive' : 'secondary'
@@ -158,41 +152,32 @@ function cancelRequest() {
                 <!-- Response display -->
                 <FeatureCard
                     info-card
-                    title="Response"
-                    description="The JSON response from the API endpoint."
+                    :title="$t('Response')"
+                    :description="$t('The JSON response from the API endpoint.')"
                 >
                     <CodeBlock
                         v-if="response"
                         :code="JSON.stringify(response, null, 2)"
                     />
-                    <p v-else class="text-xs text-muted-foreground">
-                        Send a request to see the response.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Send a request to see the response.') }} </p>
                 </FeatureCard>
 
                 <!-- Key differences -->
                 <FeatureCard
                     info-card
-                    title="useHttp vs useForm"
-                    description="When to use which."
+                    :title="$t('useHttp vs useForm')"
+                    :description="$t('When to use which.')"
                 >
                     <div class="space-y-3 text-xs">
                         <div
                             class="rounded-md border border-black/10 p-2 dark:border-white/10"
                         >
-                            <p class="font-semibold">useForm()</p>
-                            <p class="text-muted-foreground">
-                                Triggers Inertia page visits. Server returns
-                                Inertia responses. Page component gets swapped.
-                            </p>
+                            <p class="font-semibold">{{ $t('useForm()') }}</p>
+                            <p class="text-muted-foreground"> {{ $t('Triggers Inertia page visits. Server returns Inertia responses. Page component gets swapped.') }} </p>
                         </div>
                         <div class="rounded-md border-2 border-primary p-2">
-                            <p class="font-semibold">useHttp()</p>
-                            <p class="text-muted-foreground">
-                                Plain HTTP requests. Server returns JSON. No
-                                page navigation. Great for API endpoints,
-                                toggles, status checks.
-                            </p>
+                            <p class="font-semibold">{{ $t('useHttp()') }}</p>
+                            <p class="text-muted-foreground"> {{ $t('Plain HTTP requests. Server returns JSON. No page navigation. Great for API endpoints, toggles, status checks.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>

@@ -16,7 +16,7 @@ class DataLoadingController
     public function deferredProps(): Response
     {
         return Inertia::render('Features/DataLoading/DeferredProps', [
-            'quickStat' => 'Loaded instantly',
+            'quickStat' => __('Loaded instantly'),
             'slowStats' => Inertia::defer(function () {
                 Sleep::for(800)->milliseconds();
 
@@ -137,7 +137,7 @@ class DataLoadingController
             'notifications' => Inertia::merge([
                 [
                     'id' => random_int(1000, 9999),
-                    'message' => 'Notification at '.now()->toTimeString(),
+                    'message' => __('Notification at :toTimeString', ['toTimeString' => now()->toTimeString()]),
                     'type' => Arr::random(['info', 'success', 'warning', 'error', 'alert', 'update', 'reminder', 'system', 'promo', 'social']),
                 ],
             ]),
@@ -164,7 +164,7 @@ class DataLoadingController
         return Inertia::render('Features/DataLoading/OptionalProps', [
             'regularData' => [
                 'timestamp' => now()->toDateTimeString(),
-                'message' => 'This prop is always included in the response.',
+                'message' => __('This prop is always included in the response.'),
             ],
             'optionalData' => Inertia::optional(function () {
                 Sleep::for(500)->milliseconds();

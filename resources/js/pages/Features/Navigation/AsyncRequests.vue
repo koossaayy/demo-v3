@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
 import { Badge } from '@/components/ui/badge';
@@ -8,13 +9,15 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
+const { t } = useI18n();
+
 defineProps<{
     timestamp: string;
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Navigation' },
-    { title: 'Async Requests' },
+    { title: t('Navigation') },
+    { title: t('Async Requests') },
 ];
 
 const eventLog = ref<string[]>([]);
@@ -85,95 +88,67 @@ function cancelRequest() {
     if (cancelToken) {
         cancelToken.cancel();
     } else {
-        log('No active cancellable request');
+        log(t('No active cancellable request'));
     }
 }
 </script>
 
 <template>
-    <Head title="Async Requests" />
+    <Head :title="$t('Async Requests')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Async Requests"
+                :title="$t('Async Requests')"
                 docs="the-basics/manual-visits"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L58"
-            >
-                Request queuing behavior. Sync (default) vs async concurrent
-                requests.
-            </FeatureHeader>
+            > {{ $t('Request queuing behavior. Sync (default) vs async concurrent requests.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Sync Requests -->
                 <FeatureCard
-                    title="Synchronous (Default)"
-                    description="Each new request cancels any in-flight request. Click rapidly to see cancellation."
+                    :title="$t('Synchronous (Default)')"
+                    :description="$t('Each new request cancels any in-flight request. Click rapidly to see cancellation.')"
                 >
                     <div class="space-y-3">
-                        <Button @click="sendSyncRequest()">
-                            Send Sync Request
-                        </Button>
-                        <p class="text-xs text-muted-foreground">
-                            Click multiple times quickly. Previous requests get
-                            cancelled.
-                        </p>
+                        <Button @click="sendSyncRequest()"> {{ $t('Send Sync Request') }} </Button>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Click multiple times quickly. Previous requests get cancelled.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Async Requests -->
-                <FeatureCard title="Async (Concurrent)">
-                    <template #description>
-                        With
-                        <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                            >async: true</code
-                        >, requests run concurrently without cancelling each
-                        other.
-                    </template>
+                <FeatureCard :title="$t('Async (Concurrent)')">
+                    <template #description> {{ $t('With') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                            >{{ $t('async: true') }}</code
+                        >{{ $t(', requests run concurrently without cancelling each other.') }} </template>
                     <div class="space-y-3">
-                        <Button @click="sendAsyncRequest()">
-                            Send Async Request
-                        </Button>
-                        <p class="text-xs text-muted-foreground">
-                            Click multiple times. All requests complete
-                            independently.
-                        </p>
+                        <Button @click="sendAsyncRequest()"> {{ $t('Send Async Request') }} </Button>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Click multiple times. All requests complete independently.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Cancel Token -->
-                <FeatureCard title="Cancel Token">
-                    <template #description>
-                        Use
-                        <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                            >onCancelToken</code
-                        >
-                        to manually cancel a specific request.
-                    </template>
+                <FeatureCard :title="$t('Cancel Token')">
+                    <template #description> {{ $t('Use') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                            >{{ $t('onCancelToken') }}</code
+                        > {{ $t('to manually cancel a specific request.') }} </template>
                     <div class="space-y-3">
                         <div class="flex gap-2">
-                            <Button @click="sendCancellable()">
-                                Send Slow Request (2s)
-                            </Button>
+                            <Button @click="sendCancellable()"> {{ $t('Send Slow Request (2s)') }} </Button>
                             <Button
                                 variant="destructive"
                                 @click="cancelRequest()"
-                            >
-                                Cancel
-                            </Button>
+                            > {{ $t('Cancel') }} </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Start a slow request, then cancel it before it
-                            completes.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Start a slow request, then cancel it before it completes.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Server State -->
-                <FeatureCard info-card title="Server Response">
+                <FeatureCard info-card :title="$t('Server Response')">
                     <div class="flex items-center gap-2">
                         <span class="text-sm text-muted-foreground"
-                            >Timestamp:</span
+                            >{{ $t('Timestamp:') }}</span
                         >
                         <Badge variant="outline">{{ timestamp }}</Badge>
                     </div>
@@ -183,7 +158,7 @@ function cancelRequest() {
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="Request Log"
+                    :title="$t('Request Log')"
                 >
                     <template #header-action>
                         <Button
@@ -193,7 +168,7 @@ function cancelRequest() {
                                 eventLog = [];
                                 requestCounter = 0;
                             "
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div
@@ -214,9 +189,7 @@ function cancelRequest() {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Click buttons above to see request flow.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Click buttons above to see request flow.') }} </p>
                 </FeatureCard>
             </div>
         </div>

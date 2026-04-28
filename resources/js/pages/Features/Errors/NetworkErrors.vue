@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { ref, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -10,9 +11,11 @@ import { addToast } from '@/composables/useFlashToast';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Error Handling' },
-    { title: 'Network Errors' },
+    { title: t('Error Handling') },
+    { title: t('Network Errors') },
 ];
 
 const eventLog = ref<string[]>([]);
@@ -29,18 +32,18 @@ function toggleIntercept() {
         removeListener?.();
         removeListener = null;
         interceptEnabled.value = false;
-        log('Global networkError listener removed');
+        log(t('Global networkError listener removed'));
     } else {
         removeListener = router.on('networkError', (event) => {
             event.preventDefault();
             log(`Intercepted network error, default behavior prevented`);
             addToast(
-                'Network error intercepted. Default behavior was prevented.',
+                t('Network error intercepted. Default behavior was prevented.'),
                 'warning',
             );
         });
         interceptEnabled.value = true;
-        log('Global networkError listener registered');
+        log(t('Global networkError listener registered'));
     }
 }
 
@@ -50,50 +53,41 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Head title="Network Errors" />
+    <Head :title="$t('Network Errors')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Network Errors"
+                :title="$t('Network Errors')"
                 docs="advanced/events#network-error"
                 controller="app/Http/Controllers/Feature/NetworkErrorController.php#L35"
-            >
-                Handle network failures with
-                <code class="text-xs">onNetworkError</code> callback and
-                <code class="text-xs">router.on('networkError')</code>.
+            > {{ $t('Handle network failures with') }} <code class="text-xs">{{ $t('onNetworkError') }}</code> {{ $t('callback and') }} <code class="text-xs">{{ $t('router.on(\'networkError\')') }}</code>.
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
-                    title="When Network Errors Occur"
-                    description="Network errors fire when a request fails due to connectivity issues or when page component resolution fails."
+                    :title="$t('When Network Errors Occur')"
+                    :description="$t('Network errors fire when a request fails due to connectivity issues or when page component resolution fails.')"
                 >
                     <div class="space-y-3">
                         <div
                             class="space-y-2 rounded-lg border border-black/5 bg-neutral-50/80 p-3 font-mono text-xs dark:border-white/5 dark:bg-neutral-900/80"
                         >
-                            <p>Common causes of network errors:</p>
+                            <p>{{ $t('Common causes of network errors:') }}</p>
                             <ul class="list-inside list-disc space-y-1">
-                                <li>No internet connection</li>
-                                <li>DNS resolution failure</li>
-                                <li>Server unreachable / timeout</li>
-                                <li>CORS errors</li>
-                                <li>Request aborted by browser</li>
+                                <li>{{ $t('No internet connection') }}</li>
+                                <li>{{ $t('DNS resolution failure') }}</li>
+                                <li>{{ $t('Server unreachable / timeout') }}</li>
+                                <li>{{ $t('CORS errors') }}</li>
+                                <li>{{ $t('Request aborted by browser') }}</li>
                             </ul>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Network errors are different from HTTP exceptions.
-                            The server never responded at all.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Network errors are different from HTTP exceptions. The server never responded at all.') }} </p>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard title="Error Interception">
-                    <template #description>
-                        Toggle global
-                        <code class="text-xs">networkError</code> listener.
-                    </template>
+                <FeatureCard :title="$t('Error Interception')">
+                    <template #description> {{ $t('Toggle global') }} <code class="text-xs">{{ $t('networkError') }}</code> {{ $t('listener.') }} </template>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
                             <Button
@@ -103,7 +97,7 @@ onUnmounted(() => {
                                 size="sm"
                                 @click="toggleIntercept"
                             >
-                                {{ interceptEnabled ? 'Disable' : 'Enable' }}
+                                {{ interceptEnabled ? $t('Disable') : $t('Enable') }}
                                 Interception
                             </Button>
                             <Badge
@@ -111,31 +105,24 @@ onUnmounted(() => {
                                     interceptEnabled ? 'default' : 'secondary'
                                 "
                             >
-                                {{ interceptEnabled ? 'Active' : 'Inactive' }}
+                                {{ interceptEnabled ? $t('Active') : $t('Inactive') }}
                             </Badge>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            When active,
-                            <code>event.preventDefault()</code> stops the
-                            default network error behavior.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('When active,') }} <code>{{ $t('event.preventDefault()') }}</code> {{ $t('stops the default network error behavior.') }} </p>
 
                         <div
                             class="rounded-lg border border-black/5 bg-neutral-50/80 p-3 font-mono text-xs dark:border-white/5 dark:bg-neutral-900/80"
                         >
                             <p>
-                                <strong>To test:</strong> Open DevTools →
-                                Network → set throttling to "Offline", then try
-                                navigating.
-                            </p>
+                                <strong>{{ $t('To test:') }}</strong> {{ $t('Open DevTools → Network → set throttling to "Offline", then try navigating.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div
@@ -150,20 +137,17 @@ onUnmounted(() => {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Enable interception and simulate an offline state to see
-                        events.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Enable interception and simulate an offline state to see events.') }} </p>
                 </FeatureCard>
 
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="API Reference"
+                    :title="$t('API Reference')"
                 >
                     <div class="grid gap-3 sm:grid-cols-2">
                         <CodeBlock
-                            title="Per-visit callback:"
+                            :title="$t('Per-visit callback:')"
                             code="router.get('/url', {}, {
   onNetworkError: (error) => {
     // Return false to prevent default
@@ -172,7 +156,7 @@ onUnmounted(() => {
 })"
                         />
                         <CodeBlock
-                            title="Global event:"
+                            :title="$t('Global event:')"
                             code="router.on('networkError', (event) => {
   console.log(event.detail.exception)
   event.preventDefault()

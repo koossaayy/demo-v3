@@ -18,12 +18,15 @@ import {
 } from '@/wayfinder/App/Http/Controllers/Feature/FormController';
 import contacts from '@/wayfinder/routes/contacts';
 import type { Inertia } from '@/wayfinder/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<Inertia.Pages.Features.Forms.Wayfinder>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
-    { title: 'Wayfinder' },
+    { title: t('Forms') },
+    { title: t('Wayfinder') },
 ];
 
 // Hardcoded useForm
@@ -54,19 +57,15 @@ const precogForm = useForm({
 </script>
 
 <template>
-    <Head title="Wayfinder" />
+    <Head :title="$t('Wayfinder')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Wayfinder"
+                :title="$t('Wayfinder')"
                 docs="the-basics/routing#generating-urls"
                 controller="app/Http/Controllers/Feature/FormController.php#L109"
-            >
-                Wayfinder generates type-safe TypeScript functions from your
-                Laravel routes. Each section compares hardcoded URLs with
-                Wayfinder equivalents across Inertia's APIs.
-            </FeatureHeader>
+            > {{ $t('Wayfinder generates type-safe TypeScript functions from your Laravel routes. Each section compares hardcoded URLs with Wayfinder equivalents across Inertia\'s APIs.') }} </FeatureHeader>
 
             <div class="space-y-10">
                 <!-- ============================================ -->
@@ -74,17 +73,12 @@ const precogForm = useForm({
                 <!-- ============================================ -->
                 <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-semibold tracking-tight">
-                            Hardcoded URLs
-                        </h2>
-                        <p class="text-sm text-muted-foreground">
-                            The traditional approach. Works, but fragile when
-                            routes change.
-                        </p>
+                        <h2 class="text-lg font-semibold tracking-tight"> {{ $t('Hardcoded URLs') }} </h2>
+                        <p class="text-sm text-muted-foreground"> {{ $t('The traditional approach. Works, but fragile when routes change.') }} </p>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-3">
-                        <FeatureCard title="useForm">
+                        <FeatureCard :title="$t('useForm')">
                             <CodeBlock
                                 code="form.submit('post', '/features/forms/use-form')"
                             />
@@ -104,11 +98,11 @@ const precogForm = useForm({
                                 "
                             >
                                 <div class="space-y-1">
-                                    <Label for="hc-name">Name</Label>
+                                    <Label for="hc-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="hc-name"
                                         v-model="hardcodedForm.name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError
                                         :message="hardcodedForm.errors.name"
@@ -119,18 +113,18 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="hardcodedForm.processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="hardcodedForm.recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </form>
                         </FeatureCard>
 
-                        <FeatureCard title="<Form>">
+                        <FeatureCard :title="$t('<Form>')">
                             <CodeBlock>
                                 <textarea>
                                 <Form action="/features/forms/form-component"
@@ -140,7 +134,7 @@ const precogForm = useForm({
 
                             <Form
                                 action="/features/forms/form-component"
-                                method="post"
+                                :method="$t('post')"
                                 preserve-scroll
                                 set-defaults-on-success
                                 class="mt-3 space-y-3"
@@ -151,11 +145,11 @@ const precogForm = useForm({
                                 }"
                             >
                                 <div class="space-y-1">
-                                    <Label for="hc-fc-name">Name</Label>
+                                    <Label for="hc-fc-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="hc-fc-name"
                                         name="name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError :message="errors.name" />
                                 </div>
@@ -164,18 +158,18 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </Form>
                         </FeatureCard>
 
-                        <FeatureCard title="router / <Link>">
+                        <FeatureCard :title="$t('router / <Link>')">
                             <CodeBlock>
                                 <textarea>
                                 router.visit('/features/forms/wayfinder')
@@ -195,11 +189,9 @@ const precogForm = useForm({
                                             { preserveScroll: true },
                                         )
                                     "
-                                >
-                                    router.visit()
-                                </Button>
+                                > {{ $t('router.visit()') }} </Button>
                                 <Button variant="outline" size="sm" as-child>
-                                    <Link href="/contacts">Contacts</Link>
+                                    <Link href="/contacts">{{ $t('Contacts') }}</Link>
                                 </Button>
                             </div>
                         </FeatureCard>
@@ -211,29 +203,18 @@ const precogForm = useForm({
                 <!-- ============================================ -->
                 <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-semibold tracking-tight">
-                            Controller Actions
-                        </h2>
-                        <p class="text-sm text-muted-foreground">
-                            Import by controller method. Keeps frontend in sync
-                            with your PHP controllers.
-                        </p>
+                        <h2 class="text-lg font-semibold tracking-tight"> {{ $t('Controller Actions') }} </h2>
+                        <p class="text-sm text-muted-foreground"> {{ $t('Import by controller method. Keeps frontend in sync with your PHP controllers.') }} </p>
                         <CodeBlock class="mt-2">
-                            <textarea>
-                                import { submitUseForm, toggleFavorite } from '@/wayfinder/.../FormController'
-
-                                submitUseForm()        // {"url":"/features/forms/use-form","method":"post"}
-                                submitUseForm.url()    // "/features/forms/use-form"
-                                toggleFavorite(1)      // {"url":"/features/forms/optimistic-toggle/1","method":"post"}
-                                toggleFavorite.url(1)  // "/features/forms/optimistic-toggle/1"
+                            <textarea>                                {{ $t('import { submitUseForm, toggleFavorite } from \'@/wayfinder/.../FormController\' submitUseForm() // {"url":"/features/forms/use-form","method":"post"} submitUseForm.url() // "/features/forms/use-form" toggleFavorite(1) // {"url":"/features/forms/optimistic-toggle/1","method":"post"} toggleFavorite.url(1) // "/features/forms/optimistic-toggle/1"') }}
                             </textarea>
                         </CodeBlock>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-3">
                         <FeatureCard
-                            title="useForm"
-                            description="Pass the action directly to submit(). Method and URL are extracted automatically."
+                            :title="$t('useForm')"
+                            :description="$t('Pass the action directly to submit(). Method and URL are extracted automatically.')"
                         >
                             <CodeBlock code="form.submit(submitUseForm())" />
 
@@ -247,11 +228,11 @@ const precogForm = useForm({
                                 "
                             >
                                 <div class="space-y-1">
-                                    <Label for="ac-name">Name</Label>
+                                    <Label for="ac-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="ac-name"
                                         v-model="actionForm.name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError
                                         :message="actionForm.errors.name"
@@ -262,20 +243,20 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="actionForm.processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="actionForm.recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </form>
                         </FeatureCard>
 
                         <FeatureCard
-                            title="<Form>"
-                            description="The :action prop accepts the { url, method } object directly."
+                            :title="$t('<Form>')"
+                            :description="$t('The :action prop accepts the { url, method } object directly.')"
                         >
                             <CodeBlock
                                 code='<Form :action="submitFormComponent()">'
@@ -293,11 +274,11 @@ const precogForm = useForm({
                                 }"
                             >
                                 <div class="space-y-1">
-                                    <Label for="ac-fc-name">Name</Label>
+                                    <Label for="ac-fc-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="ac-fc-name"
                                         name="name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError :message="errors.name" />
                                 </div>
@@ -306,20 +287,20 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </Form>
                         </FeatureCard>
 
                         <FeatureCard
-                            title="router / <Link>"
-                            description="router and Link both accept { url, method } objects."
+                            :title="$t('router / <Link>')"
+                            :description="$t('router and Link both accept { url, method } objects.')"
                         >
                             <CodeBlock>
                                 <textarea>
@@ -345,9 +326,7 @@ const precogForm = useForm({
                                             preserveScroll: true,
                                         })
                                     "
-                                >
-                                    router.visit()
-                                </Button>
+                                > {{ $t('router.visit()') }} </Button>
                                 <Button
                                     v-if="sampleContact"
                                     variant="outline"
@@ -358,9 +337,7 @@ const precogForm = useForm({
                                             { preserveScroll: true },
                                         )
                                     "
-                                >
-                                    Toggle favorite
-                                </Button>
+                                > {{ $t('Toggle favorite') }} </Button>
                                 <Button
                                     v-if="sampleContact"
                                     variant="outline"
@@ -383,28 +360,18 @@ const precogForm = useForm({
                 <!-- ============================================ -->
                 <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-semibold tracking-tight">
-                            Named Routes
-                        </h2>
-                        <p class="text-sm text-muted-foreground">
-                            Import by route name. Mirrors your Laravel route
-                            names exactly.
-                        </p>
+                        <h2 class="text-lg font-semibold tracking-tight"> {{ $t('Named Routes') }} </h2>
+                        <p class="text-sm text-muted-foreground"> {{ $t('Import by route name. Mirrors your Laravel route names exactly.') }} </p>
                         <CodeBlock class="mt-2">
-                            <textarea>
-                                import contacts from '@/wayfinder/routes/contacts'
-
-                                contacts.index()     // {"url":"/contacts","method":"get"}
-                                contacts.show(1)     // {"url":"/contacts/1","method":"get"}
-                                contacts.show.url(1) // "/contacts/1"
+                            <textarea>                                {{ $t('import contacts from \'@/wayfinder/routes/contacts\' contacts.index() // {"url":"/contacts","method":"get"} contacts.show(1) // {"url":"/contacts/1","method":"get"} contacts.show.url(1) // "/contacts/1"') }}
                             </textarea>
                         </CodeBlock>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-3">
                         <FeatureCard
-                            title="useForm"
-                            description="Named route actions work exactly the same as controller actions."
+                            :title="$t('useForm')"
+                            :description="$t('Named route actions work exactly the same as controller actions.')"
                         >
                             <CodeBlock code="form.submit(submitUseForm())" />
 
@@ -418,11 +385,11 @@ const precogForm = useForm({
                                 "
                             >
                                 <div class="space-y-1">
-                                    <Label for="nr-name">Name</Label>
+                                    <Label for="nr-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="nr-name"
                                         v-model="namedForm.name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError
                                         :message="namedForm.errors.name"
@@ -433,20 +400,20 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="namedForm.processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="namedForm.recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </form>
                         </FeatureCard>
 
                         <FeatureCard
-                            title="<Form>"
-                            description="Pass the named route action directly to :action."
+                            :title="$t('<Form>')"
+                            :description="$t('Pass the named route action directly to :action.')"
                         >
                             <CodeBlock
                                 code='<Form :action="submitFormComponent()">'
@@ -464,11 +431,11 @@ const precogForm = useForm({
                                 }"
                             >
                                 <div class="space-y-1">
-                                    <Label for="nr-fc-name">Name</Label>
+                                    <Label for="nr-fc-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="nr-fc-name"
                                         name="name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError :message="errors.name" />
                                 </div>
@@ -477,20 +444,20 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </Form>
                         </FeatureCard>
 
                         <FeatureCard
-                            title="router / <Link>"
-                            description="Use named routes for navigation and programmatic visits."
+                            :title="$t('router / <Link>')"
+                            :description="$t('Use named routes for navigation and programmatic visits.')"
                         >
                             <CodeBlock>
                                 <textarea>
@@ -505,12 +472,12 @@ const precogForm = useForm({
                             <div class="mt-3 flex flex-wrap gap-2">
                                 <Button variant="outline" size="sm" as-child>
                                     <Link :href="contacts.index()"
-                                        >All contacts</Link
+                                        >{{ $t('All contacts') }}</Link
                                     >
                                 </Button>
                                 <Button variant="outline" size="sm" as-child>
                                     <Link :href="contacts.create()"
-                                        >Create contact</Link
+                                        >{{ $t('Create contact') }}</Link
                                     >
                                 </Button>
                                 <Button
@@ -535,41 +502,25 @@ const precogForm = useForm({
                 <!-- ============================================ -->
                 <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-semibold tracking-tight">
-                            Conventional Forms
-                        </h2>
-                        <p class="text-sm text-muted-foreground">
-                            The
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >.form()</code
-                            >
-                            method returns
-                            <code
+                        <h2 class="text-lg font-semibold tracking-tight"> {{ $t('Conventional Forms') }} </h2>
+                        <p class="text-sm text-muted-foreground"> {{ $t('The') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('.form()') }}</code
+                            > {{ $t('method returns') }} <code
                                 class="rounded bg-muted px-1 py-0.5 text-xs"
                                 >{{ '{ action, method }' }}</code
-                            >
-                            for use with
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >v-bind</code
-                            >
-                            on the
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >&lt;Form&gt;</code
-                            >
-                            component.
-                        </p>
+                            > {{ $t('for use with') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('v-bind') }}</code
+                            > {{ $t('on the') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('<Form>') }}</code
+                            > {{ $t('component.') }} </p>
                         <CodeBlock class="mt-2">
-                            <textarea>
-                                import { submitFormComponent, toggleFavorite } from '@/wayfinder/.../FormController'
-
-                                submitFormComponent.form()  // {"action":"/features/forms/form-component","method":"post"}
-                                toggleFavorite.form(1)      // {"action":"/features/forms/optimistic-toggle/1","method":"post"}
+                            <textarea>                                {{ $t('import { submitFormComponent, toggleFavorite } from \'@/wayfinder/.../FormController\' submitFormComponent.form() // {"action":"/features/forms/form-component","method":"post"} toggleFavorite.form(1) // {"action":"/features/forms/optimistic-toggle/1","method":"post"}') }}
                             </textarea>
                         </CodeBlock>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-2">
-                        <FeatureCard title="v-bind with .form()">
+                        <FeatureCard :title="$t('v-bind with .form()')">
                             <CodeBlock
                                 code='<Form v-bind="submitFormComponent.form()">'
                             />
@@ -586,11 +537,11 @@ const precogForm = useForm({
                                 }"
                             >
                                 <div class="space-y-1">
-                                    <Label for="cf-name">Name</Label>
+                                    <Label for="cf-name">{{ $t('Name') }}</Label>
                                     <Input
                                         id="cf-name"
                                         name="name"
-                                        placeholder="Name..."
+                                        :placeholder="$t('Name...')"
                                     />
                                     <InputError :message="errors.name" />
                                 </div>
@@ -599,31 +550,20 @@ const precogForm = useForm({
                                         type="submit"
                                         size="sm"
                                         :disabled="processing"
-                                        >Submit</Button
+                                        >{{ $t('Submit') }}</Button
                                     >
                                     <span
                                         v-if="recentlySuccessful"
                                         class="text-sm text-green-600"
-                                        >Saved!</span
+                                        >{{ $t('Saved!') }}</span
                                     >
                                 </div>
                             </Form>
                         </FeatureCard>
 
-                        <FeatureCard title="With route parameters">
+                        <FeatureCard :title="$t('With route parameters')">
                             <CodeBlock>
-                                <textarea>
-                                // Positional
-                                toggleFavorite.form(1)
-                                // {"action":"/features/forms/optimistic-toggle/1","method":"post"}
-
-                                // Named
-                                toggleFavorite.form({ contact: 1 })
-                                // {"action":"/features/forms/optimistic-toggle/1","method":"post"}
-
-                                // Model object
-                                toggleFavorite.form({ id: 1 })
-                                // {"action":"/features/forms/optimistic-toggle/1","method":"post"}
+                                <textarea>                                {{ $t('// Positional toggleFavorite.form(1) // {"action":"/features/forms/optimistic-toggle/1","method":"post"} // Named toggleFavorite.form({ contact: 1 }) // {"action":"/features/forms/optimistic-toggle/1","method":"post"} // Model object toggleFavorite.form({ id: 1 }) // {"action":"/features/forms/optimistic-toggle/1","method":"post"}') }}
                                 </textarea>
                             </CodeBlock>
                         </FeatureCard>
@@ -635,26 +575,17 @@ const precogForm = useForm({
                 <!-- ============================================ -->
                 <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-semibold tracking-tight">
-                            Query Parameters
-                        </h2>
-                        <p class="text-sm text-muted-foreground">
-                            Append or merge query params on any Wayfinder route.
-                        </p>
+                        <h2 class="text-lg font-semibold tracking-tight"> {{ $t('Query Parameters') }} </h2>
+                        <p class="text-sm text-muted-foreground"> {{ $t('Append or merge query params on any Wayfinder route.') }} </p>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-2">
                         <FeatureCard
-                            title="query"
-                            description="Sets query parameters on the generated URL."
+                            :title="$t('query')"
+                            :description="$t('Sets query parameters on the generated URL.')"
                         >
                             <CodeBlock>
-                                <textarea>
-                                contacts.index({ query: { search: 'Jane', page: 2 } })
-                                // {"url":"/contacts?search=Jane&page=2","method":"get"}
-
-                                toggleFavorite(1, { query: { notify: true } })
-                                // {"url":"/features/forms/optimistic-toggle/1?notify=true","method":"post"}
+                                <textarea>                                {{ $t('contacts.index({ query: { search: \'Jane\', page: 2 } }) // {"url":"/contacts?search=Jane&page=2","method":"get"} toggleFavorite(1, { query: { notify: true } }) // {"url":"/features/forms/optimistic-toggle/1?notify=true","method":"post"}') }}
                                 </textarea>
                             </CodeBlock>
 
@@ -666,9 +597,7 @@ const precogForm = useForm({
                                                 query: { search: 'Jane' },
                                             })
                                         "
-                                    >
-                                        Search "Jane"
-                                    </Link>
+                                    > {{ $t('Search "Jane"') }} </Link>
                                 </Button>
                                 <Button variant="outline" size="sm" as-child>
                                     <Link
@@ -677,26 +606,17 @@ const precogForm = useForm({
                                                 query: { favorite: true },
                                             })
                                         "
-                                    >
-                                        Favorites only
-                                    </Link>
+                                    > {{ $t('Favorites only') }} </Link>
                                 </Button>
                             </div>
                         </FeatureCard>
 
                         <FeatureCard
-                            title="mergeQuery"
-                            description="Merges with current URL params. Pass null to remove a param."
+                            :title="$t('mergeQuery')"
+                            :description="$t('Merges with current URL params. Pass null to remove a param.')"
                         >
                             <CodeBlock>
-                                <textarea>
-                                // Adds page=2 to current URL params
-                                contacts.index({ mergeQuery: { page: 2 } })
-                                // {"url":"/contacts?page=2","method":"get"}
-
-                                // Removes sort from current URL params
-                                contacts.index({ mergeQuery: { sort: null } })
-                                // {"url":"/contacts","method":"get"}
+                                <textarea>                                {{ $t('// Adds page=2 to current URL params contacts.index({ mergeQuery: { page: 2 } }) // {"url":"/contacts?page=2","method":"get"} // Removes sort from current URL params contacts.index({ mergeQuery: { sort: null } }) // {"url":"/contacts","method":"get"}') }}
                                 </textarea>
                             </CodeBlock>
 
@@ -715,9 +635,7 @@ const precogForm = useForm({
                                             },
                                         )
                                     "
-                                >
-                                    Merge page=2
-                                </Button>
+                                > {{ $t('Merge page=2') }} </Button>
                             </div>
                         </FeatureCard>
                     </div>
@@ -728,54 +646,27 @@ const precogForm = useForm({
                 <!-- ============================================ -->
                 <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-semibold tracking-tight">
-                            Precognition
-                        </h2>
-                        <p class="text-sm text-muted-foreground">
-                            Real-time server-side validation. Pass the Wayfinder
-                            URL to
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >useForm</code
-                            >
-                            or the
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >&lt;Form&gt;</code
-                            >
-                            component. The route must use the
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >precognitive</code
-                            >
-                            middleware.
-                        </p>
+                        <h2 class="text-lg font-semibold tracking-tight"> {{ $t('Precognition') }} </h2>
+                        <p class="text-sm text-muted-foreground"> {{ $t('Real-time server-side validation. Pass the Wayfinder URL to') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('useForm') }}</code
+                            > {{ $t('or the') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('<Form>') }}</code
+                            > {{ $t('component. The route must use the') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('precognitive') }}</code
+                            > {{ $t('middleware.') }} </p>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-2">
-                        <FeatureCard title="useForm + Precognition">
-                            <template #description>
-                                Chain
-                                <code
+                        <FeatureCard :title="$t('useForm + Precognition')">
+                            <template #description> {{ $t('Chain') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >.withPrecognition()</code
-                                >
-                                on
-                                <code
+                                    >{{ $t('.withPrecognition()') }}</code
+                                > {{ $t('on') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >useForm</code
-                                >
-                                and pass a Wayfinder route directly.
-                            </template>
+                                    >{{ $t('useForm') }}</code
+                                > {{ $t('and pass a Wayfinder route directly.') }} </template>
                             <CodeBlock>
-                                <textarea>
-                                const form = useForm({
-                                    username: '', email: '', ...
-                                }).withPrecognition(storeAccount())
-
-                                // Validate on field change
-                                @change="form.validate('username')"
-
-                                // Check field status
-                                form.valid('username')
-                                form.invalid('username')
+                                <textarea>                                {{ $t('const form = useForm({ username: \'\', email: \'\', ... }).withPrecognition(storeAccount()) // Validate on field change @change="form.validate(\'username\')" // Check field status form.valid(\'username\') form.invalid(\'username\')') }}
                                 </textarea>
                             </CodeBlock>
 
@@ -784,7 +675,7 @@ const precogForm = useForm({
                                 @submit.prevent="precogForm.submit()"
                             >
                                 <div class="space-y-1">
-                                    <Label for="pc-username">Username</Label>
+                                    <Label for="pc-username">{{ $t('Username') }}</Label>
                                     <Input
                                         id="pc-username"
                                         v-model="precogForm.username"
@@ -797,7 +688,7 @@ const precogForm = useForm({
                                             'border-red-500':
                                                 precogForm.invalid('username'),
                                         }"
-                                        placeholder="3-20 chars, letters/numbers/dashes"
+                                        :placeholder="$t('3-20 chars, letters/numbers/dashes')"
                                     />
                                     <p
                                         v-if="precogForm.invalid('username')"
@@ -808,12 +699,10 @@ const precogForm = useForm({
                                     <p
                                         v-else-if="precogForm.valid('username')"
                                         class="text-sm text-green-600"
-                                    >
-                                        Available!
-                                    </p>
+                                    > {{ $t('Available!') }} </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <Label for="pc-email">Email</Label>
+                                    <Label for="pc-email">{{ $t('Email') }}</Label>
                                     <Input
                                         id="pc-email"
                                         v-model="precogForm.email"
@@ -835,7 +724,7 @@ const precogForm = useForm({
                                     </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <Label for="pc-password">Password</Label>
+                                    <Label for="pc-password">{{ $t('Password') }}</Label>
                                     <Input
                                         id="pc-password"
                                         v-model="precogForm.password"
@@ -843,7 +732,7 @@ const precogForm = useForm({
                                         @change="
                                             precogForm.validate('password')
                                         "
-                                        placeholder="Min 8 characters"
+                                        :placeholder="$t('Min 8 characters')"
                                     />
                                     <p
                                         v-if="precogForm.invalid('password')"
@@ -854,7 +743,7 @@ const precogForm = useForm({
                                 </div>
                                 <div class="space-y-1">
                                     <Label for="pc-confirm"
-                                        >Confirm Password</Label
+                                        >{{ $t('Confirm Password') }}</Label
                                     >
                                     <Input
                                         id="pc-confirm"
@@ -894,35 +783,27 @@ const precogForm = useForm({
                                     >
                                         {{
                                             precogForm.processing
-                                                ? 'Creating...'
+                                                ? $t('Creating...')
                                                 : precogForm.validating
-                                                  ? 'Validating...'
-                                                  : 'Create Account'
+                                                  ? $t('Validating...')
+                                                  : $t('Create Account')
                                         }}
                                     </Button>
                                 </div>
                             </form>
                         </FeatureCard>
 
-                        <FeatureCard title="<Form> + Precognition">
-                            <template #description>
-                                The
-                                <code
+                        <FeatureCard :title="$t('<Form> + Precognition')">
+                            <template #description> {{ $t('The') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >&lt;Form&gt;</code
-                                >
-                                component has built-in precognition support. Use
-                                <code
+                                    >{{ $t('<Form>') }}</code
+                                > {{ $t('component has built-in precognition support. Use') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >.form()</code
-                                >
-                                or pass the action object, then add
-                                <code
+                                    >{{ $t('.form()') }}</code
+                                > {{ $t('or pass the action object, then add') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >:validation-timeout</code
-                                >
-                                to enable it.
-                            </template>
+                                    >{{ $t(':validation-timeout') }}</code
+                                > {{ $t('to enable it.') }} </template>
                             <CodeBlock>
                                 <textarea>
                                 <Form v-bind="storeAccount.form()"
@@ -946,7 +827,7 @@ const precogForm = useForm({
                                 }"
                             >
                                 <div class="space-y-1">
-                                    <Label for="pcf-username">Username</Label>
+                                    <Label for="pcf-username">{{ $t('Username') }}</Label>
                                     <Input
                                         id="pcf-username"
                                         name="username"
@@ -957,7 +838,7 @@ const precogForm = useForm({
                                             'border-red-500':
                                                 invalid('username'),
                                         }"
-                                        placeholder="3-20 chars, letters/numbers/dashes"
+                                        :placeholder="$t('3-20 chars, letters/numbers/dashes')"
                                     />
                                     <p
                                         v-if="invalid('username')"
@@ -968,12 +849,10 @@ const precogForm = useForm({
                                     <p
                                         v-else-if="valid('username')"
                                         class="text-sm text-green-600"
-                                    >
-                                        Available!
-                                    </p>
+                                    > {{ $t('Available!') }} </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <Label for="pcf-email">Email</Label>
+                                    <Label for="pcf-email">{{ $t('Email') }}</Label>
                                     <Input
                                         id="pcf-email"
                                         name="email"
@@ -993,13 +872,13 @@ const precogForm = useForm({
                                     </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <Label for="pcf-password">Password</Label>
+                                    <Label for="pcf-password">{{ $t('Password') }}</Label>
                                     <Input
                                         id="pcf-password"
                                         name="password"
                                         type="password"
                                         @change="validate('password')"
-                                        placeholder="Min 8 characters"
+                                        :placeholder="$t('Min 8 characters')"
                                     />
                                     <p
                                         v-if="invalid('password')"
@@ -1010,7 +889,7 @@ const precogForm = useForm({
                                 </div>
                                 <div class="space-y-1">
                                     <Label for="pcf-confirm"
-                                        >Confirm Password</Label
+                                        >{{ $t('Confirm Password') }}</Label
                                     >
                                     <Input
                                         id="pcf-confirm"
@@ -1039,10 +918,10 @@ const precogForm = useForm({
                                     >
                                         {{
                                             processing
-                                                ? 'Creating...'
+                                                ? $t('Creating...')
                                                 : validating
-                                                  ? 'Validating...'
-                                                  : 'Create Account'
+                                                  ? $t('Validating...')
+                                                  : $t('Create Account')
                                         }}
                                     </Button>
                                 </div>

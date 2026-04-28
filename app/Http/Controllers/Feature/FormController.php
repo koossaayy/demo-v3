@@ -26,7 +26,7 @@ class FormController
 
     public function submitUseForm(SimpleFormRequest $request): RedirectResponse
     {
-        return Inertia::flash('message', 'Form submitted successfully! Name: '.$request->validated('name'))->back();
+        return Inertia::flash('message', __('Form submitted successfully! Name: :validated', ['validated' => $request->validated('name')]))->back();
     }
 
     public function formComponent(): Response
@@ -36,7 +36,7 @@ class FormController
 
     public function submitFormComponent(SimpleFormRequest $request): RedirectResponse
     {
-        return Inertia::flash('message', 'Form submitted successfully! Name: '.$request->validated('name'))->back();
+        return Inertia::flash('message', __('Form submitted successfully! Name: :validated', ['validated' => $request->validated('name')]))->back();
     }
 
     public function fileUploads(): Response
@@ -50,7 +50,7 @@ class FormController
         $photoCount = $request->hasFile('photo') ? 1 : 0;
         $count = $fileCount + $photoCount;
 
-        return Inertia::flash('message', "Uploaded {$count} file(s) successfully!")->back();
+        return Inertia::flash('message', __('Uploaded :count file(s) successfully!', ['count' => $count]))->back();
     }
 
     public function validation(): Response
@@ -60,12 +60,12 @@ class FormController
 
     public function submitValidation(ValidationRequest $request): RedirectResponse
     {
-        return Inertia::flash('message', 'Primary form submitted successfully!')->back();
+        return Inertia::flash('message', __('Primary form submitted successfully!'))->back();
     }
 
     public function submitValidationSecondary(ValidationErrorBagRequest $request): RedirectResponse
     {
-        return Inertia::flash('message', 'Secondary form submitted successfully!')->back();
+        return Inertia::flash('message', __('Secondary form submitted successfully!'))->back();
     }
 
     public function precognition(): Response
@@ -75,7 +75,7 @@ class FormController
 
     public function storeAccount(PrecognitionRequest $request): RedirectResponse
     {
-        return Inertia::flash('message', 'Account created for '.$request->validated('username').'!')->back();
+        return Inertia::flash('message', __('Account created for :validated!', ['validated' => $request->validated('username')]))->back();
     }
 
     public function optimisticUpdates(Request $request): Response
@@ -101,7 +101,7 @@ class FormController
     {
         $data = $request->validated();
 
-        return Inertia::flash('message', 'Form submitted successfully!')
+        return Inertia::flash('message', __('Form submitted successfully!'))
             ->flash('parsedData', $data)
             ->back();
     }
@@ -119,12 +119,12 @@ class FormController
 
         if ($request->boolean('simulate_error')) {
             throw ValidationException::withMessages([
-                'contact' => 'Simulated validation error for optimistic update rollback demo.',
+                'contact' => __('Simulated validation error for optimistic update rollback demo.'),
             ]);
         }
 
         $contact->update(['is_favorite' => ! $contact->is_favorite]);
 
-        return Inertia::flash('message', $contact->is_favorite ? 'Added to favorites.' : 'Removed from favorites.')->back();
+        return Inertia::flash('message', $contact->is_favorite ? __('Added to favorites.') : __('Removed from favorites.'))->back();
     }
 }
