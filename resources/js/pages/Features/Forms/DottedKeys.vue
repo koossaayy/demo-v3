@@ -2,6 +2,7 @@
 import { Form, Head, usePage } from '@inertiajs/vue3';
 import { Plus, X } from 'lucide-vue-next';
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -13,9 +14,11 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { submitDottedKeys } from '@/wayfinder/App/Http/Controllers/Feature/FormController';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
-    { title: 'Dotted Keys' },
+    { title: t('Forms') },
+    { title: t('Dotted Keys') },
 ];
 
 const page = usePage();
@@ -35,25 +38,20 @@ const parsedData = computed(
 </script>
 
 <template>
-    <Head title="Dotted Keys" />
+    <Head :title="$t('Dotted Keys')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Dotted Keys"
+                :title="$t('Dotted Keys')"
                 docs="the-basics/forms#dotted-key-notation"
                 controller="app/Http/Controllers/Feature/FormController.php#L95"
-            >
-                Nested objects, arrays, and escaped dots in form field names.
-            </FeatureHeader>
+            > {{ $t('Nested objects, arrays, and escaped dots in form field names.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Form -->
-                <FeatureCard title="Nested Form Fields">
-                    <template #description>
-                        Dotted notation creates nested objects:
-                        <code class="text-xs">user.name</code> becomes
-                        <code class="text-xs">{{
+                <FeatureCard :title="$t('Nested Form Fields')">
+                    <template #description> {{ $t('Dotted notation creates nested objects:') }} <code class="text-xs">user.name</code> {{ $t('becomes') }} <code class="text-xs">{{
                             '{ user: { name: ... } }'
                         }}</code
                         >.
@@ -73,20 +71,19 @@ const parsedData = computed(
                         <fieldset
                             class="space-y-3 rounded-lg border border-black/10 p-4 dark:border-white/10"
                         >
-                            <legend class="px-2 text-sm font-semibold">
-                                User (<code class="text-xs">user.*</code>)
+                            <legend class="px-2 text-sm font-semibold"> {{ $t('User (') }}<code class="text-xs">{{ $t('user.*') }}</code>)
                             </legend>
                             <div class="space-y-2">
-                                <Label for="dk-user-name">Name</Label>
+                                <Label for="dk-user-name">{{ $t('Name') }}</Label>
                                 <Input
                                     id="dk-user-name"
                                     name="user.name"
-                                    placeholder="John Doe"
+                                    :placeholder="$t('John Doe')"
                                 />
                                 <InputError :message="errors['user.name']" />
                             </div>
                             <div class="space-y-2">
-                                <Label for="dk-user-email">Email</Label>
+                                <Label for="dk-user-email">{{ $t('Email') }}</Label>
                                 <Input
                                     id="dk-user-email"
                                     type="text"
@@ -101,26 +98,25 @@ const parsedData = computed(
                         <fieldset
                             class="space-y-3 rounded-lg border border-black/10 p-4 dark:border-white/10"
                         >
-                            <legend class="px-2 text-sm font-semibold">
-                                Address (<code class="text-xs">address.*</code>)
+                            <legend class="px-2 text-sm font-semibold"> {{ $t('Address (') }}<code class="text-xs">{{ $t('address.*') }}</code>)
                             </legend>
                             <div class="space-y-2">
-                                <Label for="dk-address-street">Street</Label>
+                                <Label for="dk-address-street">{{ $t('Street') }}</Label>
                                 <Input
                                     id="dk-address-street"
                                     name="address.street"
-                                    placeholder="123 Main St"
+                                    :placeholder="$t('123 Main St')"
                                 />
                                 <InputError
                                     :message="errors['address.street']"
                                 />
                             </div>
                             <div class="space-y-2">
-                                <Label for="dk-address-city">City</Label>
+                                <Label for="dk-address-city">{{ $t('City') }}</Label>
                                 <Input
                                     id="dk-address-city"
                                     name="address.city"
-                                    placeholder="Springfield"
+                                    :placeholder="$t('Springfield')"
                                 />
                                 <InputError :message="errors['address.city']" />
                             </div>
@@ -130,8 +126,7 @@ const parsedData = computed(
                         <fieldset
                             class="space-y-3 rounded-lg border border-black/10 p-4 dark:border-white/10"
                         >
-                            <legend class="px-2 text-sm font-semibold">
-                                Tags (<code class="text-xs">tags[]</code>)
+                            <legend class="px-2 text-sm font-semibold"> {{ $t('Tags (') }}<code class="text-xs">{{ $t('tags[]') }}</code>)
                             </legend>
                             <div
                                 v-for="(tag, index) in tags"
@@ -159,24 +154,22 @@ const parsedData = computed(
                                 size="sm"
                                 @click="addTag"
                             >
-                                <Plus class="mr-1 size-4" />
-                                Add Tag
-                            </Button>
+                                <Plus class="mr-1 size-4" /> {{ $t('Add Tag') }} </Button>
                         </fieldset>
 
                         <div class="flex items-center gap-2 pt-2">
                             <Button type="submit" :disabled="processing">
-                                {{ processing ? 'Submitting...' : 'Submit' }}
+                                {{ processing ? $t('Submitting...') : $t('Submit') }}
                             </Button>
                             <span
                                 v-if="isDirty"
                                 class="text-sm text-muted-foreground"
-                                >Unsaved changes</span
+                                >{{ $t('Unsaved changes') }}</span
                             >
                             <span
                                 v-if="recentlySuccessful"
                                 class="text-sm text-green-600"
-                                >Saved!</span
+                                >{{ $t('Saved!') }}</span
                             >
                         </div>
                     </Form>
@@ -186,35 +179,33 @@ const parsedData = computed(
                 <div class="space-y-6">
                     <FeatureCard
                         info-card
-                        title="Parsed Request Data"
-                        description="The server echoes back the parsed data structure via flash."
+                        :title="$t('Parsed Request Data')"
+                        :description="$t('The server echoes back the parsed data structure via flash.')"
                     >
                         <CodeBlock
                             v-if="parsedData"
                             :code="JSON.stringify(parsedData, null, 2)"
                         />
-                        <p v-else class="text-sm text-muted-foreground">
-                            Submit the form to see the parsed data structure.
-                        </p>
+                        <p v-else class="text-sm text-muted-foreground"> {{ $t('Submit the form to see the parsed data structure.') }} </p>
                     </FeatureCard>
 
-                    <FeatureCard info-card title="How It Works">
+                    <FeatureCard info-card :title="$t('How It Works')">
                         <div class="space-y-3 text-sm text-muted-foreground">
-                            <CodeBlock title="Nested Objects">
+                            <CodeBlock :title="$t('Nested Objects')">
                                 <textarea>
                                     <input name="user.name" />
                                     <input name="user.email" />
                                     // Submits: { user: { name: ..., email: ... } }
                                 </textarea>
                             </CodeBlock>
-                            <CodeBlock title="Array Fields">
+                            <CodeBlock :title="$t('Array Fields')">
                                 <textarea>
                                     <input name="tags[]" />
                                     <input name="tags[]" />
                                     // Submits: { tags: ["a", "b"] }
                                 </textarea>
                             </CodeBlock>
-                            <CodeBlock title="Escaped Dots">
+                            <CodeBlock :title="$t('Escaped Dots')">
                                 <textarea>
                                     <input name="config\.version" />
                                     // Submits: { "config.version": "1.0" }

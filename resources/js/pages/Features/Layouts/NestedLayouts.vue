@@ -5,25 +5,26 @@ import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Layouts & Head' },
-    { title: 'Nested Layouts' },
+    { title: t('Layouts & Head') },
+    { title: t('Nested Layouts') },
 ];
 </script>
 
 <template>
-    <Head title="Nested Layouts" />
+    <Head :title="$t('Nested Layouts')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Nested Layouts"
+                :title="$t('Nested Layouts')"
                 docs="the-basics/layouts#nested-layouts"
                 controller="app/Http/Controllers/Feature/LayoutController.php#L20"
-            >
-                Multi-level layout nesting using
-                <code class="text-xs"
+            > {{ $t('Multi-level layout nesting using') }} <code class="text-xs"
                     >defineOptions({ layout: [Outer, Inner] })</code
                 >.
             </FeatureHeader>
@@ -31,64 +32,46 @@ const breadcrumbs: BreadcrumbItem[] = [
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- How nesting works -->
                 <FeatureCard
-                    title="How Nesting Works"
-                    description="Pass an array of layouts to nest them from outermost to innermost."
+                    :title="$t('How Nesting Works')"
+                    :description="$t('Pass an array of layouts to nest them from outermost to innermost.')"
                 >
                     <div class="space-y-3">
                         <CodeBlock>
-                            <textarea>
-                                import AppLayout from "./AppLayout.vue"
-                                import SectionLayout from "./SectionLayout.vue"
-
-                                defineOptions({
-                                  layout: [AppLayout, SectionLayout],
-                                })
+                            <textarea>                                {{ $t('import AppLayout from "./AppLayout.vue" import SectionLayout from "./SectionLayout.vue" defineOptions({ layout: [AppLayout, SectionLayout], })') }}
                             </textarea>
                         </CodeBlock>
-                        <p class="text-xs text-muted-foreground">
-                            This renders as:
-                            <code
+                        <p class="text-xs text-muted-foreground"> {{ $t('This renders as:') }} <code
                                 >AppLayout &gt; SectionLayout &gt; Page
                                 Content</code
-                            >. Each layout uses <code>&lt;slot /&gt;</code> for
-                            its child content.
-                        </p>
+                            >{{ $t('. Each layout uses') }} <code>&lt;slot /&gt;</code> {{ $t('for its child content.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Visual nesting demo -->
                 <FeatureCard
                     info-card
-                    title="Nesting Visualization"
-                    description="How nested layouts wrap around page content."
+                    :title="$t('Nesting Visualization')"
+                    :description="$t('How nested layouts wrap around page content.')"
                 >
                     <div
                         class="rounded-md border-2 border-blue-300 p-3 dark:border-blue-700"
                     >
                         <p
                             class="mb-2 text-xs font-semibold text-blue-600 dark:text-blue-400"
-                        >
-                            App Layout (outermost)
-                        </p>
+                        > {{ $t('App Layout (outermost)') }} </p>
                         <div
                             class="rounded-md border-2 border-green-300 p-3 dark:border-green-700"
                         >
                             <p
                                 class="mb-2 text-xs font-semibold text-green-600 dark:text-green-400"
-                            >
-                                Section Layout (middle)
-                            </p>
+                            > {{ $t('Section Layout (middle)') }} </p>
                             <div
                                 class="rounded-md border-2 border-orange-300 p-3 dark:border-orange-700"
                             >
                                 <p
                                     class="text-xs font-semibold text-orange-600 dark:text-orange-400"
-                                >
-                                    Page Content (innermost)
-                                </p>
-                                <p class="mt-1 text-xs text-muted-foreground">
-                                    This is where your page component renders.
-                                </p>
+                                > {{ $t('Page Content (innermost)') }} </p>
+                                <p class="mt-1 text-xs text-muted-foreground"> {{ $t('This is where your page component renders.') }} </p>
                             </div>
                         </div>
                     </div>
@@ -99,24 +82,21 @@ const breadcrumbs: BreadcrumbItem[] = [
                     info-card
                     class="lg:col-span-2"
                     title="This App's Layout Structure"
-                    description="How this demo app uses layouts."
+                    :description="$t('How this demo app uses layouts.')"
                 >
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <CodeBlock title="Standard pages:">
+                            <CodeBlock :title="$t('Standard pages:')">
                                 <textarea>
                                     <AppLayout :breadcrumbs="...">
                                       <!-- page content -->
                                     </AppLayout>
                                 </textarea>
                             </CodeBlock>
-                            <p class="mt-2 text-xs text-muted-foreground">
-                                Single layout wrapping page content directly in
-                                the template.
-                            </p>
+                            <p class="mt-2 text-xs text-muted-foreground"> {{ $t('Single layout wrapping page content directly in the template.') }} </p>
                         </div>
                         <div>
-                            <CodeBlock title="Persistent nested:">
+                            <CodeBlock :title="$t('Persistent nested:')">
                                 <textarea>
                                     defineOptions({
                                       layout: [AppLayout, SectionLayout],
@@ -128,10 +108,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     </template>
                                 </textarea>
                             </CodeBlock>
-                            <p class="mt-2 text-xs text-muted-foreground">
-                                The template has no layout wrapper. Inertia
-                                manages both layouts externally.
-                            </p>
+                            <p class="mt-2 text-xs text-muted-foreground"> {{ $t('The template has no layout wrapper. Inertia manages both layouts externally.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>

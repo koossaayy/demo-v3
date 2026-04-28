@@ -9,28 +9,29 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import contacts from '@/wayfinder/routes/contacts';
 import type { Inertia } from '@/wayfinder/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<Inertia.Pages.Contacts.Create>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'CRM' },
-    { title: 'Contacts', href: contacts.index().url },
-    { title: 'Create Contact' },
+    { title: t('CRM') },
+    { title: t('Contacts'), href: contacts.index().url },
+    { title: t('Create Contact') },
 ];
 </script>
 
 <template>
-    <Head title="Create Contact" />
+    <Head :title="$t('Create Contact')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 p-4">
-            <h1 class="text-2xl font-semibold tracking-tight">
-                Create Contact
-            </h1>
+            <h1 class="text-2xl font-semibold tracking-tight"> {{ $t('Create Contact') }} </h1>
 
             <Card class="max-w-2xl">
                 <CardHeader>
-                    <CardTitle>Contact Information</CardTitle>
+                    <CardTitle>{{ $t('Contact Information') }}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form
@@ -41,12 +42,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                     >
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div class="space-y-2">
-                                <Label for="first_name">First Name</Label>
+                                <Label for="first_name">{{ $t('First Name') }}</Label>
                                 <Input id="first_name" name="first_name" />
                                 <InputError :message="errors.first_name" />
                             </div>
                             <div class="space-y-2">
-                                <Label for="last_name">Last Name</Label>
+                                <Label for="last_name">{{ $t('Last Name') }}</Label>
                                 <Input id="last_name" name="last_name" />
                                 <InputError :message="errors.last_name" />
                             </div>
@@ -54,25 +55,25 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div class="space-y-2">
-                                <Label for="email">Email</Label>
+                                <Label for="email">{{ $t('Email') }}</Label>
                                 <Input id="email" type="email" name="email" />
                                 <InputError :message="errors.email" />
                             </div>
                             <div class="space-y-2">
-                                <Label for="phone">Phone</Label>
+                                <Label for="phone">{{ $t('Phone') }}</Label>
                                 <Input id="phone" name="phone" />
                                 <InputError :message="errors.phone" />
                             </div>
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="organization_id">Organization</Label>
+                            <Label for="organization_id">{{ $t('Organization') }}</Label>
                             <select
                                 id="organization_id"
                                 name="organization_id"
                                 class="flex h-9 w-full rounded-md border border-input/60 bg-background px-3 py-1 text-sm placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                             >
-                                <option value="">None</option>
+                                <option value="">{{ $t('None') }}</option>
                                 <option
                                     v-for="org in organizations"
                                     :key="org.id"
@@ -88,14 +89,14 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <Button type="submit" :disabled="processing">
                                 {{
                                     processing
-                                        ? 'Creating...'
-                                        : 'Create Contact'
+                                        ? $t('Creating...')
+                                        : $t('Create Contact')
                                 }}
                             </Button>
                             <span
                                 v-if="isDirty"
                                 class="text-sm text-muted-foreground"
-                                >Unsaved changes</span
+                                >{{ $t('Unsaved changes') }}</span
                             >
                         </div>
                     </Form>

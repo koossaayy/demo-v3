@@ -6,6 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<{
     greeting?: string;
@@ -14,41 +17,38 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Navigation' },
-    { title: 'Instant Visits' },
-    { title: 'Target Page' },
+    { title: t('Navigation') },
+    { title: t('Instant Visits') },
+    { title: t('Target Page') },
 ];
 </script>
 
 <template>
-    <Head title="Instant Visit Target" />
+    <Head :title="$t('Instant Visit Target')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Instant Visit Target"
+                :title="$t('Instant Visit Target')"
                 docs="the-basics/manual-visits#client-side-visits"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L87"
-            >
-                This page has an artificial server delay. With instant visits,
-                the component renders immediately with placeholder props.
-            </FeatureHeader>
+            > {{ $t('This page has an artificial server delay. With instant visits, the component renders immediately with placeholder props.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
                     info-card
-                    title="Server Data"
-                    description="Props received from the server response."
+                    :title="$t('Server Data')"
+                    :description="$t('Props received from the server response.')"
                 >
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium">Greeting</span>
+                            <span class="text-sm font-medium">{{ $t('Greeting') }}</span>
                             <Badge variant="outline">{{
                                 greeting ?? 'Loading...'
                             }}</Badge>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium">Timestamp</span>
+                            <span class="text-sm font-medium">{{ $t('Timestamp') }}</span>
                             <Badge
                                 variant="outline"
                                 class="font-mono text-xs"
@@ -62,8 +62,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                 <FeatureCard
                     info-card
-                    title="Items List"
-                    description="Items loaded from the server."
+                    :title="$t('Items List')"
+                    :description="$t('Items loaded from the server.')"
                 >
                     <div v-if="items?.length" class="space-y-2">
                         <div
@@ -83,20 +83,16 @@ const breadcrumbs: BreadcrumbItem[] = [
                             :key="i"
                             class="h-10 animate-pulse rounded bg-muted"
                         />
-                        <p class="text-xs text-muted-foreground">
-                            Waiting for server data...
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Waiting for server data...') }} </p>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard class="lg:col-span-2" title="Back to Source">
+                <FeatureCard class="lg:col-span-2" :title="$t('Back to Source')">
                     <Button
                         @click="
                             router.visit('/features/navigation/instant-visits')
                         "
-                    >
-                        Back to Instant Visits
-                    </Button>
+                    > {{ $t('Back to Instant Visits') }} </Button>
                 </FeatureCard>
             </div>
         </div>

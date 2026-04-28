@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     status: number;
@@ -9,30 +12,30 @@ const props = defineProps<{
 
 const errors: Record<number, { title: string; description: string }> = {
     403: {
-        title: 'Forbidden',
-        description: "You don't have permission to access this page.",
+        title: t('Forbidden'),
+        description: t('You don\'t have permission to access this page.'),
     },
     404: {
-        title: 'Not Found',
-        description: "The page you're looking for doesn't exist.",
+        title: t('Not Found'),
+        description: t('The page you\'re looking for doesn\'t exist.'),
     },
     419: {
-        title: 'Page Expired',
-        description: 'Your session has expired. Please refresh and try again.',
+        title: t('Page Expired'),
+        description: t('Your session has expired. Please refresh and try again.'),
     },
     429: {
-        title: 'Too Many Requests',
+        title: t('Too Many Requests'),
         description:
-            "You've made too many requests. Please wait a moment and try again.",
+            t('You\'ve made too many requests. Please wait a moment and try again.'),
     },
     500: {
-        title: 'Server Error',
-        description: 'Something went wrong on our end. Please try again later.',
+        title: t('Server Error'),
+        description: t('Something went wrong on our end. Please try again later.'),
     },
     503: {
-        title: 'Service Unavailable',
+        title: t('Service Unavailable'),
         description:
-            "We're currently performing maintenance. Please check back soon.",
+            t('We\'re currently performing maintenance. Please check back soon.'),
     },
 };
 
@@ -41,8 +44,8 @@ const goBack = () => window.history.back();
 const error = computed(
     () =>
         errors[props.status] ?? {
-            title: 'Error',
-            description: 'An unexpected error occurred.',
+            title: t('Error'),
+            description: t('An unexpected error occurred.'),
         },
 );
 </script>
@@ -78,15 +81,11 @@ const error = computed(
                 <button
                     @click="goBack"
                     class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90"
-                >
-                    Go Back
-                </button>
+                > {{ $t('Go Back') }} </button>
                 <Link
                     href="/"
                     class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                    Go Home
-                </Link>
+                > {{ $t('Go Home') }} </Link>
             </div>
         </div>
     </div>
