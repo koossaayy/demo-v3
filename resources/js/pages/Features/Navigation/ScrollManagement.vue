@@ -6,6 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<{
     timestamp: string;
@@ -13,29 +16,26 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Navigation' },
-    { title: 'Scroll Management' },
+    { title: t('Navigation') },
+    { title: t('Scroll Management') },
 ];
 </script>
 
 <template>
-    <Head title="Scroll Management" />
+    <Head :title="$t('Scroll Management')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Scroll Management"
+                :title="$t('Scroll Management')"
                 docs="advanced/scroll-management"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L135"
-            >
-                Inertia resets scroll position to the top on every page visit
-                and restores it during back/forward navigation.
-            </FeatureHeader>
+            > {{ $t('Inertia resets scroll position to the top on every page visit and restores it during back/forward navigation.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
-                    title="Scroll Behavior"
-                    description="By default, scroll resets to the top on navigation. Use preserveScroll to keep the current position."
+                    :title="$t('Scroll Behavior')"
+                    :description="$t('By default, scroll resets to the top on navigation. Use preserveScroll to keep the current position.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-2">
@@ -64,9 +64,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                preserveScroll: true
-                            </h4>
+                            <h4 class="text-sm font-semibold"> {{ $t('preserveScroll: true') }} </h4>
                             <div class="flex items-center gap-2">
                                 <Button
                                     variant="outline"
@@ -93,12 +91,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">
-                                preserveScroll: callback
-                            </h4>
-                            <p class="text-xs text-muted-foreground">
-                                Dynamically decide based on the response.
-                            </p>
+                            <h4 class="text-sm font-semibold"> {{ $t('preserveScroll: callback') }} </h4>
+                            <p class="text-xs text-muted-foreground"> {{ $t('Dynamically decide based on the response.') }} </p>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -111,24 +105,17 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         },
                                     )
                                 "
-                            >
-                                preserveScroll: callback
-                            </Button>
+                            > {{ $t('preserveScroll: callback') }} </Button>
                         </div>
                     </div>
                 </FeatureCard>
 
                 <FeatureCard
-                    title="Scroll Regions"
-                    description="Track scroll position for elements with overflow, not just the document."
+                    :title="$t('Scroll Regions')"
+                    :description="$t('Track scroll position for elements with overflow, not just the document.')"
                 >
                     <div class="space-y-3">
-                        <p class="text-xs text-muted-foreground">
-                            Add the
-                            <code>scroll-region</code> attribute to any
-                            scrollable container. Inertia will track and restore
-                            its scroll position during back/forward navigation.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Add the') }} <code>{{ $t('scroll-region') }}</code> {{ $t('attribute to any scrollable container. Inertia will track and restore its scroll position during back/forward navigation.') }} </p>
                         <div
                             scroll-region
                             class="h-48 space-y-2 overflow-y-auto rounded-lg border border-black/10 p-3 dark:border-white/10"
@@ -151,11 +138,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </Badge>
                             </div>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Scroll down in the list above, navigate away, then
-                            use the browser back button. The scroll position
-                            will be restored.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Scroll down in the list above, navigate away, then use the browser back button. The scroll position will be restored.') }} </p>
                     </div>
                 </FeatureCard>
             </div>

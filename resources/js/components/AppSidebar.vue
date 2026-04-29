@@ -30,51 +30,54 @@ import {
 import { type NavItem, type NavSection as NavSectionType } from '@/types';
 import { dashboard } from '@/wayfinder/routes';
 import AppLogo from './AppLogo.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const crmNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: t('Dashboard'),
         href: dashboard(),
         icon: LayoutGrid,
     },
     {
-        title: 'Organizations',
+        title: t('Organizations'),
         href: '/organizations',
         icon: Building2,
     },
 ];
 
 const crmSection: NavSectionType = {
-    label: 'CRM demo',
+    label: t('CRM demo'),
     groups: [
         {
-            title: 'Contacts',
+            title: t('Contacts'),
             icon: ContactRound,
             items: [
-                { title: 'All Contacts', href: '/contacts' },
-                { title: 'Create Contact', href: '/contacts/create' },
+                { title: t('All Contacts'), href: '/contacts' },
+                { title: t('Create Contact'), href: '/contacts/create' },
             ],
         },
     ],
 };
 
 const featuresSection: NavSectionType = {
-    label: 'Kitchen Sink',
+    label: t('Kitchen Sink'),
     groups: [
         {
-            title: 'Forms',
+            title: t('Forms'),
             icon: FormInput,
             items: [
                 { title: 'useForm', href: '/features/forms/use-form' },
                 {
-                    title: 'Form Component',
+                    title: t('Form Component'),
                     href: '/features/forms/form-component',
                 },
-                { title: 'File Uploads', href: '/features/forms/file-uploads' },
-                { title: 'Validation', href: '/features/forms/validation' },
-                { title: 'Precognition', href: '/features/forms/precognition' },
+                { title: t('File Uploads'), href: '/features/forms/file-uploads' },
+                { title: t('Validation'), href: '/features/forms/validation' },
+                { title: t('Precognition'), href: '/features/forms/precognition' },
                 {
-                    title: 'Optimistic Updates',
+                    title: t('Optimistic Updates'),
                     href: '/features/forms/optimistic-updates',
                     badge: 'v3',
                 },
@@ -82,181 +85,181 @@ const featuresSection: NavSectionType = {
                     title: 'useFormContext',
                     href: '/features/forms/use-form-context',
                 },
-                { title: 'Dotted Keys', href: '/features/forms/dotted-keys' },
-                { title: 'Wayfinder', href: '/features/forms/wayfinder' },
+                { title: t('Dotted Keys'), href: '/features/forms/dotted-keys' },
+                { title: t('Wayfinder'), href: '/features/forms/wayfinder' },
             ],
         },
         {
-            title: 'Navigation',
+            title: t('Navigation'),
             icon: Navigation,
             items: [
                 {
-                    title: 'Links & Methods',
+                    title: t('Links & Methods'),
                     href: '/features/navigation/links',
                 },
                 {
-                    title: 'Preserve State',
+                    title: t('Preserve State'),
                     href: '/features/navigation/preserve-state',
                 },
                 {
-                    title: 'Preserve Scroll',
+                    title: t('Preserve Scroll'),
                     href: '/features/navigation/preserve-scroll',
                 },
                 {
-                    title: 'View Transitions',
+                    title: t('View Transitions'),
                     href: '/features/navigation/view-transitions',
                 },
                 {
-                    title: 'History Management',
+                    title: t('History Management'),
                     href: '/features/navigation/history-management',
                 },
                 {
-                    title: 'Async Requests',
+                    title: t('Async Requests'),
                     href: '/features/navigation/async-requests',
                 },
                 {
-                    title: 'Client-Side Visits',
+                    title: t('Client-Side Visits'),
                     href: '/features/navigation/manual-visits',
                 },
                 {
-                    title: 'Redirects',
+                    title: t('Redirects'),
                     href: '/features/navigation/redirects',
                 },
                 {
-                    title: 'Scroll Management',
+                    title: t('Scroll Management'),
                     href: '/features/navigation/scroll-management',
                 },
                 {
-                    title: 'Instant Visits',
+                    title: t('Instant Visits'),
                     href: '/features/navigation/instant-visits',
                     badge: 'v3',
                 },
                 {
-                    title: 'URL Fragments',
+                    title: t('URL Fragments'),
                     href: '/features/navigation/url-fragments',
                     badge: 'v3',
                 },
             ],
         },
         {
-            title: 'Data Loading',
+            title: t('Data Loading'),
             icon: Database,
             items: [
                 {
-                    title: 'Deferred Props',
+                    title: t('Deferred Props'),
                     href: '/features/data-loading/deferred-props',
                 },
                 {
-                    title: 'Partial Reloads',
+                    title: t('Partial Reloads'),
                     href: '/features/data-loading/partial-reloads',
                 },
                 {
-                    title: 'Infinite Scroll',
+                    title: t('Infinite Scroll'),
                     href: '/features/data-loading/infinite-scroll',
                 },
                 {
-                    title: 'When Visible',
+                    title: t('When Visible'),
                     href: '/features/data-loading/when-visible',
                 },
-                { title: 'Polling', href: '/features/data-loading/polling' },
+                { title: t('Polling'), href: '/features/data-loading/polling' },
                 {
-                    title: 'Prop Merging',
+                    title: t('Prop Merging'),
                     href: '/features/data-loading/prop-merging',
                 },
                 {
-                    title: 'Once Props',
+                    title: t('Once Props'),
                     href: '/features/data-loading/once-props',
                 },
                 {
-                    title: 'Optional Props',
+                    title: t('Optional Props'),
                     href: '/features/data-loading/optional-props',
                 },
             ],
         },
         {
-            title: 'Prefetching',
+            title: t('Prefetching'),
             icon: Zap,
             items: [
                 {
-                    title: 'Link Prefetch',
+                    title: t('Link Prefetch'),
                     href: '/features/prefetching/link-prefetch',
                 },
                 {
-                    title: 'Stale While Revalidate',
+                    title: t('Stale While Revalidate'),
                     href: '/features/prefetching/stale-while-revalidate',
                 },
                 {
-                    title: 'Manual Prefetch',
+                    title: t('Manual Prefetch'),
                     href: '/features/prefetching/manual-prefetch',
                 },
                 {
-                    title: 'Cache Management',
+                    title: t('Cache Management'),
                     href: '/features/prefetching/cache-management',
                 },
             ],
         },
         {
-            title: 'State Management',
+            title: t('State Management'),
             icon: Save,
             items: [
-                { title: 'Remember', href: '/features/state/remember' },
-                { title: 'Flash Data', href: '/features/state/flash-data' },
-                { title: 'Shared Props', href: '/features/state/shared-props' },
+                { title: t('Remember'), href: '/features/state/remember' },
+                { title: t('Flash Data'), href: '/features/state/flash-data' },
+                { title: t('Shared Props'), href: '/features/state/shared-props' },
             ],
         },
         {
-            title: 'Layouts & Head',
+            title: t('Layouts & Head'),
             icon: Layers,
             items: [
                 {
-                    title: 'Persistent Layouts',
+                    title: t('Persistent Layouts'),
                     href: '/features/layouts/persistent-layouts',
                 },
                 {
-                    title: 'Nested Layouts',
+                    title: t('Nested Layouts'),
                     href: '/features/layouts/nested-layouts',
                 },
-                { title: 'Head Component', href: '/features/layouts/head' },
+                { title: t('Head Component'), href: '/features/layouts/head' },
                 {
-                    title: 'Layout Props',
+                    title: t('Layout Props'),
                     href: '/features/layouts/layout-props',
                     badge: 'v3',
                 },
             ],
         },
         {
-            title: 'Events & Lifecycle',
+            title: t('Events & Lifecycle'),
             icon: Radio,
             items: [
                 {
-                    title: 'Global Events',
+                    title: t('Global Events'),
                     href: '/features/events/global-events',
                 },
                 {
-                    title: 'Visit Callbacks',
+                    title: t('Visit Callbacks'),
                     href: '/features/events/visit-callbacks',
                 },
-                { title: 'Progress Bar', href: '/features/events/progress' },
+                { title: t('Progress Bar'), href: '/features/events/progress' },
             ],
         },
         {
-            title: 'Error Handling',
+            title: t('Error Handling'),
             icon: AlertTriangle,
             items: [
                 {
-                    title: 'HTTP Exceptions',
+                    title: t('HTTP Exceptions'),
                     href: '/features/errors/http-exceptions',
                     badge: 'v3',
                 },
                 {
-                    title: 'Network Errors',
+                    title: t('Network Errors'),
                     href: '/features/errors/network-errors',
                     badge: 'v3',
                 },
             ],
         },
         {
-            title: 'HTTP',
+            title: t('HTTP'),
             icon: Wifi,
             items: [
                 {
@@ -271,7 +274,7 @@ const featuresSection: NavSectionType = {
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Documentation',
+        title: t('Documentation'),
         href: 'https://inertiajs.com/docs/v3/getting-started',
         icon: BookOpen,
     },

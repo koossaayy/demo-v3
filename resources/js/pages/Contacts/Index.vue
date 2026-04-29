@@ -2,6 +2,7 @@
 import { Head, InfiniteScroll, Link, router } from '@inertiajs/vue3';
 import { Heart, Plus, Search } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +10,8 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import contactRoutes from '@/wayfinder/routes/contacts';
 import type { App, Inertia } from '@/wayfinder/types';
+
+const { t } = useI18n();
 
 type CursorPaginated<T> = {
     data: T[];
@@ -33,8 +36,8 @@ const props = defineProps<
 >();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'CRM' },
-    { title: 'Contacts', href: contactRoutes.index().url },
+    { title: t('CRM') },
+    { title: t('Contacts'), href: contactRoutes.index().url },
 ];
 
 const search = ref(props.filters.search ?? '');
@@ -73,18 +76,16 @@ function toggleFavoriteFilter() {
 </script>
 
 <template>
-    <Head title="Contacts" />
+    <Head :title="$t('Contacts')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 p-4">
             <!-- Header -->
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-semibold tracking-tight">Contacts</h1>
+                <h1 class="text-2xl font-semibold tracking-tight">{{ $t('Contacts') }}</h1>
                 <Button as-child>
                     <Link :href="contactRoutes.create().url">
-                        <Plus class="size-4" />
-                        Add Contact
-                    </Link>
+                        <Plus class="size-4" /> {{ $t('Add Contact') }} </Link>
                 </Button>
             </div>
 
@@ -96,7 +97,7 @@ function toggleFavoriteFilter() {
                     />
                     <Input
                         v-model="search"
-                        placeholder="Search contacts..."
+                        :placeholder="$t('Search contacts...')"
                         class="pl-9"
                     />
                 </div>
@@ -109,9 +110,7 @@ function toggleFavoriteFilter() {
                     <Heart
                         class="size-4"
                         :class="{ 'fill-current text-red-500': favoriteFilter }"
-                    />
-                    Favorites
-                </Button>
+                    /> {{ $t('Favorites') }} </Button>
             </div>
 
             <!-- Contact List -->
@@ -155,9 +154,7 @@ function toggleFavoriteFilter() {
 
                 <template #loading>
                     <div class="flex justify-center py-4">
-                        <div class="text-sm text-muted-foreground">
-                            Loading more contacts...
-                        </div>
+                        <div class="text-sm text-muted-foreground"> {{ $t('Loading more contacts...') }} </div>
                     </div>
                 </template>
             </InfiniteScroll>
@@ -166,7 +163,7 @@ function toggleFavoriteFilter() {
                 v-if="props.contacts.data.length === 0"
                 class="flex flex-col items-center justify-center py-12 text-center"
             >
-                <p class="text-muted-foreground">No contacts found.</p>
+                <p class="text-muted-foreground">{{ $t('No contacts found.') }}</p>
             </div>
         </div>
     </AppLayout>

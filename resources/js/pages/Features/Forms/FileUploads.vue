@@ -10,10 +10,13 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { submitFileUploads } from '@/wayfinder/App/Http/Controllers/Feature/FormController';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
-    { title: 'File Uploads' },
+    { title: t('Forms') },
+    { title: t('File Uploads') },
 ];
 
 const form = useForm({
@@ -56,23 +59,21 @@ function formatFileSize(bytes: number): string {
 </script>
 
 <template>
-    <Head title="File Uploads" />
+    <Head :title="$t('File Uploads')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="File Uploads"
+                :title="$t('File Uploads')"
                 docs="the-basics/file-uploads"
                 controller="app/Http/Controllers/Feature/FormController.php#L42"
-            >
-                File upload handling with progress tracking using useForm.
-            </FeatureHeader>
+            > {{ $t('File upload handling with progress tracking using useForm.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Upload Form -->
                 <FeatureCard
-                    title="Upload Files"
-                    description="Single photo upload and multiple file uploads with progress tracking."
+                    :title="$t('Upload Files')"
+                    :description="$t('Single photo upload and multiple file uploads with progress tracking.')"
                 >
                     <form class="space-y-6" @submit.prevent="submit">
                         <!-- Single File (Photo) -->
@@ -87,7 +88,7 @@ function formatFileSize(bytes: number): string {
                                     {{
                                         form.photo
                                             ? form.photo.name
-                                            : 'Choose image...'
+                                            : $t('Choose image...')
                                     }}
                                 </label>
                                 <input
@@ -125,9 +126,7 @@ function formatFileSize(bytes: number): string {
                                     for="files"
                                     class="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-black/10 px-4 py-3 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary dark:border-white/10"
                                 >
-                                    <Upload class="size-4" />
-                                    Choose files... (max 5)
-                                </label>
+                                    <Upload class="size-4" /> {{ $t('Choose files... (max 5)') }} </label>
                                 <input
                                     id="files"
                                     type="file"
@@ -175,7 +174,7 @@ function formatFileSize(bytes: number): string {
                             <div
                                 class="flex items-center justify-between text-sm"
                             >
-                                <span>Uploading...</span>
+                                <span>{{ $t('Uploading...') }}</span>
                                 <span>{{ form.progress.percentage }}%</span>
                             </div>
                             <div class="w-full rounded-full bg-secondary">
@@ -196,14 +195,14 @@ function formatFileSize(bytes: number): string {
                                 (!form.photo && form.files.length === 0)
                             "
                         >
-                            {{ form.processing ? 'Uploading...' : 'Upload' }}
+                            {{ form.processing ? $t('Uploading...') : $t('Upload') }}
                         </Button>
                     </form>
                 </FeatureCard>
 
                 <!-- State Panel -->
                 <div class="space-y-6">
-                    <FeatureCard info-card title="Upload State">
+                    <FeatureCard info-card :title="$t('Upload State')">
                         <template #description>
                             Tip: If you're on a fast network, throttle it in
                             DevTools (Network &rarr; Slow 3G) to see the
@@ -212,7 +211,7 @@ function formatFileSize(bytes: number): string {
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >processing</span
+                                    >{{ $t('processing') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -225,12 +224,12 @@ function formatFileSize(bytes: number): string {
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >progress</span
+                                    >{{ $t('progress') }}</span
                                 >
                                 <Badge variant="secondary">{{
                                     form.progress
                                         ? `${form.progress.percentage}%`
-                                        : 'null'
+                                        : $t('null')
                                 }}</Badge>
                             </div>
                             <div class="flex items-center justify-between">
@@ -271,25 +270,23 @@ function formatFileSize(bytes: number): string {
                         </div>
                     </FeatureCard>
 
-                    <FeatureCard info-card title="Selected Files">
+                    <FeatureCard info-card :title="$t('Selected Files')">
                         <div
                             v-if="form.photo || form.files.length"
                             class="space-y-2 text-sm"
                         >
                             <div v-if="form.photo">
-                                <span class="font-medium">Photo: </span
+                                <span class="font-medium">{{ $t('Photo:') }} </span
                                 >{{ form.photo.name }} ({{
                                     formatFileSize(form.photo.size)
                                 }})
                             </div>
                             <div v-if="form.files.length">
-                                <span class="font-medium">Files: </span
+                                <span class="font-medium">{{ $t('Files:') }} </span
                                 >{{ form.files.length }} selected
                             </div>
                         </div>
-                        <p v-else class="text-sm text-muted-foreground">
-                            No files selected.
-                        </p>
+                        <p v-else class="text-sm text-muted-foreground"> {{ $t('No files selected.') }} </p>
                     </FeatureCard>
                 </div>
             </div>

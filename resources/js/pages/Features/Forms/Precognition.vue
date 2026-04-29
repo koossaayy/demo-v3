@@ -2,6 +2,7 @@
 import { Form, Head, useForm } from '@inertiajs/vue3';
 import { CheckCircle2, XCircle } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -14,9 +15,11 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { storeAccount } from '@/wayfinder/App/Http/Controllers/Feature/FormController';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
-    { title: 'Precognition' },
+    { title: t('Forms') },
+    { title: t('Precognition') },
 ];
 
 const activeTab = ref<'useForm' | 'formComponent'>('useForm');
@@ -32,18 +35,15 @@ form.setValidationTimeout(500);
 </script>
 
 <template>
-    <Head title="Precognition" />
+    <Head :title="$t('Precognition')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Precognition"
+                :title="$t('Precognition')"
                 docs="the-basics/forms#precognition"
                 controller="app/Http/Controllers/Feature/FormController.php#L71"
-            >
-                Real-time server-side validation on field change. No page
-                submission needed.
-            </FeatureHeader>
+            > {{ $t('Real-time server-side validation on field change. No page submission needed.') }} </FeatureHeader>
 
             <!-- Approach Switcher -->
             <div class="flex gap-2">
@@ -51,18 +51,14 @@ form.setValidationTimeout(500);
                     :variant="activeTab === 'useForm' ? 'default' : 'outline'"
                     size="sm"
                     @click="activeTab = 'useForm'"
-                >
-                    useForm + Precognition
-                </Button>
+                > {{ $t('useForm + Precognition') }} </Button>
                 <Button
                     :variant="
                         activeTab === 'formComponent' ? 'default' : 'outline'
                     "
                     size="sm"
                     @click="activeTab = 'formComponent'"
-                >
-                    Form Component + Precognition
-                </Button>
+                > {{ $t('Form Component + Precognition') }} </Button>
             </div>
 
             <div
@@ -71,12 +67,12 @@ form.setValidationTimeout(500);
             >
                 <!-- Form -->
                 <FeatureCard
-                    title="Create Account (useForm)"
-                    description="Type in each field and tab away. Validation runs against the server in real time via precognition."
+                    :title="$t('Create Account (useForm)')"
+                    :description="$t('Type in each field and tab away. Validation runs against the server in real time via precognition.')"
                 >
                     <form class="space-y-4" @submit.prevent="form.submit()">
                         <div class="space-y-2">
-                            <Label for="p-username">Username</Label>
+                            <Label for="p-username">{{ $t('Username') }}</Label>
                             <div class="relative">
                                 <Input
                                     id="p-username"
@@ -111,16 +107,12 @@ form.setValidationTimeout(500);
                             <p
                                 v-else-if="form.valid('username')"
                                 class="text-sm text-green-600"
-                            >
-                                Username available!
-                            </p>
-                            <p class="text-xs text-muted-foreground">
-                                3-20 characters, letters, numbers, dashes only.
-                            </p>
+                            > {{ $t('Username available!') }} </p>
+                            <p class="text-xs text-muted-foreground"> {{ $t('3-20 characters, letters, numbers, dashes only.') }} </p>
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="p-email">Email</Label>
+                            <Label for="p-email">{{ $t('Email') }}</Label>
                             <div class="relative">
                                 <Input
                                     id="p-email"
@@ -154,7 +146,7 @@ form.setValidationTimeout(500);
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="p-password">Password</Label>
+                            <Label for="p-password">{{ $t('Password') }}</Label>
                             <Input
                                 id="p-password"
                                 type="password"
@@ -171,14 +163,12 @@ form.setValidationTimeout(500);
                             >
                                 {{ form.errors.password }}
                             </p>
-                            <p v-else class="text-xs text-muted-foreground">
-                                Minimum 8 characters.
-                            </p>
+                            <p v-else class="text-xs text-muted-foreground"> {{ $t('Minimum 8 characters.') }} </p>
                         </div>
 
                         <div class="space-y-2">
                             <Label for="p-password-confirmation"
-                                >Confirm Password</Label
+                                >{{ $t('Confirm Password') }}</Label
                             >
                             <Input
                                 id="p-password-confirmation"
@@ -209,10 +199,10 @@ form.setValidationTimeout(500);
                             >
                                 {{
                                     form.processing
-                                        ? 'Creating...'
+                                        ? $t('Creating...')
                                         : form.validating
-                                          ? 'Validating...'
-                                          : 'Create Account'
+                                          ? $t('Validating...')
+                                          : $t('Create Account')
                                 }}
                             </Button>
                         </div>
@@ -223,13 +213,13 @@ form.setValidationTimeout(500);
                 <div class="space-y-6">
                     <FeatureCard
                         info-card
-                        title="Precognition State"
-                        description="Real-time state from the precognition validation system."
+                        :title="$t('Precognition State')"
+                        :description="$t('Real-time state from the precognition validation system.')"
                     >
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >validating</span
+                                    >{{ $t('validating') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -255,7 +245,7 @@ form.setValidationTimeout(500);
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >processing</span
+                                    >{{ $t('processing') }}</span
                                 >
                                 <Badge
                                     :variant="
@@ -271,8 +261,8 @@ form.setValidationTimeout(500);
 
                     <FeatureCard
                         info-card
-                        title="Field Status"
-                        description="Per-field touched, valid, and invalid state."
+                        :title="$t('Field Status')"
+                        :description="$t('Per-field touched, valid, and invalid state.')"
                     >
                         <div class="space-y-3">
                             <div
@@ -289,21 +279,21 @@ form.setValidationTimeout(500);
                                 <div class="flex gap-1">
                                     <Badge
                                         v-if="form.touched(field)"
-                                        variant="outline"
+                                        :variant="$t('outline')"
                                         class="text-xs"
-                                        >touched</Badge
+                                        >{{ $t('touched') }}</Badge
                                     >
                                     <Badge
                                         v-if="form.valid(field)"
-                                        variant="default"
+                                        :variant="$t('default')"
                                         class="bg-green-600 text-xs"
-                                        >valid</Badge
+                                        >{{ $t('valid') }}</Badge
                                     >
                                     <Badge
                                         v-if="form.invalid(field)"
                                         variant="destructive"
                                         class="text-xs"
-                                        >invalid</Badge
+                                        >{{ $t('invalid') }}</Badge
                                     >
                                 </div>
                             </div>
@@ -312,30 +302,30 @@ form.setValidationTimeout(500);
 
                     <FeatureCard
                         info-card
-                        title="Actions"
+                        :title="$t('Actions')"
                         description="validate() only triggers a precognitive request when the field's value differs from its default. Unchanged fields are skipped."
                     >
                         <div class="flex flex-wrap gap-2">
                             <Button
-                                variant="outline"
+                                :variant="$t('outline')"
                                 size="sm"
                                 @click="form.touch('username')"
                                 >touch('username')</Button
                             >
                             <Button
-                                variant="outline"
+                                :variant="$t('outline')"
                                 size="sm"
                                 @click="form.validate('username')"
                                 >validate('username')</Button
                             >
                             <Button
-                                variant="outline"
+                                :variant="$t('outline')"
                                 size="sm"
                                 @click="form.clearErrors()"
                                 >clearErrors()</Button
                             >
                             <Button
-                                variant="outline"
+                                :variant="$t('outline')"
                                 size="sm"
                                 @click="form.reset()"
                                 >reset()</Button
@@ -350,14 +340,12 @@ form.setValidationTimeout(500);
                 v-if="activeTab === 'formComponent'"
                 class="grid gap-6 lg:grid-cols-2"
             >
-                <FeatureCard title="Create Account (Form Component)">
-                    <template #description>
-                        The <code class="text-xs">&lt;Form&gt;</code> component
+                <FeatureCard :title="$t('Create Account (Form Component)')">
+                    <template #description> {{ $t('The') }} <code class="text-xs">&lt;Form&gt;</code> component
                         has built-in precognition support via
-                        <code class="text-xs">:validation-timeout</code> and
-                        slot props like <code class="text-xs">validate</code>,
-                        <code class="text-xs">valid</code>,
-                        <code class="text-xs">invalid</code>.
+                        <code class="text-xs">{{ $t(':validation-timeout') }}</code> {{ $t('and slot props like') }} <code class="text-xs">{{ $t('validate') }}</code>,
+                        <code class="text-xs">{{ $t('valid') }}</code>,
+                        <code class="text-xs">{{ $t('invalid') }}</code>.
                     </template>
 
                     <Form
@@ -374,7 +362,7 @@ form.setValidationTimeout(500);
                         }"
                     >
                         <div class="space-y-2">
-                            <Label for="fc-username">Username</Label>
+                            <Label for="fc-username">{{ $t('Username') }}</Label>
                             <div class="relative">
                                 <Input
                                     id="fc-username"
@@ -402,13 +390,11 @@ form.setValidationTimeout(500);
                             <p
                                 v-if="valid('username')"
                                 class="text-sm text-green-600"
-                            >
-                                Username available!
-                            </p>
+                            > {{ $t('Username available!') }} </p>
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="fc-email">Email</Label>
+                            <Label for="fc-email">{{ $t('Email') }}</Label>
                             <div class="relative">
                                 <Input
                                     id="fc-email"
@@ -437,7 +423,7 @@ form.setValidationTimeout(500);
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="fc-password">Password</Label>
+                            <Label for="fc-password">{{ $t('Password') }}</Label>
                             <Input
                                 id="fc-password"
                                 type="password"
@@ -453,7 +439,7 @@ form.setValidationTimeout(500);
 
                         <div class="space-y-2">
                             <Label for="fc-password-confirm"
-                                >Confirm Password</Label
+                                >{{ $t('Confirm Password') }}</Label
                             >
                             <Input
                                 id="fc-password-confirm"
@@ -481,10 +467,10 @@ form.setValidationTimeout(500);
                             >
                                 {{
                                     processing
-                                        ? 'Creating...'
+                                        ? $t('Creating...')
                                         : validating
-                                          ? 'Validating...'
-                                          : 'Create Account'
+                                          ? $t('Validating...')
+                                          : $t('Create Account')
                                 }}
                             </Button>
                         </div>
@@ -492,9 +478,9 @@ form.setValidationTimeout(500);
                 </FeatureCard>
 
                 <div class="space-y-6">
-                    <FeatureCard info-card title="Form Component vs useForm">
+                    <FeatureCard info-card :title="$t('Form Component vs useForm')">
                         <div class="space-y-3 text-sm text-muted-foreground">
-                            <CodeBlock title="Form Component">
+                            <CodeBlock :title="$t('Form Component')">
                                 <textarea>
                                 <Form
                                   action="/endpoint"
@@ -512,26 +498,16 @@ form.setValidationTimeout(500);
                                 // form.validate(), form.valid(), etc.
                             "
                             />
-                            <p>
-                                Both approaches provide the same precognition
-                                features. The
-                                <code
+                            <p> {{ $t('Both approaches provide the same precognition features. The') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
                                     >&lt;Form&gt;</code
-                                >
-                                component uses native HTML inputs and exposes
-                                validation via slot props, while
-                                <code
+                                > {{ $t('component uses native HTML inputs and exposes validation via slot props, while') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
                                     >useForm</code
-                                >
-                                uses
-                                <code
+                                > {{ $t('uses') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >v-model</code
-                                >
-                                bindings.
-                            </p>
+                                    >{{ $t('v-model') }}</code
+                                > {{ $t('bindings.') }} </p>
                         </div>
                     </FeatureCard>
                 </div>

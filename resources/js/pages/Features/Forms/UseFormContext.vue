@@ -9,9 +9,12 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { submitFormComponent } from '@/wayfinder/App/Http/Controllers/Feature/FormController';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
+    { title: t('Forms') },
     { title: 'useFormContext' },
 ];
 </script>
@@ -25,22 +28,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                 title="useFormContext"
                 docs="the-basics/forms#form-context"
                 controller="app/Http/Controllers/Feature/FormController.php#L90"
-            >
-                Access parent <code class="text-xs">&lt;Form&gt;</code> state
-                from deeply nested child components. No prop drilling needed.
-            </FeatureHeader>
+            > {{ $t('Access parent') }} <code class="text-xs">&lt;Form&gt;</code> {{ $t('state from deeply nested child components. No prop drilling needed.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Form with child components -->
-                <FeatureCard title="Parent Form">
-                    <template #description>
-                        The <code class="text-xs">&lt;Form&gt;</code> wraps
-                        child
-                        <code class="text-xs">FormContextField</code> components
-                        that use
-                        <code class="text-xs">useFormContext()</code> to access
-                        form state.
-                    </template>
+                <FeatureCard :title="$t('Parent Form')">
+                    <template #description> {{ $t('The') }} <code class="text-xs">&lt;Form&gt;</code> {{ $t('wraps child') }} <code class="text-xs">{{ $t('FormContextField') }}</code> {{ $t('components that use') }} <code class="text-xs">useFormContext()</code> {{ $t('to access form state.') }} </template>
 
                     <Form
                         v-bind="submitFormComponent.form()"
@@ -59,34 +52,34 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <!-- These are child components using useFormContext() -->
                         <FormContextField
                             name="name"
-                            label="Name"
-                            placeholder="Enter your name..."
+                            :label="$t('Name')"
+                            :placeholder="$t('Enter your name...')"
                         />
                         <FormContextField
                             name="email"
-                            label="Email"
+                            :label="$t('Email')"
                             type="text"
                             placeholder="you@example.com"
                         />
                         <FormContextField
                             name="bio"
-                            label="Bio"
-                            placeholder="Tell us about yourself..."
+                            :label="$t('Bio')"
+                            :placeholder="$t('Tell us about yourself...')"
                         />
 
                         <div class="flex items-center gap-2 pt-2">
                             <Button type="submit" :disabled="processing">
-                                {{ processing ? 'Submitting...' : 'Submit' }}
+                                {{ processing ? $t('Submitting...') : $t('Submit') }}
                             </Button>
                             <span
                                 v-if="isDirty"
                                 class="text-sm text-muted-foreground"
-                                >Unsaved changes</span
+                                >{{ $t('Unsaved changes') }}</span
                             >
                             <span
                                 v-if="recentlySuccessful"
                                 class="text-sm text-green-600"
-                                >Saved!</span
+                                >{{ $t('Saved!') }}</span
                             >
                         </div>
 
@@ -94,12 +87,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <div
                             class="mt-4 space-y-3 rounded-md border border-black/10 p-4 dark:border-white/10"
                         >
-                            <h3 class="text-sm font-semibold">
-                                Parent Slot Props
-                            </h3>
+                            <h3 class="text-sm font-semibold"> {{ $t('Parent Slot Props') }} </h3>
                             <div class="grid grid-cols-2 gap-2 text-sm">
                                 <div class="flex items-center justify-between">
-                                    <span>processing</span>
+                                    <span>{{ $t('processing') }}</span>
                                     <Badge
                                         :variant="
                                             processing ? 'default' : 'secondary'
@@ -131,7 +122,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     >
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span>validating</span>
+                                    <span>{{ $t('validating') }}</span>
                                     <Badge
                                         :variant="
                                             validating ? 'default' : 'secondary'
@@ -147,44 +138,33 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                 <!-- How It Works -->
                 <div class="space-y-6">
-                    <FeatureCard info-card title="How It Works">
+                    <FeatureCard info-card :title="$t('How It Works')">
                         <div class="space-y-3 text-sm text-muted-foreground">
                             <p>
-                                <strong>1.</strong> The parent renders a
-                                <code
+                                <strong>1.</strong> {{ $t('The parent renders a') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
                                     >&lt;Form&gt;</code
-                                >
-                                component.
-                            </p>
+                                > {{ $t('component.') }} </p>
                             <p>
-                                <strong>2.</strong> Child components call
-                                <code
+                                <strong>2.</strong> {{ $t('Child components call') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
                                     >useFormContext()</code
-                                >
-                                to access the same form state.
-                            </p>
+                                > {{ $t('to access the same form state.') }} </p>
                             <p>
-                                <strong>3.</strong> No props need to be passed.
-                                Context is provided automatically via Vue's
-                                provide/inject.
-                            </p>
+                                <strong>3.</strong> {{ $t('No props need to be passed. Context is provided automatically via Vue\'s provide/inject.') }} </p>
                             <p>
-                                <strong>4.</strong> Children can read
-                                <code
+                                <strong>4.</strong> {{ $t('Children can read') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >errors</code
+                                    >{{ $t('errors') }}</code
                                 >,
                                 <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
-                                    >processing</code
+                                    >{{ $t('processing') }}</code
                                 >,
                                 <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
                                     >isDirty</code
-                                >, and call
-                                <code
+                                >{{ $t(', and call') }} <code
                                     class="rounded bg-muted px-1 py-0.5 text-xs"
                                     >validate()</code
                                 >
@@ -197,17 +177,17 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </div>
                     </FeatureCard>
 
-                    <FeatureCard info-card title="API Reference">
+                    <FeatureCard info-card :title="$t('API Reference')">
                         <div class="space-y-3">
                             <CodeBlock
-                                title="Child Component"
+                                :title="$t('Child Component')"
                                 code="import { useFormContext } from '@inertiajs/vue3'
 
 const form = useFormContext()
 // form.errors, form.processing, form.isDirty
 // form.validate('field'), form.touch('field')"
                             />
-                            <CodeBlock title="Returns null outside Form">
+                            <CodeBlock :title="$t('Returns null outside Form')">
                                 <textarea>
 const form = useFormContext()
 // Returns null if not inside a <Form>
