@@ -2,12 +2,15 @@
 import { Head, Link, router } from '@inertiajs/vue3';
 import { Building2, Search } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import organizationRoutes from '@/wayfinder/routes/organizations';
 import type { App, Inertia } from '@/wayfinder/types';
+
+const { t } = useI18n();
 
 type Paginated<T> = {
     data: T[];
@@ -28,8 +31,8 @@ const props = defineProps<
 >();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'CRM' },
-    { title: 'Organizations', href: organizationRoutes.index().url },
+    { title: t('CRM') },
+    { title: t('Organizations'), href: organizationRoutes.index().url },
 ];
 
 const search = ref(props.filters.search ?? '');
@@ -48,11 +51,11 @@ watch(search, (value) => {
 </script>
 
 <template>
-    <Head title="Organizations" />
+    <Head :title="$t('Organizations')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-1 flex-col gap-4 p-4">
-            <h1 class="text-2xl font-semibold tracking-tight">Organizations</h1>
+            <h1 class="text-2xl font-semibold tracking-tight">{{ $t('Organizations') }}</h1>
 
             <!-- Search -->
             <div class="relative max-w-sm">
@@ -61,7 +64,7 @@ watch(search, (value) => {
                 />
                 <Input
                     v-model="search"
-                    placeholder="Search organizations..."
+                    :placeholder="$t('Search organizations...')"
                     class="pl-9"
                 />
             </div>
@@ -84,7 +87,7 @@ watch(search, (value) => {
                     </div>
                     <Badge variant="outline">
                         {{ org.contacts_count }}
-                        {{ org.contacts_count === 1 ? 'contact' : 'contacts' }}
+                        {{ org.contacts_count === 1 ? $t('contact') : $t('contacts') }}
                     </Badge>
                 </Link>
             </div>
@@ -93,7 +96,7 @@ watch(search, (value) => {
                 v-if="props.organizations.data.length === 0"
                 class="flex flex-col items-center justify-center py-12 text-center"
             >
-                <p class="text-muted-foreground">No organizations found.</p>
+                <p class="text-muted-foreground">{{ $t('No organizations found.') }}</p>
             </div>
 
             <!-- Pagination Links -->

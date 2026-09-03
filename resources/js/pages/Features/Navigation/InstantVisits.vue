@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<{
     sourceTimestamp: string;
@@ -14,8 +17,8 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Navigation' },
-    { title: 'Instant Visits' },
+    { title: t('Navigation') },
+    { title: t('Instant Visits') },
 ];
 
 const targetUrl = '/features/navigation/instant-visit-target?delay=2';
@@ -31,7 +34,7 @@ function visitWithPlaceholderProps() {
         component: 'Features/Navigation/InstantVisitTarget',
         pageProps: (_currentProps, sharedProps) => ({
             ...sharedProps,
-            greeting: 'Loading from server...',
+            greeting: t('Loading from server...'),
             serverTimestamp: 'Fetching...',
             items: [],
         }),
@@ -43,34 +46,32 @@ function visitWithCallbackProps() {
         component: 'Features/Navigation/InstantVisitTarget',
         pageProps: (currentProps, sharedProps) => ({
             ...sharedProps,
-            greeting: `Navigating from source (was: "${currentProps.message}")`,
-            serverTimestamp: 'Waiting for server...',
+            greeting: t('Navigating from source (was: "{0}")', [currentProps.message]),
+            serverTimestamp: t('Waiting for server...'),
         }),
     });
 }
 </script>
 
 <template>
-    <Head title="Instant Visits" />
+    <Head :title="$t('Instant Visits')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Instant Visits"
+                :title="$t('Instant Visits')"
                 docs="the-basics/manual-visits#client-side-visits"
                 controller="app/Http/Controllers/Feature/NavigationController.php#L79"
             >
-                Navigate to a component instantly before the server responds
-                using <code class="text-xs">component</code> and
-                <code class="text-xs">pageProps</code> options.
+                <i18n-t keypath="Navigate to a component instantly before the server responds using {el0} and {el1} options." tag="span" scope="global"><template #el0><code class="text-xs">component</code></template><template #el1><code class="text-xs">pageProps</code></template></i18n-t>
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Current state -->
                 <FeatureCard
                     info-card
-                    title="Current Page State"
-                    description="Props on this page (used by the callback demo)."
+                    :title="$t('Current Page State')"
+                    :description="$t('Props on this page (used by the callback demo).')"
                 >
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
@@ -91,51 +92,36 @@ function visitWithCallbackProps() {
                 </FeatureCard>
 
                 <!-- How it works -->
-                <FeatureCard info-card title="How It Works">
+                <FeatureCard info-card :title="$t('How It Works')">
                     <div class="space-y-3 text-xs">
                         <div
                             class="rounded-md border border-black/10 p-2 dark:border-white/10"
                         >
-                            <p class="font-semibold">1. Instant swap</p>
-                            <p class="text-muted-foreground">
-                                The target component renders immediately with
-                                placeholder or shared props.
-                            </p>
+                            <p class="font-semibold">{{ $t('1. Instant swap') }}</p>
+                            <p class="text-muted-foreground"> {{ $t('The target component renders immediately with placeholder or shared props.') }} </p>
                         </div>
                         <div
                             class="rounded-md border border-black/10 p-2 dark:border-white/10"
                         >
-                            <p class="font-semibold">2. Server request</p>
-                            <p class="text-muted-foreground">
-                                The actual HTTP request fires in the background.
-                            </p>
+                            <p class="font-semibold">{{ $t('2. Server request') }}</p>
+                            <p class="text-muted-foreground"> {{ $t('The actual HTTP request fires in the background.') }} </p>
                         </div>
                         <div
                             class="rounded-md border border-black/10 p-2 dark:border-white/10"
                         >
-                            <p class="font-semibold">3. Props update</p>
-                            <p class="text-muted-foreground">
-                                When the server responds, real props silently
-                                replace the placeholders. Redirects also work
-                                correctly.
-                            </p>
+                            <p class="font-semibold">{{ $t('3. Props update') }}</p>
+                            <p class="text-muted-foreground"> {{ $t('When the server responds, real props silently replace the placeholders. Redirects also work correctly.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>
 
                 <!-- Basic instant visit -->
-                <FeatureCard title="Basic Instant Visit">
+                <FeatureCard :title="$t('Basic Instant Visit')">
                     <template #description>
-                        Provide a <code class="text-xs">component</code> name.
-                        The page swaps immediately with shared props. The target
-                        component should handle missing page-specific props
-                        gracefully (e.g. optional chaining). Server response
-                        replaces props when ready.
+                        <i18n-t keypath="Provide a {el0} name. The page swaps immediately with shared props. The target component should handle missing page-specific props gracefully (e.g. optional chaining). Server response replaces props when ready." tag="span" scope="global"><template #el0><code class="text-xs">component</code></template></i18n-t>
                     </template>
                     <div class="space-y-4">
-                        <Button @click="visitBasic">
-                            Visit Target (2s delay)
-                        </Button>
+                        <Button @click="visitBasic"> {{ $t('Visit Target (2s delay)') }} </Button>
                         <CodeBlock
                             code="
                             router.visit(targetUrl, {
@@ -147,18 +133,12 @@ function visitWithCallbackProps() {
                 </FeatureCard>
 
                 <!-- With placeholder props -->
-                <FeatureCard title="With Placeholder Props">
+                <FeatureCard :title="$t('With Placeholder Props')">
                     <template #description>
-                        Use <code class="text-xs">pageProps</code> callback to
-                        provide placeholder props. When
-                        <code class="text-xs">pageProps</code> is provided,
-                        shared props are not automatically carried over, so
-                        spread them yourself.
+                        <i18n-t keypath="Use {el0} callback to provide placeholder props. When {el1} is provided, shared props are not automatically carried over, so spread them yourself." tag="span" scope="global"><template #el0><code class="text-xs">pageProps</code></template><template #el1><code class="text-xs">pageProps</code></template></i18n-t>
                     </template>
                     <div class="space-y-4">
-                        <Button @click="visitWithPlaceholderProps">
-                            Visit with Placeholders
-                        </Button>
+                        <Button @click="visitWithPlaceholderProps"> {{ $t('Visit with Placeholders') }} </Button>
                         <CodeBlock
                             code="
                             router.visit(targetUrl, {
@@ -175,16 +155,12 @@ function visitWithCallbackProps() {
                 </FeatureCard>
 
                 <!-- With callback props -->
-                <FeatureCard title="Callback Props">
+                <FeatureCard :title="$t('Callback Props')">
                     <template #description>
-                        Pass <code class="text-xs">pageProps</code> as a
-                        function. Receives current page props and shared props
-                        as arguments.
+                        <i18n-t keypath="Pass {el0} as a function. Receives current page props and shared props as arguments." tag="span" scope="global"><template #el0><code class="text-xs">pageProps</code></template></i18n-t>
                     </template>
                     <div class="space-y-4">
-                        <Button @click="visitWithCallbackProps">
-                            Visit with Callback
-                        </Button>
+                        <Button @click="visitWithCallbackProps"> {{ $t('Visit with Callback') }} </Button>
                         <CodeBlock>
                             <textarea>
                             router.visit(targetUrl, {
@@ -200,20 +176,16 @@ function visitWithCallbackProps() {
                 </FeatureCard>
 
                 <!-- Link component -->
-                <FeatureCard title="Link Component">
+                <FeatureCard :title="$t('Link Component')">
                     <template #description>
-                        Use the <code class="text-xs">component</code> prop on
-                        <code class="text-xs">&lt;Link&gt;</code> for
-                        declarative instant visits.
+                        <i18n-t keypath="Use the {el0} prop on {el1} for declarative instant visits." tag="span" scope="global"><template #el0><code class="text-xs">component</code></template><template #el1><code class="text-xs">&lt;Link&gt;</code></template></i18n-t>
                     </template>
                     <div class="space-y-4">
                         <Link
                             :href="targetUrl"
                             component="Features/Navigation/InstantVisitTarget"
                             class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90"
-                        >
-                            Link with component
-                        </Link>
+                        > {{ $t('Link with component') }} </Link>
                         <CodeBlock>
                             <textarea>
                             <Link
@@ -231,7 +203,7 @@ function visitWithCallbackProps() {
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="API Reference"
+                    :title="$t('API Reference')"
                 >
                     <div class="grid gap-3 sm:grid-cols-3">
                         <CodeBlock
@@ -253,7 +225,7 @@ function visitWithCallbackProps() {
                             </textarea>
                         </CodeBlock>
                         <CodeBlock
-                            title="pageProps callback"
+                            :title="$t('pageProps callback')"
                             code="
                             pageProps: (current, shared) => ({
                               ...shared,
