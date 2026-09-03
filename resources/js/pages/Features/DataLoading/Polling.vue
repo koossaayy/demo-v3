@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { Head, usePoll } from '@inertiajs/vue3';
 import { onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+
+const { t } = useI18n();
 
 defineProps<{
     currentTime: string;
@@ -15,8 +18,8 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Data Loading' },
-    { title: 'Polling' },
+    { title: t('Data Loading') },
+    { title: t('Polling') },
 ];
 
 type PollMode = 'overlap' | 'cancel' | 'rest';
@@ -78,45 +81,36 @@ const modes: { value: PollMode; label: string; description: string }[] = [
     {
         value: 'overlap',
         label: 'overlap',
-        description: 'Default. Requests fire every interval, may stack up.',
+        description: t('Default. Requests fire every interval, may stack up.'),
     },
     {
         value: 'cancel',
         label: 'cancel',
-        description: 'Aborts the in-flight request before starting the next.',
+        description: t('Aborts the in-flight request before starting the next.'),
     },
     {
         value: 'rest',
         label: 'rest',
-        description: 'Waits the interval after each response. No overlap.',
+        description: t('Waits the interval after each response. No overlap.'),
     },
 ];
 </script>
 
 <template>
-    <Head title="Polling" />
+    <Head :title="$t('Polling')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Polling"
+                :title="$t('Polling')"
                 docs="data-props/polling"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L114"
-            >
-                Periodic data refreshing with
-                <code class="text-xs">usePoll()</code>. The
-                <code class="text-xs">mode</code> option controls how concurrent
-                requests are handled when responses take longer than the
-                interval.
-            </FeatureHeader>
+            > {{ $t('Periodic data refreshing with') }} <code class="text-xs">usePoll()</code>{{ $t('. The') }} <code class="text-xs">{{ $t('mode') }}</code> {{ $t('option controls how concurrent requests are handled when responses take longer than the interval.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Controls -->
-                <FeatureCard title="Polling Controls">
-                    <template #description>
-                        Server sleeps 500-3000ms per request so you can see the
-                        modes diverge.
-                    </template>
+                <FeatureCard :title="$t('Polling Controls')">
+                    <template #description> {{ $t('Server sleeps 500-3000ms per request so you can see the modes diverge.') }} </template>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
                             <Button
@@ -124,24 +118,22 @@ const modes: { value: PollMode; label: string; description: string }[] = [
                                 :variant="isPolling ? 'destructive' : 'default'"
                             >
                                 {{
-                                    isPolling ? 'Stop Polling' : 'Start Polling'
+                                    isPolling ? $t('Stop Polling') : $t('Start Polling')
                                 }}
                             </Button>
                             <Badge
                                 :variant="isPolling ? 'default' : 'secondary'"
                             >
-                                {{ isPolling ? 'Active' : 'Stopped' }}
+                                {{ isPolling ? $t('Active') : $t('Stopped') }}
                             </Badge>
                         </div>
 
                         <div class="space-y-2">
                             <p
                                 class="flex items-center gap-2 text-sm font-medium"
-                            >
-                                Mode
-                                <span
+                            > {{ $t('Mode') }} <span
                                     class="shrink-0 rounded bg-indigo-500/10 px-2 py-1 text-[10px] leading-none font-semibold text-indigo-500"
-                                    >v3.2</span
+                                    >{{ $t('v3.2') }}</span
                                 >
                             </p>
                             <div class="flex flex-wrap gap-2">
@@ -168,13 +160,9 @@ const modes: { value: PollMode; label: string; description: string }[] = [
                         </div>
 
                         <div class="grid grid-cols-2 gap-3 text-sm">
-                            <div>
-                                Poll count:
-                                <strong>{{ pollCount }}</strong>
+                            <div> {{ $t('Poll count:') }} <strong>{{ pollCount }}</strong>
                             </div>
-                            <div>
-                                In flight:
-                                <strong>{{ inFlight }}</strong>
+                            <div> {{ $t('In flight:') }} <strong>{{ inFlight }}</strong>
                             </div>
                         </div>
 
@@ -182,13 +170,7 @@ const modes: { value: PollMode; label: string; description: string }[] = [
                             class="rounded-lg border border-black/5 bg-neutral-50/80 p-3 font-mono text-xs dark:border-white/5 dark:bg-neutral-900/80"
                         >
                             <p>
-                                <strong>Tip:</strong> With
-                                <code>overlap</code> and a slow server, watch
-                                <em>In flight</em> climb past 1.
-                                <code>cancel</code> keeps it at 1 by aborting,
-                                <code>rest</code> keeps it at 1 by waiting the
-                                interval after each response.
-                            </p>
+                                <strong>{{ $t('Tip:') }}</strong> {{ $t('With') }} <code>{{ $t('overlap') }}</code> {{ $t('and a slow server, watch') }} <em>{{ $t('In flight') }}</em> {{ $t('climb past 1.') }} <code>{{ $t('cancel') }}</code> {{ $t('keeps it at 1 by aborting,') }} <code>{{ $t('rest') }}</code> {{ $t('keeps it at 1 by waiting the interval after each response.') }} </p>
                         </div>
                     </div>
                 </FeatureCard>
@@ -196,14 +178,14 @@ const modes: { value: PollMode; label: string; description: string }[] = [
                 <!-- Live Data -->
                 <FeatureCard
                     info-card
-                    title="Live Data"
-                    description="These values refresh from the server on each poll cycle."
+                    :title="$t('Live Data')"
+                    :description="$t('These values refresh from the server on each poll cycle.')"
                 >
                     <div class="space-y-4">
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >Server Time</span
+                                    >{{ $t('Server Time') }}</span
                                 >
                                 <Badge
                                     variant="outline"
@@ -213,7 +195,7 @@ const modes: { value: PollMode; label: string; description: string }[] = [
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >Random Number</span
+                                    >{{ $t('Random Number') }}</span
                                 >
                                 <Badge variant="secondary">{{
                                     randomNumber
@@ -221,7 +203,7 @@ const modes: { value: PollMode; label: string; description: string }[] = [
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >Contact Count</span
+                                    >{{ $t('Contact Count') }}</span
                                 >
                                 <Badge variant="secondary">{{
                                     contactCount

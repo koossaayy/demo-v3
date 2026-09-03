@@ -14,22 +14,22 @@ class NetworkErrorController
 
     public function httpException403(): never
     {
-        abort(403, 'Forbidden');
+        abort(403, __('Forbidden'));
     }
 
     public function httpException404(): never
     {
-        abort(404, 'Not Found');
+        abort(404, __('Not Found'));
     }
 
     public function httpException500(): never
     {
-        abort(500, 'Server Error');
+        abort(500, __('Server Error'));
     }
 
     public function httpExceptionUnhandled(): never
     {
-        abort(418, "I'm a teapot");
+        abort(418, __("I'm a teapot"));
     }
 
     public function networkErrors(): Response

@@ -10,6 +10,9 @@ import { type BreadcrumbItem } from '@/types';
 import contactRoutes from '@/wayfinder/routes/contacts';
 import organizationRoutes from '@/wayfinder/routes/organizations';
 import type { App, Inertia } from '@/wayfinder/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 type CursorPaginated<T> = {
     data: T[];
@@ -26,8 +29,8 @@ const props = defineProps<
 >();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'CRM' },
-    { title: 'Organizations', href: organizationRoutes.index().url },
+    { title: t('CRM') },
+    { title: t('Organizations'), href: organizationRoutes.index().url },
     { title: props.organization.name },
 ];
 </script>
@@ -54,8 +57,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 {{ organization.contacts_count }}
                                 {{
                                     organization.contacts_count === 1
-                                        ? 'contact'
-                                        : 'contacts'
+                                        ? $t('contact')
+                                        : $t('contacts')
                                 }}
                             </Badge>
                         </div>
@@ -76,7 +79,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <div class="flex max-w-md items-end gap-3">
                             <div class="flex-1 space-y-2">
                                 <label for="name" class="text-sm font-medium"
-                                    >Organization Name</label
+                                    >{{ $t('Organization Name') }}</label
                                 >
                                 <Input
                                     id="name"
@@ -94,15 +97,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 type="submit"
                                 :disabled="processing || !isDirty"
                             >
-                                {{ processing ? 'Saving...' : 'Update' }}
+                                {{ processing ? $t('Saving...') : $t('Update') }}
                             </Button>
                         </div>
                         <p
                             v-if="recentlySuccessful"
                             class="mt-2 text-sm text-green-600"
-                        >
-                            Saved!
-                        </p>
+                        > {{ $t('Saved!') }} </p>
                     </Form>
                 </CardContent>
             </Card>
@@ -110,7 +111,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             <!-- Members -->
             <Card>
                 <CardHeader>
-                    <CardTitle>Members</CardTitle>
+                    <CardTitle>{{ $t('Members') }}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <InfiniteScroll
@@ -147,9 +148,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                         <template #loading>
                             <div class="flex justify-center py-4">
-                                <div class="text-sm text-muted-foreground">
-                                    Loading more...
-                                </div>
+                                <div class="text-sm text-muted-foreground"> {{ $t('Loading more...') }} </div>
                             </div>
                         </template>
                     </InfiniteScroll>
@@ -157,9 +156,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <div
                         v-if="props.contacts.data.length === 0"
                         class="py-4 text-center text-sm text-muted-foreground"
-                    >
-                        No contacts in this organization.
-                    </div>
+                    > {{ $t('No contacts in this organization.') }} </div>
                 </CardContent>
             </Card>
         </div>

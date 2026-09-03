@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { ref, watch, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -9,9 +10,11 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'State Management' },
-    { title: 'Flash Data' },
+    { title: t('State Management') },
+    { title: t('Flash Data') },
 ];
 
 const page = usePage();
@@ -60,19 +63,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Head title="Flash Data" />
+    <Head :title="$t('Flash Data')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Flash Data"
+                :title="$t('Flash Data')"
                 docs="data-props/flash-data"
                 controller="app/Http/Controllers/Feature/StateController.php#L16"
-            >
-                One-time messages with
-                <code class="text-xs">Inertia::flash()</code> (server) and
-                <code class="text-xs">router.flash()</code> (client).
-            </FeatureHeader>
+            > {{ $t('One-time messages with') }} <code class="text-xs">{{ $t('Inertia::flash()') }}</code> {{ $t('(server) and') }} <code class="text-xs">router.flash()</code> {{ $t('(client).') }} </FeatureHeader>
 
             <!-- Flash display -->
             <div
@@ -99,12 +98,11 @@ onUnmounted(() => {
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Server-side flash -->
-                <FeatureCard title="Server-Side Flash">
+                <FeatureCard :title="$t('Server-Side Flash')">
                     <template #description>
                         <code class="text-xs"
-                            >Inertia::flash('key', 'value')->back()</code
-                        >. Sends flash with a server request.
-                    </template>
+                            >{{ $t('Inertia::flash(\'key\', \'value\')->back()') }}</code
+                        >{{ $t('. Sends flash with a server request.') }} </template>
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
                             <Button
@@ -116,9 +114,7 @@ onUnmounted(() => {
                                         { preserveScroll: true },
                                     )
                                 "
-                            >
-                                Success Flash
-                            </Button>
+                            > {{ $t('Success Flash') }} </Button>
                             <Button
                                 variant="destructive"
                                 size="sm"
@@ -129,9 +125,7 @@ onUnmounted(() => {
                                         { preserveScroll: true },
                                     )
                                 "
-                            >
-                                Error Flash
-                            </Button>
+                            > {{ $t('Error Flash') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -142,23 +136,17 @@ onUnmounted(() => {
                                         { preserveScroll: true },
                                     )
                                 "
-                            >
-                                Warning Flash
-                            </Button>
+                            > {{ $t('Warning Flash') }} </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Each button sends a POST, the server responds with
-                            <code>Inertia::flash()</code> and a redirect back.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Each button sends a POST, the server responds with') }} <code>{{ $t('Inertia::flash()') }}</code> {{ $t('and a redirect back.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Client-side flash -->
-                <FeatureCard title="Client-Side Flash">
+                <FeatureCard :title="$t('Client-Side Flash')">
                     <template #description>
                         <code class="text-xs">router.flash('key', 'value')</code
-                        >. Sets flash without a server request.
-                    </template>
+                        >{{ $t('. Sets flash without a server request.') }} </template>
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
                             <Button
@@ -170,9 +158,7 @@ onUnmounted(() => {
                                         type: 'success',
                                     })
                                 "
-                            >
-                                Client Flash (object)
-                            </Button>
+                            > {{ $t('Client Flash (object)') }} </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -182,26 +168,20 @@ onUnmounted(() => {
                                         'Hello from the client!',
                                     )
                                 "
-                            >
-                                Client Flash (key/value)
-                            </Button>
+                            > {{ $t('Client Flash (key/value)') }} </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            No server request. Flash data is set directly on the
-                            client and available via
-                            <code>usePage().flash</code>.
+                        <p class="text-xs text-muted-foreground"> {{ $t('No server request. Flash data is set directly on the client and available via') }} <code>{{ $t('usePage().flash') }}</code>.
                         </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Callback form of router.flash() -->
-                <FeatureCard title="Callback Flash">
+                <FeatureCard :title="$t('Callback Flash')">
                     <template #description>
                         <code class="text-xs"
                             >router.flash((current) => ({ ...current, key: value
                             }))</code
-                        >. Merge with existing flash.
-                    </template>
+                        >{{ $t('. Merge with existing flash.') }} </template>
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
                             <Button
@@ -236,19 +216,15 @@ onUnmounted(() => {
                                 Merge Message
                             </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            The callback receives current flash data and returns
-                            the new flash state, enabling incremental updates.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('The callback receives current flash data and returns the new flash state, enabling incremental updates.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- router.on('flash') listener -->
-                <FeatureCard title="Flash Event Listener">
+                <FeatureCard :title="$t('Flash Event Listener')">
                     <template #description>
                         <code class="text-xs">router.on('flash', callback)</code
-                        >. Fires whenever flash data is received.
-                    </template>
+                        >{{ $t('. Fires whenever flash data is received.') }} </template>
                     <div class="space-y-4">
                         <div class="flex items-center gap-2">
                             <Badge
@@ -259,57 +235,44 @@ onUnmounted(() => {
                                 "
                                 class="text-xs"
                                 >{{
-                                    flashListenerActive ? 'Active' : 'Inactive'
+                                    flashListenerActive ? $t('Active') : $t('Inactive')
                                 }}</Badge
                             >
                             <Button
                                 v-if="!flashListenerActive"
                                 size="sm"
                                 @click="registerFlashListener"
-                                >Register</Button
+                                >{{ $t('Register') }}</Button
                             >
                             <Button
                                 v-else
                                 variant="outline"
                                 size="sm"
                                 @click="unregisterFlashListener"
-                                >Remove</Button
+                                >{{ $t('Remove') }}</Button
                             >
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Register the listener, then trigger any flash. The
-                            event log will show entries from both the
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
-                                >watch</code
-                            >
-                            and the
-                            <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                        <p class="text-xs text-muted-foreground"> {{ $t('Register the listener, then trigger any flash. The event log will show entries from both the') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                                >{{ $t('watch') }}</code
+                            > {{ $t('and the') }} <code class="rounded bg-muted px-1 py-0.5 text-xs"
                                 >router.on('flash')</code
-                            >
-                            listener.
-                        </p>
+                            > {{ $t('listener.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Flash state display -->
-                <FeatureCard info-card title="Current Flash State">
+                <FeatureCard info-card :title="$t('Current Flash State')">
                     <template #description>
-                        <code class="text-xs">usePage().flash</code>. Reactive
-                        access to current flash data.
-                    </template>
+                        <code class="text-xs">{{ $t('usePage().flash') }}</code>{{ $t('. Reactive access to current flash data.') }} </template>
                     <CodeBlock :code="JSON.stringify(page.flash, null, 2)" />
-                    <p class="mt-2 text-xs text-muted-foreground">
-                        Flash data is one-time. It clears after being sent to
-                        the client and is not persisted in browser history
-                        state.
-                    </p>
+                    <p class="mt-2 text-xs text-muted-foreground"> {{ $t('Flash data is one-time. It clears after being sent to the client and is not persisted in browser history state.') }} </p>
                 </FeatureCard>
 
                 <!-- Event Log -->
-                <FeatureCard info-card title="Event Log">
+                <FeatureCard info-card :title="$t('Event Log')">
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div v-if="eventLog.length" class="space-y-1">
@@ -321,9 +284,7 @@ onUnmounted(() => {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Trigger a flash to see events.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Trigger a flash to see events.') }} </p>
                 </FeatureCard>
             </div>
         </div>

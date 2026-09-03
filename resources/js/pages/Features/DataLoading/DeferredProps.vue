@@ -6,6 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<{
     quickStat: string;
@@ -18,40 +21,35 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Data Loading' },
-    { title: 'Deferred Props' },
+    { title: t('Data Loading') },
+    { title: t('Deferred Props') },
 ];
 </script>
 
 <template>
-    <Head title="Deferred Props" />
+    <Head :title="$t('Deferred Props')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Deferred Props"
+                :title="$t('Deferred Props')"
                 docs="data-props/deferred-props"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L16"
-            >
-                Lazy-loaded props with skeleton fallbacks. Expensive data loads
-                after the initial page render.
-            </FeatureHeader>
+            > {{ $t('Lazy-loaded props with skeleton fallbacks. Expensive data loads after the initial page render.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-3">
                 <!-- Instant Prop -->
                 <FeatureCard
-                    title="Instant Prop"
-                    description="Loaded immediately with the page response."
+                    :title="$t('Instant Prop')"
+                    :description="$t('Loaded immediately with the page response.')"
                 >
                     <Badge>{{ quickStat }}</Badge>
                 </FeatureCard>
 
                 <!-- Deferred: slowStats (default group) -->
-                <FeatureCard title="Deferred Stats">
+                <FeatureCard :title="$t('Deferred Stats')">
                     <template #description>
-                        <code class="text-xs">Inertia::defer()</code>. Default
-                        group, ~800ms delay.
-                    </template>
+                        <code class="text-xs">{{ $t('Inertia::defer()') }}</code>{{ $t('. Default group, ~800ms delay.') }} </template>
                     <Deferred data="slowStats">
                         <template #fallback>
                             <div class="space-y-3">
@@ -65,13 +63,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </template>
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm">Total Contacts</span>
+                                <span class="text-sm">{{ $t('Total Contacts') }}</span>
                                 <Badge variant="secondary">{{
                                     slowStats?.totalContacts
                                 }}</Badge>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-sm">Total Favorites</span>
+                                <span class="text-sm">{{ $t('Total Favorites') }}</span>
                                 <Badge variant="secondary">{{
                                     slowStats?.totalFavorites
                                 }}</Badge>
@@ -81,11 +79,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </FeatureCard>
 
                 <!-- Deferred: heavyData (named group "heavy") -->
-                <FeatureCard title="Heavy Data">
+                <FeatureCard :title="$t('Heavy Data')">
                     <template #description>
                         <code class="text-xs">Inertia::defer(fn, 'heavy')</code
-                        >. Named group, ~1.5s delay.
-                    </template>
+                        >{{ $t('. Named group, ~1.5s delay.') }} </template>
                     <Deferred data="heavyData">
                         <template #fallback>
                             <div class="space-y-2">
@@ -117,19 +114,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Reloading slot demo -->
-                <FeatureCard title="Reloading Slot">
-                    <template #description>
-                        The <code class="text-xs">reloading</code> slot prop
-                        lets you show stale data with a visual indicator while
-                        refreshing.
-                    </template>
+                <FeatureCard :title="$t('Reloading Slot')">
+                    <template #description> {{ $t('The') }} <code class="text-xs">{{ $t('reloading') }}</code> {{ $t('slot prop lets you show stale data with a visual indicator while refreshing.') }} </template>
                     <template #header-action>
                         <Button
                             variant="outline"
                             @click="router.reload({ only: ['slowStats'] })"
-                        >
-                            Reload Stats
-                        </Button>
+                        > {{ $t('Reload Stats') }} </Button>
                     </template>
                     <Deferred data="slowStats">
                         <template #fallback>
@@ -151,8 +142,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             >
                                 <div class="flex items-center gap-2">
                                     <span class="text-sm"
-                                        >Total Contacts:
-                                        <strong>{{
+                                        >{{ $t('Total Contacts:') }} <strong>{{
                                             slowStats?.totalContacts
                                         }}</strong></span
                                     >
@@ -160,12 +150,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         v-if="reloading"
                                         variant="secondary"
                                         class="text-xs"
-                                        >Refreshing...</Badge
+                                        >{{ $t('Refreshing...') }}</Badge
                                     >
                                 </div>
-                                <div class="text-sm">
-                                    Total Favorites:
-                                    <strong>{{
+                                <div class="text-sm"> {{ $t('Total Favorites:') }} <strong>{{
                                         slowStats?.totalFavorites
                                     }}</strong>
                                 </div>
@@ -174,16 +162,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </Deferred>
                 </FeatureCard>
 
-                <FeatureCard title="Rescued Deferred Prop" badge="v3.1">
+                <FeatureCard :title="$t('Rescued Deferred Prop')" badge="v3.1">
                     <template #description>
                         <code class="text-xs"
                             >Inertia::defer(fn, rescue: true)</code
-                        >. When the closure throws, the prop is marked rescued
-                        and the <code class="text-xs">rescue</code> slot renders
-                        instead of the fallback. Retry sends an
-                        <code class="text-xs">X-Force-Success</code> header so
-                        the server returns data instead of throwing.
-                    </template>
+                        >{{ $t('. When the closure throws, the prop is marked rescued and the') }} <code class="text-xs">{{ $t('rescue') }}</code> {{ $t('slot renders instead of the fallback. Retry sends an') }} <code class="text-xs">{{ $t('X-Force-Success') }}</code> {{ $t('header so the server returns data instead of throwing.') }} </template>
                     <Deferred data="flakyReport">
                         <template #fallback>
                             <div class="space-y-3">
@@ -203,12 +186,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 class="space-y-3 rounded border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive"
                             >
                                 <div>
-                                    <div class="font-medium">
-                                        Failed to load report
-                                    </div>
-                                    <div class="text-xs opacity-80">
-                                        Server threw during deferred resolution.
-                                    </div>
+                                    <div class="font-medium"> {{ $t('Failed to load report') }} </div>
+                                    <div class="text-xs opacity-80"> {{ $t('Server threw during deferred resolution.') }} </div>
                                 </div>
                                 <Button
                                     variant="outline"
@@ -221,7 +200,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         })
                                     "
                                 >
-                                    {{ reloading ? 'Retrying...' : 'Retry' }}
+                                    {{ reloading ? $t('Retrying...') : $t('Retry') }}
                                 </Button>
                             </div>
                         </template>
@@ -230,11 +209,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         >
                             <div
                                 class="font-medium text-emerald-700 dark:text-emerald-400"
-                            >
-                                Report loaded
-                            </div>
-                            <div class="text-xs">
-                                Value: <strong>{{ flakyReport?.value }}</strong>
+                            > {{ $t('Report loaded') }} </div>
+                            <div class="text-xs"> {{ $t('Value:') }} <strong>{{ flakyReport?.value }}</strong>
                             </div>
                         </div>
                     </Deferred>

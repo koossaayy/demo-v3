@@ -49,6 +49,6 @@ class OrganizationController
     {
         $organization->update($request->validated());
 
-        return Inertia::flash('message', 'Organization updated.')->back();
+        return Inertia::flash('message', __('Organization updated.'))->back();
     }
 }
