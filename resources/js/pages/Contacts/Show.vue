@@ -15,6 +15,9 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import contacts from '@/wayfinder/routes/contacts';
 import type { App, Inertia } from '@/wayfinder/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<
     Omit<Inertia.Pages.Contacts.Show, 'notes'> & {
@@ -23,8 +26,8 @@ const props = defineProps<
 >();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'CRM' },
-    { title: 'Contacts', href: contacts.index().url },
+    { title: t('CRM') },
+    { title: t('Contacts'), href: contacts.index().url },
     { title: `${props.contact.first_name} ${props.contact.last_name}` },
 ];
 
@@ -45,7 +48,7 @@ function toggleFavorite() {
 }
 
 function deleteContact() {
-    if (confirm('Are you sure you want to delete this contact?')) {
+    if (confirm(t('Are you sure you want to delete this contact?'))) {
         router.delete(contacts.destroy(props.contact.id).url);
     }
 }
@@ -97,18 +100,14 @@ function deleteContact() {
                 <div class="flex gap-2">
                     <Button variant="outline" as-child>
                         <Link :href="contacts.edit(contact.id).url">
-                            <Pencil class="size-4" />
-                            Edit
-                        </Link>
+                            <Pencil class="size-4" /> {{ $t('Edit') }} </Link>
                     </Button>
                     <Button
                         variant="outline"
                         class="text-destructive"
                         @click="deleteContact"
                     >
-                        <Trash2 class="size-4" />
-                        Delete
-                    </Button>
+                        <Trash2 class="size-4" /> {{ $t('Delete') }} </Button>
                 </div>
             </div>
 
@@ -116,7 +115,7 @@ function deleteContact() {
             <div class="grid gap-6 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Contact Information</CardTitle>
+                        <CardTitle>{{ $t('Contact Information') }}</CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
                         <div
@@ -144,19 +143,16 @@ function deleteContact() {
                         <div
                             v-if="!contact.email && !contact.phone"
                             class="text-sm text-muted-foreground"
-                        >
-                            No contact information available.
-                        </div>
+                        > {{ $t('No contact information available.') }} </div>
                     </CardContent>
                 </Card>
 
                 <!-- Notes -->
                 <Card>
                     <CardHeader>
-                        <CardTitle>Notes</CardTitle>
+                        <CardTitle>{{ $t('Notes') }}</CardTitle>
                         <CardDescription
-                            >Add and view notes for this
-                            contact</CardDescription
+                            >{{ $t('Add and view notes for this contact') }}</CardDescription
                         >
                     </CardHeader>
                     <CardContent>
@@ -171,7 +167,7 @@ function deleteContact() {
                         >
                             <textarea
                                 name="body"
-                                placeholder="Add a note..."
+                                :placeholder="$t('Add a note...')"
                                 class="w-full rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:outline-none"
                                 rows="3"
                             />
@@ -186,9 +182,7 @@ function deleteContact() {
                                 size="sm"
                                 class="mt-2"
                                 :disabled="processing"
-                            >
-                                Add Note
-                            </Button>
+                            > {{ $t('Add Note') }} </Button>
                         </Form>
 
                         <!-- Notes List (Deferred) -->
@@ -229,9 +223,7 @@ function deleteContact() {
                                     </p>
                                 </div>
                             </div>
-                            <p v-else class="text-sm text-muted-foreground">
-                                No notes yet.
-                            </p>
+                            <p v-else class="text-sm text-muted-foreground"> {{ $t('No notes yet.') }} </p>
                         </Deferred>
                     </CardContent>
                 </Card>

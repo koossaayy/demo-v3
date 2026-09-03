@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CodeBlock from '@/components/CodeBlock.vue';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
@@ -9,8 +10,10 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
+const { t } = useI18n();
+
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Events & Lifecycle' },
+    { title: t('Events & Lifecycle') },
     { title: 'Inertia.once' },
 ];
 
@@ -23,27 +26,27 @@ function log(message: string) {
 }
 
 function registerOnceBefore() {
-    log('Registered router.once("before") confirm listener');
+    log(t('Registered router.once("before") confirm listener'));
     router.once('before', (event) => {
         const url = event.detail.visit.url.toString();
-        log(`once(before) fired for ${url}`);
-        return confirm(`Allow visit to ${url}?`);
+        log(t('once(before) fired for {0}', [url]));
+        return confirm(t('Allow visit to {0}?', [url]));
     });
 }
 
 function registerOnceSuccess() {
-    log('Registered router.once("success") listener');
+    log(t('Registered router.once("success") listener'));
     router.once('success', () => {
-        log('once(success) fired');
+        log(t('once(success) fired'));
     });
 }
 
 function compareWithOn() {
-    log('Registered router.on("before") confirm listener');
+    log(t('Registered router.on("before") confirm listener'));
     const remove = router.on('before', (event) => {
         const url = event.detail.visit.url.toString();
-        log(`on(before) fired for ${url}`);
-        return confirm(`Allow visit to ${url}?`);
+        log(t('on(before) fired for {0}', [url]));
+        return confirm(t('Allow visit to {0}?', [url]));
     });
     pendingRemovers.push(remove);
 }
@@ -51,7 +54,7 @@ function compareWithOn() {
 function clearOnListeners() {
     pendingRemovers.forEach((r) => r());
     pendingRemovers.length = 0;
-    log('Cleared all router.on listeners');
+    log(t('Cleared all router.on listeners'));
 }
 
 function fireAction() {
@@ -76,17 +79,13 @@ onUnmounted(() => {
                 title="Inertia.once"
                 docs="advanced/events#registering-listeners"
                 controller="app/Http/Controllers/Feature/EventController.php#L22"
-            >
-                Listen to a router event exactly once with
-                <code class="text-xs">router.once()</code>. Listener
-                auto-removes after the first invocation.
-            </FeatureHeader>
+            > {{ $t('Listen to a router event exactly once with') }} <code class="text-xs">router.once()</code>{{ $t('. Listener auto-removes after the first invocation.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <FeatureCard
-                    title="Register once listeners"
+                    :title="$t('Register once listeners')"
                     badge="v3.2"
-                    description="Register a listener, then trigger a visit. once(before) returns confirm() to gate the visit, then auto-removes."
+                    :description="$t('Register a listener, then trigger a visit. once(before) returns confirm() to gate the visit, then auto-removes.')"
                 >
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
@@ -111,16 +110,12 @@ onUnmounted(() => {
                                 size="sm"
                                 variant="secondary"
                                 @click="router.reload()"
-                            >
-                                Reload page
-                            </Button>
+                            > {{ $t('Reload page') }} </Button>
                             <Button
                                 size="sm"
                                 variant="secondary"
                                 @click="fireAction"
-                            >
-                                POST action
-                            </Button>
+                            > {{ $t('POST action') }} </Button>
                         </div>
 
                         <CodeBlock
@@ -141,40 +136,29 @@ onUnmounted(() => {
                 </FeatureCard>
 
                 <FeatureCard
-                    title="Compare with router.on"
-                    description="A plain router.on listener keeps firing until removed. Register it, then trigger multiple visits to contrast with once()."
+                    :title="$t('Compare with router.on')"
+                    :description="$t('A plain router.on listener keeps firing until removed. Register it, then trigger multiple visits to contrast with once().')"
                 >
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-2">
-                            <Button size="sm" @click="compareWithOn">
-                                Register on('before')
-                            </Button>
+                            <Button size="sm" @click="compareWithOn"> {{ $t('Register on(\'before\')') }} </Button>
                             <Button
                                 size="sm"
                                 variant="destructive"
                                 @click="clearOnListeners"
-                            >
-                                Clear on listeners
-                            </Button>
+                            > {{ $t('Clear on listeners') }} </Button>
                         </div>
-                        <p class="text-xs text-muted-foreground">
-                            Fire several reloads after registering.
-                            <code>on(before)</code> prompts every visit until
-                            cleared. <code>once(before)</code> prompts the next
-                            visit, then auto-removes.
-                        </p>
+                        <p class="text-xs text-muted-foreground"> {{ $t('Fire several reloads after registering.') }} <code>on(before)</code> {{ $t('prompts every visit until cleared.') }} <code>once(before)</code> {{ $t('prompts the next visit, then auto-removes.') }} </p>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #header-action>
                         <Button
                             variant="ghost"
                             size="sm"
                             @click="eventLog = []"
-                        >
-                            Clear
-                        </Button>
+                        > {{ $t('Clear') }} </Button>
                     </template>
                     <div
                         v-if="eventLog.length"
@@ -188,7 +172,7 @@ onUnmounted(() => {
                             {{ entry }}
                         </div>
                     </div>
-                    <Badge v-else variant="outline">No events yet</Badge>
+                    <Badge v-else variant="outline">{{ $t('No events yet') }}</Badge>
                 </FeatureCard>
             </div>
         </div>
