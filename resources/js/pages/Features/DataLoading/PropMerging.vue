@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     notifications: Array<{ id: number; message: string; type: string }>;
@@ -21,8 +24,8 @@ const props = defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Data Loading' },
-    { title: 'Prop Merging' },
+    { title: t('Data Loading') },
+    { title: t('Prop Merging') },
 ];
 
 function addNotification() {
@@ -63,44 +66,37 @@ const latestContactTimestamp = computed(() => {
 </script>
 
 <template>
-    <Head title="Prop Merging" />
+    <Head :title="$t('Prop Merging')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Prop Merging"
+                :title="$t('Prop Merging')"
                 docs="data-props/merging-props"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L113"
             >
-                Server-side merge strategies with
-                <code class="text-xs">Inertia::merge()</code>. New items are
-                appended instead of replacing during partial reloads.
+                <i18n-t keypath="Server-side merge strategies with {el0}. New items are appended instead of replacing during partial reloads." tag="span" scope="global"><template #el0><code class="text-xs">Inertia::merge()</code></template></i18n-t>
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Notifications (merge) -->
-                <FeatureCard info-card title="Notifications">
+                <FeatureCard info-card :title="$t('Notifications')">
                     <template #header-action>
                         <Badge variant="secondary"
-                            >{{ notifications.length }} total</Badge
+                            >{{ $t('{0} total', [notifications.length]) }}</Badge
                         >
                     </template>
                     <template #description>
-                        <code class="text-xs">Inertia::merge()</code> appends
-                        new items to the existing array on each partial reload.
+                        <i18n-t keypath="{el0} appends new items to the existing array on each partial reload." tag="span" scope="global"><template #el0><code class="text-xs">Inertia::merge()</code></template></i18n-t>
                     </template>
                     <div class="space-y-3">
                         <div class="flex flex-wrap gap-2">
-                            <Button size="sm" @click="addNotification">
-                                Add Notification
-                            </Button>
+                            <Button size="sm" @click="addNotification"> {{ $t('Add Notification') }} </Button>
                             <Button
                                 size="sm"
                                 variant="outline"
                                 @click="resetNotifications"
-                            >
-                                Reset
-                            </Button>
+                            > {{ $t('Reset') }} </Button>
                         </div>
 
                         <div v-if="notifications.length" class="space-y-2">
@@ -126,37 +122,30 @@ const latestContactTimestamp = computed(() => {
                                 </Badge>
                             </div>
                         </div>
-                        <p v-else class="text-sm text-muted-foreground">
-                            Click "Add Notification" to start appending.
-                        </p>
+                        <p v-else class="text-sm text-muted-foreground"> {{ $t('Click "Add Notification" to start appending.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Prepend (activity log) -->
-                <FeatureCard info-card title="Prepend">
+                <FeatureCard info-card :title="$t('Prepend')">
                     <template #header-action>
                         <Badge variant="secondary"
-                            >{{ activities.length }} total</Badge
+                            >{{ $t('{0} total', [activities.length]) }}</Badge
                         >
                     </template>
                     <template #description>
-                        <code class="text-xs"
+                        <i18n-t keypath="{el0} adds new items to the beginning of the array." tag="span" scope="global"><template #el0><code class="text-xs"
                             >Inertia::merge([...])->prepend()</code
-                        >
-                        adds new items to the beginning of the array.
+                        ></template></i18n-t>
                     </template>
                     <div class="space-y-3">
                         <div class="flex flex-wrap gap-2">
-                            <Button size="sm" @click="addActivity">
-                                Log Activity
-                            </Button>
+                            <Button size="sm" @click="addActivity"> {{ $t('Log Activity') }} </Button>
                             <Button
                                 size="sm"
                                 variant="outline"
                                 @click="resetActivities"
-                            >
-                                Reset
-                            </Button>
+                            > {{ $t('Reset') }} </Button>
                         </div>
 
                         <div v-if="activities.length" class="space-y-2">
@@ -176,37 +165,30 @@ const latestContactTimestamp = computed(() => {
                                 >
                             </div>
                         </div>
-                        <p v-else class="text-sm text-muted-foreground">
-                            Click "Log Activity" to start prepending.
-                        </p>
+                        <p v-else class="text-sm text-muted-foreground"> {{ $t('Click "Log Activity" to start prepending.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- matchOn -->
-                <FeatureCard info-card title="matchOn (Dedup by ID)">
+                <FeatureCard info-card :title="$t('matchOn (Dedup by ID)')">
                     <template #header-action>
                         <Badge variant="secondary"
-                            >{{ contacts.length }} / 5 contacts</Badge
+                            >{{ $t('{0} / 5 contacts', [contacts.length]) }}</Badge
                         >
                     </template>
                     <template #description>
-                        <code class="text-xs"
+                        <i18n-t keypath="{el0}. New items are appended and existing items are updated in place, all in a single merge." tag="span" scope="global"><template #el0><code class="text-xs"
                             >Inertia::merge([...])->matchOn('id')</code
-                        >. New items are appended and existing items are updated
-                        in place, all in a single merge.
+                        ></template></i18n-t>
                     </template>
                     <div class="space-y-3">
                         <div class="flex flex-wrap gap-2">
-                            <Button size="sm" @click="fetchNextContact">
-                                Fetch Next Contact
-                            </Button>
+                            <Button size="sm" @click="fetchNextContact"> {{ $t('Fetch Next Contact') }} </Button>
                             <Button
                                 size="sm"
                                 variant="outline"
                                 @click="resetContacts"
-                            >
-                                Reset
-                            </Button>
+                            > {{ $t('Reset') }} </Button>
                         </div>
 
                         <div v-if="contacts.length" class="space-y-2">
@@ -226,7 +208,7 @@ const latestContactTimestamp = computed(() => {
                                     }}</span>
                                     <span
                                         class="ml-2 text-xs text-muted-foreground"
-                                        >ID: {{ contact.id }}</span
+                                        >{{ $t('ID: {0}', [contact.id]) }}</span
                                     >
                                 </div>
                                 <Badge
@@ -236,20 +218,13 @@ const latestContactTimestamp = computed(() => {
                                 >
                             </div>
                         </div>
-                        <p v-else class="text-sm text-muted-foreground">
-                            Click "Fetch Next Contact" to start loading.
-                        </p>
+                        <p v-else class="text-sm text-muted-foreground"> {{ $t('Click "Fetch Next Contact" to start loading.') }} </p>
 
                         <div
                             class="rounded-lg border border-black/5 bg-neutral-50/80 p-3 font-mono text-xs dark:border-white/5 dark:bg-neutral-900/80"
                         >
                             <p>
-                                Each fetch returns all known contacts with fresh
-                                timestamps plus one new contact.
-                                <code>matchOn('id')</code> handles both at once:
-                                new IDs are appended, existing IDs are updated
-                                in place (blue highlight). After 5 fetches the
-                                pool is full, so every fetch only updates.
+                                <i18n-t keypath="Each fetch returns all known contacts with fresh timestamps plus one new contact. {el0} handles both at once: new IDs are appended, existing IDs are updated in place (blue highlight). After 5 fetches the pool is full, so every fetch only updates." tag="span" scope="global"><template #el0><code>matchOn('id')</code></template></i18n-t>
                             </p>
                         </div>
                     </div>

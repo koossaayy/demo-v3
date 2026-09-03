@@ -36,35 +36,33 @@ function reset() {
 </script>
 
 <template>
-    <Head title="Layout Props" />
+    <Head :title="$t('Layout Props')" />
 
     <div class="flex h-full flex-1 flex-col gap-6 p-4">
         <FeatureHeader
-            title="Layout Props"
+            :title="$t('Layout Props')"
             docs="the-basics/layouts#layout-props"
             controller="app/Http/Controllers/Feature/LayoutController.php#L30"
         >
-            Pass data from pages to layouts with
-            <code class="text-xs">setLayoutProps()</code> and regular component
-            props.
+            <i18n-t keypath="Pass data from pages to layouts with {el0} and regular component props." tag="span" scope="global"><template #el0><code class="text-xs">setLayoutProps()</code></template></i18n-t>
         </FeatureHeader>
 
         <div class="grid gap-6 lg:grid-cols-2">
             <FeatureCard
                 title="setLayoutProps()"
-                description="Type a subtitle and click Apply. A banner appears below the breadcrumbs."
+                :description="$t('Type a subtitle and click Apply. A banner appears below the breadcrumbs.')"
             >
                 <div class="space-y-4">
                     <div class="space-y-2">
-                        <Label for="subtitle">Subtitle</Label>
+                        <Label for="subtitle">{{ $t('Subtitle') }}</Label>
                         <div class="flex gap-2">
                             <Input
                                 id="subtitle"
                                 v-model="subtitle"
-                                placeholder="Enter a subtitle..."
+                                :placeholder="$t('Enter a subtitle...')"
                                 @keyup.enter="apply"
                             />
-                            <Button @click="apply">Apply</Button>
+                            <Button @click="apply">{{ $t('Apply') }}</Button>
                         </div>
                     </div>
 
@@ -89,16 +87,11 @@ function reset() {
                         >
                             "Maintenance..."
                         </Button>
-                        <Button variant="outline" size="sm" @click="reset">
-                            Reset
-                        </Button>
+                        <Button variant="outline" size="sm" @click="reset"> {{ $t('Reset') }} </Button>
                     </div>
 
                     <p class="text-xs text-muted-foreground">
-                        The layout declares a <code>subtitle</code> prop with a
-                        default value. Pages override it with
-                        <code>setLayoutProps()</code>. Dynamic props auto-reset
-                        on navigation.
+                        <i18n-t keypath="The layout declares a {el0} prop with a default value. Pages override it with {el1}. Dynamic props auto-reset on navigation." tag="span" scope="global"><template #el0><code>subtitle</code></template><template #el1><code>setLayoutProps()</code></template></i18n-t>
                     </p>
                 </div>
             </FeatureCard>
@@ -106,13 +99,13 @@ function reset() {
             <!-- API Reference -->
             <FeatureCard
                 info-card
-                title="API Reference"
-                description="The complete layout props API."
+                :title="$t('API Reference')"
+                :description="$t('The complete layout props API.')"
             >
                 <div class="space-y-3">
                     <div class="space-y-2">
                         <CodeBlock
-                            title="In Layout:"
+                            :title="$t('In Layout:')"
                             code="defineProps({
   subtitle: {
     type: String,
@@ -121,12 +114,12 @@ function reset() {
 })"
                         />
                         <CodeBlock
-                            title="In Page:"
+                            :title="$t('In Page:')"
                             code="setLayoutProps({
   subtitle: 'Custom subtitle',
 })"
                         />
-                        <CodeBlock title="Reset:" code="resetLayoutProps()" />
+                        <CodeBlock :title="$t('Reset:')" code="resetLayoutProps()" />
                     </div>
                 </div>
             </FeatureCard>

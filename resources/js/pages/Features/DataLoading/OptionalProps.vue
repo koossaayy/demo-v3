@@ -6,6 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<{
     regularData: {
@@ -23,37 +26,35 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Data Loading' },
-    { title: 'Optional Props' },
+    { title: t('Data Loading') },
+    { title: t('Optional Props') },
 ];
 </script>
 
 <template>
-    <Head title="Optional Props" />
+    <Head :title="$t('Optional Props')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Optional Props"
+                :title="$t('Optional Props')"
                 docs="data-props/partial-reloads#lazy-data-evaluation"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L162"
-            >
-                Compare regular, optional, and deferred prop loading behaviors.
-            </FeatureHeader>
+            > {{ $t('Compare regular, optional, and deferred prop loading behaviors.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-3">
                 <!-- Regular prop -->
                 <FeatureCard
-                    title="Regular Prop"
-                    description="Always included in the response. Available immediately."
+                    :title="$t('Regular Prop')"
+                    :description="$t('Always included in the response. Available immediately.')"
                 >
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium">Status</span>
-                            <Badge variant="default">Loaded</Badge>
+                            <span class="text-sm font-medium">{{ $t('Status') }}</span>
+                            <Badge variant="default">{{ $t('Loaded') }}</Badge>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium">Timestamp</span>
+                            <span class="text-sm font-medium">{{ $t('Timestamp') }}</span>
                             <Badge
                                 variant="outline"
                                 class="font-mono text-xs"
@@ -67,26 +68,25 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </FeatureCard>
 
                 <!-- Optional prop -->
-                <FeatureCard title="Optional Prop">
+                <FeatureCard :title="$t('Optional Prop')">
                     <template #description>
-                        <code class="text-xs">Inertia::optional()</code>. Only
-                        loaded when explicitly requested via partial reload.
+                        <i18n-t keypath="{el0}. Only loaded when explicitly requested via partial reload." tag="span" scope="global"><template #el0><code class="text-xs">Inertia::optional()</code></template></i18n-t>
                     </template>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium">Status</span>
+                            <span class="text-sm font-medium">{{ $t('Status') }}</span>
                             <Badge
                                 :variant="
                                     optionalData ? 'default' : 'secondary'
                                 "
                             >
-                                {{ optionalData ? 'Loaded' : 'Not loaded' }}
+                                {{ optionalData ? $t('Loaded') : $t('Not loaded') }}
                             </Badge>
                         </div>
                         <template v-if="optionalData">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >Generated At</span
+                                    >{{ $t('Generated At') }}</span
                                 >
                                 <Badge
                                     variant="outline"
@@ -96,7 +96,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </div>
                             <div class="space-y-1">
                                 <span class="text-sm font-medium"
-                                    >Contacts</span
+                                    >{{ $t('Contacts') }}</span
                                 >
                                 <div
                                     v-for="contact in optionalData.contacts"
@@ -107,33 +107,30 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </div>
                             </div>
                         </template>
-                        <p v-else class="text-xs text-muted-foreground">
-                            Click "Load Optional Data" to fetch this prop.
-                        </p>
+                        <p v-else class="text-xs text-muted-foreground"> {{ $t('Click "Load Optional Data" to fetch this prop.') }} </p>
                     </div>
                 </FeatureCard>
 
                 <!-- Deferred prop -->
-                <FeatureCard title="Deferred Prop">
+                <FeatureCard :title="$t('Deferred Prop')">
                     <template #description>
-                        <code class="text-xs">Inertia::defer()</code>.
-                        Automatically loaded after the initial page render.
+                        <i18n-t keypath="{el0}. Automatically loaded after the initial page render." tag="span" scope="global"><template #el0><code class="text-xs">Inertia::defer()</code></template></i18n-t>
                     </template>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium">Status</span>
+                            <span class="text-sm font-medium">{{ $t('Status') }}</span>
                             <Badge
                                 :variant="
                                     deferredData ? 'default' : 'secondary'
                                 "
                             >
-                                {{ deferredData ? 'Loaded' : 'Loading...' }}
+                                {{ deferredData ? $t('Loaded') : $t('Loading...') }}
                             </Badge>
                         </div>
                         <template v-if="deferredData">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >Generated At</span
+                                    >{{ $t('Generated At') }}</span
                                 >
                                 <Badge
                                     variant="outline"
@@ -143,62 +140,48 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium"
-                                    >Total Contacts</span
+                                    >{{ $t('Total Contacts') }}</span
                                 >
                                 <Badge variant="secondary">{{
                                     deferredData.totalContacts
                                 }}</Badge>
                             </div>
                         </template>
-                        <p v-else class="text-xs text-muted-foreground">
-                            Automatically loads after the initial page render...
-                        </p>
+                        <p v-else class="text-xs text-muted-foreground"> {{ $t('Automatically loads after the initial page render...') }} </p>
                     </div>
                 </FeatureCard>
             </div>
 
             <!-- Controls -->
             <FeatureCard
-                title="Controls"
-                description="Trigger different reload strategies to see how each prop type behaves."
+                :title="$t('Controls')"
+                :description="$t('Trigger different reload strategies to see how each prop type behaves.')"
             >
                 <div class="space-y-4">
                     <div class="flex flex-wrap gap-2">
                         <Button
                             @click="router.reload({ only: ['optionalData'] })"
-                        >
-                            Load Optional Data
-                        </Button>
+                        > {{ $t('Load Optional Data') }} </Button>
                         <Button
                             variant="outline"
                             @click="router.reload({ only: ['regularData'] })"
-                        >
-                            Reload Regular Only
-                        </Button>
-                        <Button variant="outline" @click="router.reload()">
-                            Reload All
-                        </Button>
+                        > {{ $t('Reload Regular Only') }} </Button>
+                        <Button variant="outline" @click="router.reload()"> {{ $t('Reload All') }} </Button>
                     </div>
 
                     <div
                         class="rounded-lg border border-black/5 bg-neutral-50/80 p-3 font-mono text-xs dark:border-white/5 dark:bg-neutral-900/80"
                     >
-                        <p><strong>Key Differences:</strong></p>
+                        <p><strong>{{ $t('Key Differences:') }}</strong></p>
                         <ul class="mt-1 list-inside list-disc space-y-1">
                             <li>
-                                <strong>Regular</strong>: always resolved on
-                                full visits. Excluded from partial reloads
-                                unless explicitly requested.
+                                <i18n-t keypath="{el0}: always resolved on full visits. Excluded from partial reloads unless explicitly requested." tag="span" scope="global"><template #el0><strong>Regular</strong></template></i18n-t>
                             </li>
                             <li>
-                                <strong>Optional</strong>: never resolved unless
-                                explicitly requested with
-                                <code>only: ['optionalData']</code>.
+                                <i18n-t keypath="{el0}: never resolved unless explicitly requested with {el1}." tag="span" scope="global"><template #el0><strong>Optional</strong></template><template #el1><code>only: ['optionalData']</code></template></i18n-t>
                             </li>
                             <li>
-                                <strong>Deferred</strong>: not included on
-                                initial load, but automatically fetched
-                                client-side after render.
+                                <i18n-t keypath="{el0}: not included on initial load, but automatically fetched client-side after render." tag="span" scope="global"><template #el0><strong>Deferred</strong></template></i18n-t>
                             </li>
                         </ul>
                     </div>

@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import FeatureCard from '@/components/FeatureCard.vue';
 import FeatureHeader from '@/components/FeatureHeader.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+
+const { t } = useI18n();
 
 defineProps<{
     users: Array<{ id: number; name: string; role: string }>;
@@ -16,8 +19,8 @@ defineProps<{
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Data Loading' },
-    { title: 'Partial Reloads' },
+    { title: t('Data Loading') },
+    { title: t('Partial Reloads') },
 ];
 
 const eventLog = ref<string[]>([]);
@@ -29,29 +32,27 @@ function log(message: string) {
 </script>
 
 <template>
-    <Head title="Partial Reloads" />
+    <Head :title="$t('Partial Reloads')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Partial Reloads"
+                :title="$t('Partial Reloads')"
                 docs="data-props/partial-reloads"
                 controller="app/Http/Controllers/Feature/DataLoadingController.php#L39"
             >
-                Selectively reload specific props using
-                <code class="text-xs">only</code> and
-                <code class="text-xs">except</code>.
+                <i18n-t keypath="Selectively reload specific props using {el0} and {el1}." tag="span" scope="global"><template #el0><code class="text-xs">only</code></template><template #el1><code class="text-xs">except</code></template></i18n-t>
             </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Current Props -->
                 <FeatureCard
-                    title="Current Props"
-                    description="Each prop updates independently when reloaded."
+                    :title="$t('Current Props')"
+                    :description="$t('Each prop updates independently when reloaded.')"
                 >
                     <div class="space-y-4">
                         <div>
-                            <h4 class="mb-1 text-sm font-semibold">Users</h4>
+                            <h4 class="mb-1 text-sm font-semibold">{{ $t('Users') }}</h4>
                             <div class="space-y-1">
                                 <div
                                     v-for="user in users"
@@ -67,13 +68,13 @@ function log(message: string) {
                         </div>
 
                         <div>
-                            <h4 class="mb-1 text-sm font-semibold">Stats</h4>
+                            <h4 class="mb-1 text-sm font-semibold">{{ $t('Stats') }}</h4>
                             <div class="flex gap-3">
                                 <Badge variant="secondary"
-                                    >Total: {{ stats.total }}</Badge
+                                    >{{ $t('Total: {0}', [stats.total]) }}</Badge
                                 >
                                 <Badge variant="secondary"
-                                    >Favorites: {{ stats.favorites }}</Badge
+                                    >{{ $t('Favorites: {0}', [stats.favorites]) }}</Badge
                                 >
                             </div>
                         </div>
@@ -81,13 +82,13 @@ function log(message: string) {
                         <div class="flex items-center gap-4">
                             <div>
                                 <span class="text-xs text-muted-foreground"
-                                    >Timestamp</span
+                                    >{{ $t('Timestamp') }}</span
                                 >
                                 <p class="font-mono text-sm">{{ timestamp }}</p>
                             </div>
                             <div>
                                 <span class="text-xs text-muted-foreground"
-                                    >Random</span
+                                    >{{ $t('Random') }}</span
                                 >
                                 <p class="font-mono text-sm">
                                     {{ randomNumber }}
@@ -98,11 +99,9 @@ function log(message: string) {
                 </FeatureCard>
 
                 <!-- Reload Controls -->
-                <FeatureCard title="Reload Controls">
+                <FeatureCard :title="$t('Reload Controls')">
                     <template #description>
-                        Use <code class="text-xs">only</code> and
-                        <code class="text-xs">except</code> to target specific
-                        props.
+                        <i18n-t keypath="Use {el0} and {el1} to target specific props." tag="span" scope="global"><template #el0><code class="text-xs">only</code></template><template #el1><code class="text-xs">except</code></template></i18n-t>
                     </template>
                     <div class="space-y-4">
                         <div class="space-y-2">
@@ -122,9 +121,7 @@ function log(message: string) {
                                                 ),
                                         })
                                     "
-                                >
-                                    only: timestamp + random
-                                </Button>
+                                > {{ $t('only: timestamp + random') }} </Button>
                                 <Button
                                     variant="outline"
                                     size="sm"
@@ -135,9 +132,7 @@ function log(message: string) {
                                                 log('Reloaded: stats'),
                                         })
                                     "
-                                >
-                                    only: stats
-                                </Button>
+                                > {{ $t('only: stats') }} </Button>
                                 <Button
                                     variant="outline"
                                     size="sm"
@@ -148,9 +143,7 @@ function log(message: string) {
                                                 log('Reloaded: users'),
                                         })
                                     "
-                                >
-                                    only: users
-                                </Button>
+                                > {{ $t('only: users') }} </Button>
                             </div>
                         </div>
 
@@ -171,9 +164,7 @@ function log(message: string) {
                                                 ),
                                         })
                                     "
-                                >
-                                    except: users
-                                </Button>
+                                > {{ $t('except: users') }} </Button>
                                 <Button
                                     variant="outline"
                                     size="sm"
@@ -186,32 +177,28 @@ function log(message: string) {
                                                 ),
                                         })
                                     "
-                                >
-                                    except: stats + users
-                                </Button>
+                                > {{ $t('except: stats + users') }} </Button>
                             </div>
                         </div>
 
                         <div class="space-y-2">
-                            <h4 class="text-sm font-semibold">Full Reload</h4>
+                            <h4 class="text-sm font-semibold">{{ $t('Full Reload') }}</h4>
                             <Button
                                 @click="
                                     router.reload({
                                         onSuccess: () => log('Full reload'),
                                     })
                                 "
-                            >
-                                Reload All Props
-                            </Button>
+                            > {{ $t('Reload All Props') }} </Button>
                         </div>
                     </div>
                 </FeatureCard>
 
                 <!-- Event Log -->
-                <FeatureCard info-card class="lg:col-span-2" title="Event Log">
+                <FeatureCard info-card class="lg:col-span-2" :title="$t('Event Log')">
                     <template #header-action>
                         <Button variant="ghost" size="sm" @click="eventLog = []"
-                            >Clear</Button
+                            >{{ $t('Clear') }}</Button
                         >
                     </template>
                     <div v-if="eventLog.length" class="space-y-1">
@@ -223,9 +210,7 @@ function log(message: string) {
                             {{ entry }}
                         </div>
                     </div>
-                    <p v-else class="text-xs text-muted-foreground">
-                        Click buttons above to see reload events.
-                    </p>
+                    <p v-else class="text-xs text-muted-foreground"> {{ $t('Click buttons above to see reload events.') }} </p>
                 </FeatureCard>
             </div>
         </div>
