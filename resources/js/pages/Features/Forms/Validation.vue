@@ -14,10 +14,13 @@ import {
     submitValidation,
     submitValidationSecondary,
 } from '@/wayfinder/App/Http/Controllers/Feature/FormController';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forms' },
-    { title: 'Validation' },
+    { title: t('Forms') },
+    { title: t('Validation') },
 ];
 
 // Primary form
@@ -49,34 +52,31 @@ function submitSecondary() {
 </script>
 
 <template>
-    <Head title="Validation" />
+    <Head :title="$t('Validation')" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-4">
             <FeatureHeader
-                title="Validation"
+                :title="$t('Validation')"
                 docs="the-basics/validation"
                 controller="app/Http/Controllers/Feature/FormController.php#L56"
-            >
-                Error handling patterns. Server-side errors, error bags, and
-                manual error management.
-            </FeatureHeader>
+            > {{ $t('Error handling patterns. Server-side errors, error bags, and manual error management.') }} </FeatureHeader>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Primary Form -->
                 <FeatureCard
-                    title="Server-Side Validation"
-                    description="Submit an empty form to see server validation errors with custom messages."
+                    :title="$t('Server-Side Validation')"
+                    :description="$t('Submit an empty form to see server validation errors with custom messages.')"
                 >
                     <form class="space-y-4" @submit.prevent="submitPrimary">
                         <div class="space-y-2">
-                            <Label for="v-name">Name</Label>
+                            <Label for="v-name">{{ $t('Name') }}</Label>
                             <Input id="v-name" v-model="primaryForm.name" />
                             <InputError :message="primaryForm.errors.name" />
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="v-email">Email</Label>
+                            <Label for="v-email">{{ $t('Email') }}</Label>
                             <Input
                                 id="v-email"
                                 type="text"
@@ -86,7 +86,7 @@ function submitSecondary() {
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="v-age">Age</Label>
+                            <Label for="v-age">{{ $t('Age') }}</Label>
                             <Input
                                 id="v-age"
                                 type="number"
@@ -96,7 +96,7 @@ function submitSecondary() {
                         </div>
 
                         <div class="space-y-2">
-                            <Label for="v-website">Website</Label>
+                            <Label for="v-website">{{ $t('Website') }}</Label>
                             <Input
                                 id="v-website"
                                 v-model="primaryForm.website"
@@ -112,8 +112,8 @@ function submitSecondary() {
                             >
                                 {{
                                     primaryForm.processing
-                                        ? 'Validating...'
-                                        : 'Submit'
+                                        ? $t('Validating...')
+                                        : $t('Submit')
                                 }}
                             </Button>
                             <Button
@@ -136,31 +136,23 @@ function submitSecondary() {
                 </FeatureCard>
 
                 <!-- Secondary Form with Error Bag -->
-                <FeatureCard title="Error Bags">
+                <FeatureCard :title="$t('Error Bags')">
                     <template #description>
-                        When multiple forms share field names, validation errors
-                        can bleed between them. The
-                        <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                        <i18n-t keypath="When multiple forms share field names, validation errors can bleed between them. The {el0} option scopes errors under a unique key ({el1}) so each form only displays its own errors. If the backend uses {el2}, you must specify a matching {el3} on the frontend so Inertia knows where to find the errors." tag="span" scope="global"><template #el0><code class="rounded bg-muted px-1 py-0.5 text-xs"
                             >errorBag</code
-                        >
-                        option scopes errors under a unique key (<code
+                        ></template><template #el1><code
                             class="rounded bg-muted px-1 py-0.5 text-xs"
                             >page.props.errors.secondaryForm</code
-                        >) so each form only displays its own errors. If the
-                        backend uses
-                        <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                        ></template><template #el2><code class="rounded bg-muted px-1 py-0.5 text-xs"
                             >validateWithBag()</code
-                        >, you must specify a matching
-                        <code class="rounded bg-muted px-1 py-0.5 text-xs"
+                        ></template><template #el3><code class="rounded bg-muted px-1 py-0.5 text-xs"
                             >errorBag</code
-                        >
-                        on the frontend so Inertia knows where to find the
-                        errors.
+                        ></template></i18n-t>
                     </template>
 
                     <form class="space-y-4" @submit.prevent="submitSecondary">
                         <div class="space-y-2">
-                            <Label for="v2-title">Title</Label>
+                            <Label for="v2-title">{{ $t('Title') }}</Label>
                             <Input
                                 id="v2-title"
                                 v-model="secondaryForm.title"
@@ -170,7 +162,7 @@ function submitSecondary() {
 
                         <div class="space-y-2">
                             <Label for="v2-body"
-                                >Body (min 10 characters)</Label
+                                >{{ $t('Body (min 10 characters)') }}</Label
                             >
                             <textarea
                                 id="v2-body"
@@ -187,8 +179,8 @@ function submitSecondary() {
                         >
                             {{
                                 secondaryForm.processing
-                                    ? 'Validating...'
-                                    : 'Submit (Error Bag)'
+                                    ? $t('Validating...')
+                                    : $t('Submit (Error Bag)')
                             }}
                         </Button>
                     </form>
@@ -210,8 +202,8 @@ function submitSecondary() {
                 <FeatureCard
                     info-card
                     class="lg:col-span-2"
-                    title="Manual Error Management"
-                    description="Use setError() and clearErrors() to manage errors programmatically."
+                    :title="$t('Manual Error Management')"
+                    :description="$t('Use setError() and clearErrors() to manage errors programmatically.')"
                 >
                     <div class="flex flex-wrap gap-2">
                         <Button
@@ -263,9 +255,7 @@ function submitSecondary() {
 
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
                         <div>
-                            <h4 class="mb-2 text-sm font-semibold">
-                                Primary Form State
-                            </h4>
+                            <h4 class="mb-2 text-sm font-semibold"> {{ $t('Primary Form State') }} </h4>
                             <div class="space-y-2">
                                 <div
                                     class="flex items-center justify-between text-sm"
@@ -296,9 +286,7 @@ function submitSecondary() {
                             </div>
                         </div>
                         <div>
-                            <h4 class="mb-2 text-sm font-semibold">
-                                Secondary Form State
-                            </h4>
+                            <h4 class="mb-2 text-sm font-semibold"> {{ $t('Secondary Form State') }} </h4>
                             <div class="space-y-2">
                                 <div
                                     class="flex items-center justify-between text-sm"
