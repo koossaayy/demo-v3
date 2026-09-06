@@ -52,7 +52,7 @@ class ContactController
     {
         $contact = Contact::create($request->validated());
 
-        Inertia::flash('message', 'Contact created.');
+        Inertia::flash('message', __('Contact created.'));
 
         return redirect()->route('contacts.show', $contact);
     }
@@ -85,7 +85,7 @@ class ContactController
     {
         $contact->update($request->validated());
 
-        Inertia::flash('message', 'Contact updated.');
+        Inertia::flash('message', __('Contact updated.'));
 
         return redirect()->route('contacts.show', $contact);
     }
@@ -94,7 +94,7 @@ class ContactController
     {
         $contact->delete();
 
-        Inertia::flash('message', 'Contact deleted.');
+        Inertia::flash('message', __('Contact deleted.'));
 
         return redirect()->route('contacts.index');
     }
@@ -103,6 +103,6 @@ class ContactController
     {
         $contact->update(['is_favorite' => ! $contact->is_favorite]);
 
-        return Inertia::flash('message', $contact->is_favorite ? 'Added to favorites.' : 'Removed from favorites.')->back();
+        return Inertia::flash('message', $contact->is_favorite ? __('Added to favorites.') : __('Removed from favorites.'))->back();
     }
 }

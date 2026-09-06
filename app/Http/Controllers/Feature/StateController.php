@@ -20,21 +20,21 @@ class StateController
 
     public function storeFlashData(): RedirectResponse
     {
-        return Inertia::flash('message', 'This is a flash message from the server!')
+        return Inertia::flash('message', __('This is a flash message from the server!'))
             ->flash('type', 'success')
             ->back();
     }
 
     public function storeFlashDataError(): RedirectResponse
     {
-        return Inertia::flash('message', 'Something went wrong!')
+        return Inertia::flash('message', __('Something went wrong!'))
             ->flash('type', 'error')
             ->back();
     }
 
     public function storeFlashDataWarning(): RedirectResponse
     {
-        return Inertia::flash('message', 'Please check your input.')
+        return Inertia::flash('message', __('Please check your input.'))
             ->flash('type', 'warning')
             ->back();
     }

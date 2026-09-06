@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 declare const __PROJECT_ROOT__: string | undefined;
 
@@ -25,15 +28,15 @@ function url(path: string) {
 const links = [
     props.docs
         ? {
-              label: 'Docs',
+              label: t('Docs'),
               href: `https://inertiajs.com/docs/v3/${props.docs}`,
               external: true,
           }
         : null,
-    { label: 'Vue page', href: url(componentPath), external: !isLocal },
+    { label: t('Vue page'), href: url(componentPath), external: !isLocal },
     props.controller
         ? {
-              label: 'Controller',
+              label: t('Controller'),
               href: url(props.controller),
               external: !isLocal,
           }

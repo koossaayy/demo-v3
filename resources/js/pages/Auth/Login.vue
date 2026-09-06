@@ -16,10 +16,10 @@ defineProps<{
 
 <template>
     <AuthBase
-        title="Inertia.js Kitchen Sink"
-        description="Explore every Inertia feature in one demo app. Log in with the pre-filled credentials to get started."
+        :title="$t('Inertia.js Kitchen Sink')"
+        :description="$t('Explore every Inertia feature in one demo app. Log in with the pre-filled credentials to get started.')"
     >
-        <Head title="Log in" />
+        <Head :title="$t('Log in')" />
 
         <div
             v-if="status"
@@ -36,7 +36,7 @@ defineProps<{
         >
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
+                    <Label for="email">{{ $t('Email address') }}</Label>
                     <Input
                         id="email"
                         type="email"
@@ -52,7 +52,7 @@ defineProps<{
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">Password</Label>
+                    <Label for="password">{{ $t('Password') }}</Label>
                     <Input
                         id="password"
                         type="password"
@@ -60,7 +60,7 @@ defineProps<{
                         required
                         :tabindex="2"
                         autocomplete="current-password"
-                        placeholder="Password"
+                        :placeholder="$t('Password')"
                         default-value="password"
                     />
                     <InputError :message="errors.password" />
@@ -69,7 +69,7 @@ defineProps<{
                 <div class="flex items-center justify-between">
                     <Label for="remember" class="flex items-center space-x-3">
                         <Checkbox id="remember" name="remember" :tabindex="3" />
-                        <span>Remember me</span>
+                        <span>{{ $t('Remember me') }}</span>
                     </Label>
                 </div>
 
@@ -80,9 +80,7 @@ defineProps<{
                     :disabled="processing"
                     data-test="login-button"
                 >
-                    <Spinner v-if="processing" />
-                    Log in
-                </Button>
+                    <Spinner v-if="processing" /> {{ $t('Log in') }} </Button>
             </div>
         </Form>
     </AuthBase>
