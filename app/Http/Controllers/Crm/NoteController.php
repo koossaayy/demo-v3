@@ -16,6 +16,6 @@ class NoteController
             'user_id' => $request->user()->id,
         ]);
 
-        return Inertia::flash('message', 'Note added.')->back();
+        return Inertia::flash('message', __('Note added.'))->back();
     }
 }
