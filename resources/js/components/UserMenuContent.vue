@@ -34,27 +34,21 @@ defineProps<Props>();
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
         <DropdownMenuItem @click="updateAppearance('light')">
-            <Sun class="mr-2 h-4 w-4" />
-            Light
-            <span
+            <Sun class="mr-2 h-4 w-4" /> {{ $t('Light') }} <span
                 v-if="appearance === 'light'"
                 class="ml-auto text-xs text-muted-foreground"
                 >&#10003;</span
             >
         </DropdownMenuItem>
         <DropdownMenuItem @click="updateAppearance('dark')">
-            <Moon class="mr-2 h-4 w-4" />
-            Dark
-            <span
+            <Moon class="mr-2 h-4 w-4" /> {{ $t('Dark') }} <span
                 v-if="appearance === 'dark'"
                 class="ml-auto text-xs text-muted-foreground"
                 >&#10003;</span
             >
         </DropdownMenuItem>
         <DropdownMenuItem @click="updateAppearance('system')">
-            <Monitor class="mr-2 h-4 w-4" />
-            System
-            <span
+            <Monitor class="mr-2 h-4 w-4" /> {{ $t('System') }} <span
                 v-if="appearance === 'system'"
                 class="ml-auto text-xs text-muted-foreground"
                 >&#10003;</span
@@ -70,8 +64,6 @@ defineProps<Props>();
             as="button"
             data-test="logout-button"
         >
-            <LogOut class="mr-2 h-4 w-4" />
-            Log out
-        </Link>
+            <LogOut class="mr-2 h-4 w-4" /> {{ $t('Log out') }} </Link>
     </DropdownMenuItem>
 </template>

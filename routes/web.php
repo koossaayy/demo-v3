@@ -155,3 +155,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 });
+
+Route::get('/locale/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, config('app.available_locales', ['en', 'fr'])), 404);
+    session(['locale' => $locale]);
+
+    return back();
+})->name('locale.switch');

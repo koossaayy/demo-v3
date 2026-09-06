@@ -25,12 +25,12 @@ class ValidationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Please enter your full name.',
-            'email.required' => 'We need your email address.',
-            'email.email' => 'That doesn\'t look like a valid email.',
-            'age.required' => 'Please enter your age.',
-            'age.min' => 'You must be at least 18 years old.',
-            'age.max' => 'Please enter a valid age.',
+            'name.required' => __('Please enter your full name.'),
+            'email.required' => __('We need your email address.'),
+            'email.email' => __('That doesn\'t look like a valid email.'),
+            'age.required' => __('Please enter your age.'),
+            'age.min' => __('You must be at least 18 years old.'),
+            'age.max' => __('Please enter a valid age.'),
             'website.url' => 'Please enter a valid URL (e.g., https://example.com).',
         ];
     }
