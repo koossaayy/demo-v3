@@ -13,7 +13,7 @@ class DottedKeysRequest extends FormRequest
     {
         return [
             'user.name' => ['required', 'string', 'max:255'],
-            'user.email' => ['required', 'email', 'max:255'],
+            'user.email' => ['required', __('email'), 'max:255'],
             'address.street' => ['required', 'string', 'max:255'],
             'address.city' => ['required', 'string', 'max:255'],
             'tags' => ['nullable', 'array'],
@@ -27,10 +27,10 @@ class DottedKeysRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'user.name' => 'name',
-            'user.email' => 'email',
-            'address.street' => 'street',
-            'address.city' => 'city',
+            'user.name' => __('name'),
+            'user.email' => __('email'),
+            'address.street' => __('street'),
+            'address.city' => __('city'),
         ];
     }
 }
